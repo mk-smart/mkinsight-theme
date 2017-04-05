@@ -1,0 +1,23 @@
+
+#mksse_message {width: 95%; margin-bottom: 10px;background-color: #f7f7f7; padding: 10px 10px 10px 10px; border: 1px solid #e5e5e5; border-radius: 10px; margin-right: 5%;}
+#mksse_mappings {width: 95%; margin-bottom: 10px;background-color: #f7f7f7; padding: 10px 10px 10px 10px; border: 1px solid #e5e5e5; border-radius: 10px; margin-right: 5%;}
+.instructiontext{font-size: 100%;}
+filterbuttondiv{margin-top: 10px;}
+#multiplecolumnconfig{margin-bottom: 20px;}
+#mksse_spreadsheet {width: 100%; margin-top: 10px; padding: 10px 10px 10px 10px; overflow-y: scroll}
+div #mksse_spreadsheet th {border-bottom: 1px solid #aaa; border-right: 1px solid #ddd; border-left: 1px solid #ddd; padding: 4px 4px 4px 4px }
+div #mksse_spreadsheet td {border-top: 1px solid #ddd; border-right: 1px solid #ddd; border-left: 1px solid #ddd; padding: 4px 4px 4px 4px }
+#startinglineinput {display: inline; margin-right: 10px;}
+#tabinput {display:inline; margin-right: 10px;}
+#filtergo {display:inline; margin-right: 10px;}
+#typelist {display: inline; }
+#relationtext{display:inline;}
+#mksse_filters{display:block; margin-top: 20px;}
+#maintypego{margin-left: 10px;}
+#goandagain{margin-left: 0px;}
+#goandfinish{margin-left: 10px;}
+.relationtext{width: 200px;}
+.typeahead{width: 200px;}
+.tt-menu{background-color: white; margin-top: 5px; padding: 5px 5px 5px 5px; width: 300px; border-radius: 5px; border: 1px #aaa solid;}
+#multiplecolumnconfig_sub{display: none}
+.mcolumntext{width:50px;}

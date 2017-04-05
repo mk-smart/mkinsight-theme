@@ -1,0 +1,7 @@
+mkio2/cache/*.json
+secapi/services/config.production.php
+secapi/services/data/**
+mkio2/cache-bu/*
+mkio2/cache/*
+mkio2/canvas-old/*
+

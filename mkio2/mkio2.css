@@ -1,0 +1,54 @@
+
+@media print
+{    
+    .no-print, .no-print *
+    {
+        display: none !important;
+    }
+}
+
+@media screen
+{    
+    .only-print, .only-print *
+    {
+        display: none !important;
+    }
+}
+
+.chartpanel{
+  height: 450px;
+  overflow-y: auto
+}
+
+.chartbuttonpanel{
+    float: right;
+}
+
+.charthelp{
+    float: right;
+}
+
+.chart_button{
+  width: 50px;
+}
+
+#mkio_add_buttons{
+  
+}
+
+#mkio_save {
+   margin-top: 20px;
+}
+
+.operations{
+   float: right;
+   top: -20px
+}
+
+.chart_section_button{
+    height: 20px;
+}
+
+.mkio_section{
+   margin-bottom: 20px;
+}
