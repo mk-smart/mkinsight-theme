@@ -402,4 +402,4 @@ function my_myme_types($mime_types){
 }
 add_filter('upload_mimes', 'my_myme_types', 1, 1);
 
-define(‘ALLOW_UNFILTERED_UPLOADS’, true);
+define('ALLOW_UNFILTERED_UPLOADS', true);
