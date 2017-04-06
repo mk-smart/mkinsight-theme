@@ -1,4 +1,5 @@
 mkio2/cache/*.json
+secapi/services/config.php
 secapi/services/config.production.php
 secapi/services/data/**
 mkio2/cache-bu/*
