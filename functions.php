@@ -403,3 +403,49 @@ function my_myme_types($mime_types){
 add_filter('upload_mimes', 'my_myme_types', 1, 1);
 
 define('ALLOW_UNFILTERED_UPLOADS', true);
+
+
+
+//hook into the init action and call create_book_taxonomies when it fires
+add_action( 'init', 'mki_create_year_taxonomy', 0 );
+
+//create a custom taxonomy 
+function mki_create_year_taxonomy() {
+
+  $labels = array(
+    'name' => _x( 'About Year', 'taxonomy general name' ),
+    'singular_name' => _x( 'Year', 'taxonomy singular name' ),
+    'search_items' =>  __( 'Search Year' ),
+    'all_items' => __( 'All Years' ),
+    'parent_item' => __( 'Parent Year' ),
+    'parent_item_colon' => __( 'Parent Year:' ),
+    'edit_item' => __( 'Edit Year' ), 
+    'update_item' => __( 'Update Year' ),
+    'add_new_item' => __( 'Add New Year' ),
+    'new_item_name' => __( 'New Year Name' ),
+    'menu_name' => __( 'Year' ),
+  ); 	
+
+// Now register the taxonomy
+
+  register_taxonomy('years',array('post'), array(
+    'hierarchical' => false,
+    'labels' => $labels,
+    'show_ui' => true,
+    'show_admin_column' => true,
+    'query_var' => true,
+    'rewrite' => array( 'slug' => 'year' ),
+  ));
+
+}
+// Save the Year in the Post Meta Field
+function mki_update_year_from_tag( $post_id ) {
+	$years = wp_get_post_terms( $post_id, array( 'years' ) );
+	delete_post_meta($post_id, 'years');
+	foreach($years as $year){
+		$y = $year->slug;
+		add_post_meta($post_id, 'years', $y);
+	}
+}
+add_action( 'save_post', 'mki_update_year_from_tag' );
+
