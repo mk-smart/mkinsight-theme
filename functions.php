@@ -449,3 +449,31 @@ function mki_update_year_from_tag( $post_id ) {
 }
 add_action( 'save_post', 'mki_update_year_from_tag' );
 
+// Override query args to sort by years desc
+function mki_orderby_args(){
+	return array(
+		'meta_query' => array(
+              'relation' => 'OR', 
+              'years_not' => array(
+                  'key' => 'years', 
+                  'compare' => 'NOT EXISTS'
+              ),
+  			'years' => array(
+                  'key' => 'years', 
+  				'type'    => 'NUMERIC',
+                  'compare' => 'EXISTS'
+              )
+		  ),
+		'orderby' => array('meta_value_num'=>'DESC','date'=>'DESC')   
+	);
+}
+function mki_search_filter_years($query) {
+  if ( !is_admin() ) {
+	foreach(mki_orderby_args() as $key => $val){
+		$query->set($key, $val);
+	}
+  }
+  return $query;
+}
+
+add_action('pre_get_posts','mki_search_filter_years');

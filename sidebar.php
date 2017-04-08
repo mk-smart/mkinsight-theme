@@ -7,11 +7,16 @@
                     <hr>
                     <ul>
                     	<?php 
-       $args = array( 'numberposts' => 5, 'offset'=> 0, 'order'=> 'DESC', 'orderby'=> 'date', 'category_and' => array(3,18) );
+       $args = array( 'numberposts' => 5, 'offset'=> 0, 'category_and' => array(3,18) );
+	   $args = array_merge ($args, mki_orderby_args());
+	   // echo '<pre>';
+	   // var_dump($args);
+	   // echo '<pre>';die;
        $postslist = get_posts( $args );
        foreach ($postslist as $post) :  setup_postdata($post); ?>
-<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <time><?php the_time('j F Y'); ?></time>
-<p><?php echo get_subsub_excerpt(); ?></p> 
+<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+<?php include 'entry-meta.php'; ?>
+<?php include 'entry-summary.php'; ?>
 </li>
 <?php endforeach; ?>
 </ul>
@@ -25,8 +30,8 @@
          foreach ($postslist as $post) :  setup_postdata($post); ?>
 						<article>
 							<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-							<time><?php the_time('j F Y'); ?></time>
-							<p><?php echo get_subsub_excerpt(); ?></p> 
+							<?php include 'entry-meta.php'; ?>
+							<?php include 'entry-summary.php'; ?>
 						</article>
 					<?php endforeach; ?>
                 </div>
@@ -43,7 +48,24 @@
 <?php 
   global $post;
   $post_slug=$post->post_name;
-  $args = array( 'numberposts' => 10, 'offset'=> 0, 'order'=> 'DESC', 'orderby'=> 'date', 'category_name' => $post_slug );
+  $args = array( 'numberposts' => 10, 'offset'=> 0, 'category_name' => $post_slug );
+ // if($post_slug == 'data'){
+ //  	  $args['meta_query'] =  array(
+ //             'relation' => 'OR',
+ //             'years_not' => array(
+ //                 'key' => 'years',
+ //                 'compare' => 'NOT EXISTS'
+ //             ),
+ //  			'years' => array(
+ //                 'key' => 'years',
+ //  				'type'    => 'NUMERIC',
+ //                 'compare' => 'EXISTS'
+ //             ),
+ //         );
+ //  	  $args['orderby'] = array('meta_value_num'=>'DESC','date'=>'DESC');
+ //   }else{
+ //      $args['orderby'] = 'date';
+ // }
   $postslist = get_posts( $args );
 if (count($postslist)!=0){
 ?>
@@ -64,8 +86,8 @@ if (count($postslist)!=0){
 foreach ($postslist as $post) :  setup_postdata($post); ?>
 <li>
 <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-<time><?php the_time('j F Y'); ?></time>
-<p><?php echo get_subsub_excerpt(); ?></p> 
+<?php include 'entry-meta.php'; ?>
+<?php include 'entry-summary.php'; ?>
 </li>
 <?php endforeach; ?>
 <li><a style="float: right;" href="http://mkinsight.org/category/<?php echo $post_slug; ?>">More...</a></li>
