@@ -246,6 +246,7 @@ nav .mki-icon img{margin-top:-2px;}
 #content p.large{font-size:26px;font-size:2.6rem;font-weight:300;margin:10px 0 20px 0;}
 #content p.twtr{font-size:18px;font-size:1.8rem;font-weight:700;margin:10px 10px 60px 10px;}
 #content p.strapline{font-family:'PT Sans Narrow', sans-serif;font-size:19px;font-size:1.9rem;margin:20px 0 0 0;text-align:center;color:#37b34a;}
+#content span.strapline{font-family:'PT Sans Narrow', sans-serif;font-size:19px;font-size:1.9rem;margin:20px 0 0 0;text-align:center;color:#37b34a;}
 /*--------------------------------------------------*/
 [data-inline-tweet] a{text-decoration:none;color:#000;border:none;}
 [data-inline-tweet] a span{border-bottom:2px dotted rgb(0,172,237);/*font-style:italic;*/margin-right:10px;padding-bottom:3px;} [data-inline-tweet] a:hover span{background-color:rgba(0,172,237,0.1);}
@@ -521,3 +522,8 @@ a.mki_subtheme {
    border: 1px solid #9a9b9c;
    width: 100px;
 }
+
+@media (min-width: 1200px) {.col-lg-3 {margin-bottom: 60px;} }
+@media (min-width: 992px) {.col-md-3 {margin-bottom: 40px;} }
+@media (min-width: 768px) {.col-sm-4 {margin-bottom: 40px;} }
+@media (max-width: 768px) {.col-xs-6 {margin-bottom: 20px;} }
