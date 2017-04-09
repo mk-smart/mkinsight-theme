@@ -47,6 +47,10 @@
 
 <?php 
   global $post;
+  if(!$post) {
+	  // 404 page
+	  return;
+  }
   $post_slug=$post->post_name;
   $args = array( 'numberposts' => 10, 'offset'=> 0, 'category_name' => $post_slug );
  // if($post_slug == 'data'){
