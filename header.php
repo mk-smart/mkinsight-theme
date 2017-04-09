@@ -36,14 +36,14 @@
    <!-- 
    //cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js
    //cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js -->
-   <script src="cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js"></script>
+   <script src="//cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js"></script>
    <script src="<?php echo get_template_directory_uri(); ?>/mkio2/js/ecapi.js"></script>
    <script src="<?php echo get_template_directory_uri(); ?>/mkio2/js/mkio_config.js"></script>
    <script src="<?php echo get_template_directory_uri(); ?>/mkio2/js/mkio.js"></script>
    <script src="<?php echo get_template_directory_uri(); ?>/mkio2/js/mkinsight.js"></script>
    <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
    <link href="<?php echo get_template_directory_uri(); ?>/mkio2/mkio2.css" rel="stylesheet">
-   <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+   <script src="//cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
    
  </head>
     

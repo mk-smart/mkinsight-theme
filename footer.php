@@ -31,9 +31,33 @@
     </div>
 	<?php wp_footer(); ?>
 	<script src="//code.jquery.com/jquery-latest.min.js"></script>
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
+    <!-- script src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script -->
 	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.easing.min.js"></script>
 	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/inline-tweet.min.js"></script>
 	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.mobile.custom.min.js"></script>
+	<script>
+// jQuery for page scrolling feature - requires jQuery Easing plugin
+$(function() {
+    $('a.page-scroll').bind('click', function(event) {
+        var $anchor = $(this);
+        $('html, body').stop().animate({
+            scrollTop: $($anchor.attr('href')).offset().top
+        }, 1500, 'easeInOutExpo');
+        event.preventDefault();
+    });
+});
+// jQuery for close the menu when collapsed
+$(function() {
+    $('button.navbar-toggle').bind('click', function(event) {
+        var target = $(this).data('target');
+		$("body").toggleClass('navbar-expanded');
+        event.preventDefault();
+    });
+});
+// jQuery to adjust the menu on resize
+$(window).on('resize', function(){
+
+});
+	</script>
   </body>
 </html>

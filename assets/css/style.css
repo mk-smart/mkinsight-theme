@@ -523,7 +523,90 @@ a.mki_subtheme {
    width: 100px;
 }
 
+/** ED */
+/* ADJUST GRID FOR CATEGORY PAGES & HOME PAGE  FOLLOWING BS SCREEN MODES */
 @media (min-width: 1200px) {.col-lg-3 {margin-bottom: 60px;} }
 @media (min-width: 992px) {.col-md-3 {margin-bottom: 40px;} }
 @media (min-width: 768px) {.col-sm-4 {margin-bottom: 40px;} }
 @media (max-width: 768px) {.col-xs-6 {margin-bottom: 20px;} }
+@media (max-width: 1200px) {.col-lg-3 {margin-bottom: 60px;} }
+
+div#content {padding-top: 100px !important;}
+
+/* ADJUST MENU - THIS CHANGES BECAUSE OF THE MENU CONTENT! */
+
+/* MEDIUM TABLETS AND MOBILE PHONES */
+@media (min-width: 992px) and (max-width: 1200px)  {
+	nav {
+/*		height: 200px;*/
+	}
+	nav ul#menu-mainmenu li {
+		margin-left: 0px;
+	}
+	nav .menu-item-type-search {
+/*		text-align:center;*/
+/*		width: 100%;*/
+	}
+	nav .menu-item-type-search input#s {
+/*		width: 10%;*/
+	}
+	#content {
+	}
+}
+/* MEDIUM TABLETS AND MOBILE PHONES */
+@media (min-width: 768px) and (max-width: 991px)  {
+	nav {
+		height: 200px;
+	}
+	nav ul#menu-mainmenu li {
+		margin-left: 5px;
+	}
+	nav .menu-item-type-search {
+		width: 100%;
+	}
+	nav .menu-item-type-search input#s {
+		width: 70%;
+	}
+	#content {
+		margin-top: 100px;
+	}
+}
+
+/* SMALL TABLETS AND MOBILE PHONES */
+@media (min-width: 444px) and (max-width: 767px){
+	nav ul#menu-mainmenu li {
+		margin-left: 5px;
+	}
+	body.navbar-expanded nav {
+		height: 250px;
+	}
+	body.navbar-expanded nav .menu-item-type-search {
+		width: 100%;
+		text-align: center;
+	}
+	body.navbar-expanded nav .menu-item-type-search input#s {
+		width: 80%;
+	}
+	body.navbar-expanded #content {
+		margin-top: 150px;
+	}
+}
+/* SUPER SMALL DEVICES */
+
+@media (max-width: 444px){
+	nav ul#menu-mainmenu li {
+		margin-left: 5px;
+	}
+	body.navbar-expanded nav {
+		height: 250px;
+	}
+	body.navbar-expanded nav .menu-item-type-search {
+		text-align:center;
+	}
+	body.navbar-expanded nav .menu-item-type-search input#s {
+		width: 70%;
+	}
+	body.navbar-expanded #content {
+		margin-top: 150px;
+	}
+}
