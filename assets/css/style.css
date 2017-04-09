@@ -253,7 +253,7 @@ nav .mki-icon img{margin-top:-2px;}
 [data-inline-tweet] a .invisible{position:absolute;top:-9999px;left:-9999px;}
 .disrupts [data-inline-tweet] a{color:#bb2029;}
 /*--------------------------------------------------*/
-#content .mkicons{opacity:1;width:40% !important;}
+#content .mkicons{opacity:1; } /* width:40% !important; ED did */
 #content .mkicons:hover{opacity:0.7;transition:opacity .25s ease-in-out;-moz-transition:opacity .25s ease-in-out;-webkit-transition:opacity .25s ease-in-out;transform:scale(1);}
 /*--------------------------------------------------*/
 .post-edit-link{display:block;background:#f4f4f4;padding:5px 0;text-align:center;border:1px solid #e6e6e6;}
@@ -609,4 +609,15 @@ div#content {padding-top: 100px !important;}
 	body.navbar-expanded #content {
 		margin-top: 150px;
 	}
+}
+
+/* mkinsight buttons */
+a.btn-mkinsight{
+	height: 160px;
+	width: 100%;
+}
+a.btn-mkinsight img.mkicons{
+}
+a.btn-mkinsight .strapline{
+	white-space: pre-wrap;
 }

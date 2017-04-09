@@ -279,8 +279,41 @@ function mkiicon_func( $atts ){
   $a = shortcode_atts( array(
 			     'icon' => 'population',
 			     'text' => 'Use the "text" attribute to add text',
+				 'link' => '',
+				 'img_height' => ''
 			     ), $atts );
-  return '<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6"><img class="aligncenter mkicons size-full" src="http://mkinsight.org/wp-content/themes/mkinsight/assets/img/infographics/'.$a['icon'].'.png" alt="'.$a['icon'].'" height="138" /><p class="strapline">'.$a['text'].'</p></div>';
+				 if(strpos($a['icon'],'http://') === 0 ||
+					 strpos($a['icon'],'https://') === 0 ||
+					 strpos($a['icon'],'//') === 0 ){
+						 $img_url = $a['icon'];
+					 }else{
+						 $img_url = get_template_directory_uri() . '/assets/img/infographics/'. $a['icon'].'.png';					 	
+					 }
+				 
+				 if(strpos($a['link'],'http://') === 0 ||
+					 strpos($a['link'],'https://') === 0 ||
+					 strpos($a['link'],'//') === 0 ){
+						 $href = $a['link'];
+					 }else if($a['link']){
+						 $href = home_url() .'/'. $a['link'];					 	
+					 }else{
+						 $href = "#";
+					 }
+				 $text = $a['text'];
+				 if(!$a['img_height']){
+					 $height = 120;
+					 if(strlen( $text) > 30){
+						 $height = 90;
+					 }
+					 if(strlen($text) > 60){
+						 $height = 70;
+					 }				 	
+				 }else{
+					 $height = $a['img_height'];
+				 }
+				 return <<<HTML
+<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6"><a href="$href" class="btn btn-default btn-mkinsight"><img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/><span class="strapline">$text</span></a></div>
+HTML;
 }
 add_shortcode( 'mkiicon', 'mkiicon_func' );
 
