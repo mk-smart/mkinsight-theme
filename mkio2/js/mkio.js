@@ -157,7 +157,7 @@ function l2dimensionClicked(cat, l1dim, l2dimension){
 }
 
 function entityClicked(entity){
-    console.log("enity clicked "+entity);
+  //  console.log("enity clicked "+entity);
 //    removeEntity(entity);
 //    updateEntityList();
 //    updateResultPanel();
