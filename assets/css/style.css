@@ -369,7 +369,7 @@ input, textarea{font-size:17px;min-height:40px;border-radius:none;line-height:20
 #content input[type=submit]{display:block;background:#00bcf1;color:#fff;font-weight:400;border-radius:none;border:none;-webkit-transition:.3s ease-out;-moz-transition:.1s linear;-o-transition:.1s ease-out;-ms-transition:.1s ease-out;transition:.1s linear;margin:10px 0;}
 #content input[type=submit]:hover{background:#00bcf1;}
 #content input[type=submit]:focus{outline:none;}
-#content input, #content textarea{-webkit-appearance:none;border-radius:0;}
+/*#content input, #content textarea{-webkit-appearance:none;border-radius:0;}*/ /* ED WHY? */
 
 .alert{background:#fff;color:#ff8000;border-radius:0;font-size:16px;font-size:1.6rem;}
 .g-recaptcha{margin:0 10px 40px 0;}
@@ -621,3 +621,24 @@ a.btn-mkinsight img.mkicons{
 a.btn-mkinsight .strapline{
 	white-space: pre-wrap;
 }
+
+/* advanced search and results */
+.advanced-search{ padding-left: 0px;}
+.advanced-search form #s,
+.advanced-search form input[type=submit]{width:100%;}
+.advanced-search form label{
+	font-size: 1.8rem;
+    font-weight: 400;
+
+}
+div.results {padding-right:0px;}
+div.results_pagination{
+	margin:20px 0px;
+}
+div.results_pagination a:hover { background-color:#EEE;}
+div.results_pagination .page-numbers {display:inline-block; margin:0px 0px; border: 1px solid; padding: 5px 10px;border-radius:2px;}
+div.results_pagination span.current{font-weight: bold;}
+div.results_pagination a.prev{}
+div.results_pagination a.next{}
+div.results h3{margin-bottom:10px;}
+div.results footer{margin: 0px;padding:5px 0px 20px;border-top:none;}

@@ -156,7 +156,7 @@ function mki_comments_number( $count )
 {
 if ( !is_admin() ) {
 global $id;
-$comments_by_type = &separate_comments( get_comments( 'status=approve&post_id=' . $id ) );
+$comments_by_type = @separate_comments( get_comments( 'status=approve&post_id=' . $id ) );
 return count( $comments_by_type['comment'] );
 } else {
 return $count;
@@ -510,3 +510,22 @@ function mki_search_filter_years($query) {
 }
 
 add_action('pre_get_posts','mki_search_filter_years');
+
+// Advanced Search
+function mki_advanced_search_query($query) {
+
+	if($query->is_search()) {
+		
+		// tag search
+		if (isset($_GET['years']) && is_array($_GET['years'])) {
+			$query->set('tag_slug__or', $_GET['years']);
+		}
+		// category search
+		if (isset($_GET['category']) && is_array($_GET['category'])) {
+			$query->set('category_name', implode(',',$_GET['category']));
+		}
+		return $query;
+	}
+
+}
+add_action('pre_get_posts', 'mki_advanced_search_query', 1000);
