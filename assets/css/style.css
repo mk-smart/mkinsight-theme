@@ -609,6 +609,15 @@ div#content {padding-top: 100px !important;}
 	body.navbar-expanded #content {
 		margin-top: 150px;
 	}
+	a.btn-mkinsight {
+	    padding:5px;
+	    overflow-y:hidden;
+	}
+	a.btn-mkinsight img.mkicons{
+	    margin-top: 5px;
+	    width: auto; /* you can use % */
+            height: 50px !important;
+	}
 }
 
 /* mkinsight buttons */
