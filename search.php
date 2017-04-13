@@ -33,7 +33,7 @@ INPUT;
   					      <div class="checkbox">
   		  					<?php
   		  					// generate list of categories
-  		  					$categories = get_categories(array('taxonomy' => 'years'));
+  		  					$categories = get_categories(array('taxonomy' => 'years','order'=>'DESC'));
   		  					foreach ($categories as $category) {
   								$cslug= $category->slug;
   								$cname= $category->name;
