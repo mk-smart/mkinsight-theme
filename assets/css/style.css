@@ -58,8 +58,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-*{margin:0;padding:0px;font-family:'PT Sans', sans-serif;} 
-body{background:#fff;margin:0;color:#9a9b9c;}
+*{margin:0;padding:0px;font-family:'PT Sans', sans-serif;}
+body{background:#fff;margin:0;/*color:#9a9b9c;*/color:#5a5b5c;} /* ED made this darker*/
 
 
 /*------------------------------------------------
@@ -99,7 +99,7 @@ hr{border-top:1px solid #8c8b8b;border-bottom: 1px solid #fff;display:block;marg
 *,
 *:after,
 *:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:0;margin:0;}
-a{ 
+a{
 	padding:0 0 2px 0;
 	margin:0;
 	text-decoration:none;
@@ -279,7 +279,7 @@ nav .mki-icon img{margin-top:-2px;}
 # highlights
 #
 --------------------------------------------------*/
-#highlights{background:#e6e6e6;padding:100px 0;border-top:1px solid #616365;color:#616365;}
+#highlights{background:#e6e6e6;padding:30px 0;border-top:1px solid #616365;color:#616365;}
 #highlights h2{padding-bottom:0;margin-bottom:10px;}
 hr{border-top:1px solid #616365;border-bottom:1px solid #fff;display:block;margin:0 !important;width:100%;}
 /*--------------------------------------------------*/
@@ -380,8 +380,8 @@ input, textarea{font-size:17px;min-height:40px;border-radius:none;line-height:20
 # tables
 #
 --------------------------------------------------*/
-table{border-collapse:collapse;border-spacing:0;padding:0 15px;overflow:hidden;}	
-table thead, table tfoot{padding:0;margin:0;}	
+table{border-collapse:collapse;border-spacing:0;padding:0 15px;overflow:hidden;}
+table thead, table tfoot{padding:0;margin:0;}
 table thead{/*border-bottom:3px solid #181818;*/}
 table thead tr th,table tfoot tr th,table tfoot tr td{margin:0;padding:0;}
 /*table thead tr th:first-child, table tfoot tr td:first-child{border-left:none;}
@@ -396,14 +396,14 @@ table tbody tr td img:hover{}
 
 
 /* Smartphones (portrait and landscape) ----------- */
-@media only screen 
-and (min-device-width : 320px) 
+@media only screen
+and (min-device-width : 320px)
 and (max-device-width : 480px) {
 	/*------------------------------------------------
 	#
 	# body
 	#
-	--------------------------------------------------*/	
+	--------------------------------------------------*/
 	.desktop{display:none;}
 	.mobile{display:block;}
 	.phone{display:block;}
@@ -435,15 +435,15 @@ and (max-device-width : 480px) {
 }
 
 /* iPads (portrait) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
 and (orientation : portrait) {
 	/*------------------------------------------------
 	#
 	# body
 	#
-	--------------------------------------------------*/	
+	--------------------------------------------------*/
 	.desktop{display:none;}
 	.mobile{display:block;}
 	.ipad{display:block;}
@@ -458,9 +458,9 @@ and (orientation : portrait) {
 }
 
 /* iPads (landscape) ----------- */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
 and (orientation : landscape) {
 	/*------------------------------------------------
 	#
@@ -523,7 +523,8 @@ a.mki_subtheme {
    width: 100px;
 }
 
-/** ED */
+/** ED **/
+
 /* ADJUST GRID FOR CATEGORY PAGES & HOME PAGE  FOLLOWING BS SCREEN MODES */
 @media (min-width: 1200px) {.col-lg-3 {margin-bottom: 60px;} }
 @media (min-width: 992px) {.col-md-3 {margin-bottom: 40px;} }
@@ -533,7 +534,22 @@ a.mki_subtheme {
 
 div#content {padding-top: 100px !important;}
 
-/* ADJUST MENU - THIS CHANGES BECAUSE OF THE MENU CONTENT! */
+/* TAG CLOUD */
+#tagcloud {
+  padding: 50px;
+  background: #F6F6F6;
+  padding: 30px 0;
+  border-top: 1px solid #616365;
+  color: #616365;
+}
+#tagcloud div.container div.row div {
+  text-align:center;
+}
+#tagcloud div.container div.row div a{
+    display: inline-block;
+    margin: 0px 5px;
+}
+/* ADJUST MENU - THESE CHANGES BECAUSE OF THE MENU CONTENT! */
 
 /* MEDIUM TABLETS AND MOBILE PHONES */
 @media (min-width: 992px) and (max-width: 1200px)  {
@@ -651,3 +667,165 @@ div.results_pagination a.prev{}
 div.results_pagination a.next{}
 div.results h3{margin-bottom:10px;}
 div.results footer{margin: 0px;padding:5px 0px 20px;border-top:none;}
+
+/* category browser table */
+#categoryDataTable_wrapper {background: #e6e6e6;}
+#categoryDataTable_length {margin-top: 0px; color: black; margin-top: 10px; margin-left:10px;}
+#categoryDataTable_length select { height: 45px; color: black;}
+#categoryDataTable_filter {color: black; margin-top: 10px; margin-right: 10px}
+#categoryDataTable_filter input{ padding: 10px; color: black;}
+#categoryDataTable {padding: 0px; border-top-color: #333333;}
+#categoryDataTable thead th,
+#categoryDataTable thead td{ border-bottom-color: #333333; color: black; font-size:14px}
+#categoryDataTable tbody td{ border-bottom-color: #333333; color: black; font-size: 14px; padding: 5px; vertical-align:middle;}
+#categoryDataTable tbody td .badge{ font-size: 14px}
+
+#yearDataFilter,
+#categoryDataFilter{background: #e6e6e6;padding:10px;}
+.badge-category {background-color: #37b34a; color:white;}
+.badge-category input[type=checkbox] {margin-right: 10px;}
+button.badge-category {margin-bottom:2px; padding: 2px 5px 2px 7px}
+#categoryDataList {display:inline-block;}
+#categoryDataFilter strong,
+#yearDataFilter label {color:black; display:inline-block;}
+
+/* Fixes for compatibility with bootstrap select */
+div.dropdown-menu.open{
+  z-index:100000;
+}
+div.bootstrap-select ul.dropdown-menu li {
+    margin: 0px;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 18px;
+    font-size: 1.8rem;
+    line-height: inherit;
+    list-style: none;
+}
+
+/*
+Quick Facts Layout
+*/
+/*------------------------------------------------
+#
+# import fonts
+#
+--------------------------------------------------*/
+@import url("hoverex-all.css") screen;
+@font-face {
+  font-family: "medical-set";
+  src:url("../fonts/medical-set.eot");
+  src:url("../fonts/medical-set.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/medical-set.woff") format("woff"),
+    url("../fonts/medical-set.ttf") format("truetype"),
+    url("../fonts/medical-set.svg#medical-set") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+/*------------------------------------------------
+#
+# icons
+#
+--------------------------------------------------*/
+[data-icon]:before {
+  font-family: "medical-set" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "medical-set" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.desktop{display:block;}
+.mobile, .ipadv{display:none;}
+
+#content p:empty, #content p:empty a{display:none !important;}
+#content p:blank, #content p:blank a{display:none !important;}
+
+#content #accordion{margin:20px 0 0 0;}
+#content #accordion .panel-group .panel{border-radius:0;}
+#content #accordion .panel-default{border-color:#fff;}
+#content #accordion .panel-default>.panel-heading{background-color:#52bc61;border-color:#fff;border-radius:0;padding:0 15px;}
+#content #accordion .panel-default>.panel-heading:hover{background-color:#58C968;}
+#content #accordion .panel-default>.panel-heading a h4{color:#fff !important;text-decoration:none;padding:15px;}
+#content #accordion .panel-default>.panel-heading a:hover,#content #accordion .panel-default>.panel-heading a:focus{color:#fff !important;}
+#content #accordion .panel-default>.panel-heading p{display:none !important;}
+
+.panel, .panel-default>.panel-heading+.panel-collapse>.panel-body{border:none;}
+
+
+#content p.note{padding:0;margin:20px 15px 20px 15px;font-family:'PT Sans', sans-serif;font-weight:400;font-size:12px;font-size:1.2rem;line-height:1.6;}
+#content .blue-box-full{display:flex;justify-content:center;/* align horizontal */align-items:center;/* align vertical */background:#00bcf1;width:100%;min-height:220px;text-align:center;font-weight:600;color:#fff;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .green-box-full{display:flex;justify-content:center;/* align horizontal */align-items:center;/* align vertical */background:#52bc61;width:100%;min-height:220px;text-align:center;font-weight:600;color:#fff;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .blue-box{border:1px solid #636463;border-top:3px solid #00bcf1;width:100%;min-height:220px;font-weight:300;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .green-box{border:1px solid #636463;border-top:3px solid #52bc61;width:100%;min-height:220px;font-weight:300;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+
+#content article.blue-box h1, #content article.green-box h1{display:block;font-size:18px;font-size:1.8rem;font-weight:600;margin:10px 0;line-height:1.6;text-align:center;}
+#content article.blue-box p, #content article.green-box p{font-size:14px;font-size:1.4rem;margin:10px 20px;}
+#content article.blue-box small, #content article.green-box small{font-size:12px;font-size:1.2rem;margin:-10px 0 10px 0;}
+#content article.blue-box ul, #content article.green-box ul{display:block;margin:0 20px 80px 40px;padding:0;border:none;}
+#content article.blue-box ul li, #content article.green-box ul li{margin:0;padding:0;border:none;font-size:13px;font-size:1.3rem;line-height:1.5;list-style:square;}
+
+#content article.blue-box, #content article.green-box {float:left;}
+.bottomright { float:right; margin: 0px 15px;}
+.bottomright .icon { font-size: 60px}
+
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
+	/*------------------------------------------------
+	#
+	# body
+	#
+	--------------------------------------------------*/
+	.desktop, .ipadv{display:none;}
+	.mobile{display:block;}
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+	/*------------------------------------------------
+	#
+	# body
+	#
+	--------------------------------------------------*/
+	br{display:none;}
+	.desktop{display:none;}
+	.mobile, .ipadv{display:block;}
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+	/*------------------------------------------------
+	#
+	# body
+	#
+	--------------------------------------------------*/
+	.mobile,.ipadv{display:none;}
+	.desktop{display:block;}
+}

@@ -52,15 +52,15 @@ function shrink_previous_post_link($format, $link){
         $first_part = substr($title, 0, 23);
         $last_part = substr($title, -17);
         $title = $first_part."...".$last_part;
-    }   
+    }
 
     $string = '<a href="'.get_permalink($post).'" rel="'.$rel.'" title="'.$original_title.'">';
-    $link = str_replace('%title', $title, $link);   
+    $link = str_replace('%title', $title, $link);
     $link = $string . $link . '</a>';
 
     $format = str_replace('%link', $link, $format);
 
-    echo $format;   
+    echo $format;
 }
 
 function shrink_next_post_link($format, $link){
@@ -93,15 +93,15 @@ function shrink_next_post_link($format, $link){
         $first_part = substr($title, 0, 23);
         $last_part = substr($title, -17);
         $title = $first_part."...".$last_part;
-    }   
+    }
 
     $string = '<a href="'.get_permalink($post).'" rel="'.$rel.'" title="'.$original_title.'">';
-    $link = str_replace('%title', $title, $link);   
+    $link = str_replace('%title', $title, $link);
     $link = $string . $link . '</a>';
 
     $format = str_replace('%link', $link, $format);
 
-    echo $format;   
+    echo $format;
 }
 
 add_filter('next_post_link', 'shrink_next_post_link',10,2);
@@ -149,7 +149,7 @@ function mki_custom_pings( $comment )
 $GLOBALS['comment'] = $comment;
 ?>
 <li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>"><?php echo comment_author_link(); ?></li>
-<?php 
+<?php
 }
 add_filter( 'get_comments_number', 'mki_comments_number' );
 function mki_comments_number( $count )
@@ -287,15 +287,15 @@ function mkiicon_func( $atts ){
 					 strpos($a['icon'],'//') === 0 ){
 						 $img_url = $a['icon'];
 					 }else{
-						 $img_url = get_template_directory_uri() . '/assets/img/infographics/'. $a['icon'].'.png';					 	
+						 $img_url = get_template_directory_uri() . '/assets/img/infographics/'. $a['icon'].'.png';
 					 }
-				 
+
 				 if(strpos($a['link'],'http://') === 0 ||
 					 strpos($a['link'],'https://') === 0 ||
 					 strpos($a['link'],'//') === 0 ){
 						 $href = $a['link'];
 					 }else if($a['link']){
-						 $href = home_url() .'/'. $a['link'];					 	
+						 $href = home_url() .'/'. $a['link'];
 					 }else{
 						 $href = "#";
 					 }
@@ -307,7 +307,7 @@ function mkiicon_func( $atts ){
 					 }
 					 if(strlen($text) > 60){
 						 $height = 70;
-					 }				 	
+					 }
 				 }else{
 					 $height = $a['img_height'];
 				 }
@@ -322,7 +322,7 @@ require_once('mkio2/mkio2.php');
 // shortcode to include the chart interface
 function mkicharts_func( $atts ){
   ob_start();
-  include('mkio2/datapage.php');    
+  include('mkio2/datapage.php');
   $out1 = ob_get_contents();
   ob_end_clean();
   return $out1;
@@ -356,7 +356,7 @@ function mkixls_meta_box_markup(){
     $media = get_attached_media( 'text/csv', $post->ID);
   }
   if (count($media)===0){ ?>
-    <p>This function will appear if you add an attachement ("add media") 
+    <p>This function will appear if you add an attachement ("add media")
 					  which is a spreadsheet and save the post.</p>
   <?php
   } else {
@@ -376,8 +376,8 @@ function mkixls_meta_box_markup(){
       $aafn = explode(".", $dims);
       $lev = 0;
       foreach($aafn as $elem){
-        if (!isset($arr[$elem])) { $arr[$elem] = array(); }	
-        $arr = &$arr[$elem];	
+        if (!isset($arr[$elem])) { $arr[$elem] = array(); }
+        $arr = &$arr[$elem];
 	if (!isset($acdims[$lev])) { $acdims[$lev] = array();}
 	if (!in_array($elem, $acdims[$lev])) { $acdims[$lev][] = $elem; }
 	$lev++;
@@ -389,17 +389,17 @@ function mkixls_meta_box_markup(){
 <script>
 <?php
 echo 'var types      = '.json_encode($types).     ';'."\n";
-echo 'var dimensions = '.json_encode($dimensions).';'."\n";    
-echo 'var acdims     = '.json_encode($acdims).';'."\n";    
+echo 'var dimensions = '.json_encode($dimensions).';'."\n";
+echo 'var acdims     = '.json_encode($acdims).';'."\n";
 ?>
    spreadsheet.url = "<?php echo $surl;?>";
    mksse_init("mki_secapi");
 </script>
-<?php 
+<?php
   }
 }
 
-function add_mkixls_meta_box(){  
+function add_mkixls_meta_box(){
   add_meta_box("Create charts from spreadsheet", "Create charts from spreadsheet", "mkixls_meta_box_markup", "post", "normal", "low", null);
 }
 
@@ -421,16 +421,16 @@ function load_mkixls_admin_style() {
   // wp_enqueue_script( 'mkxls_jquery', "//code.jquery.com/jquery-1.9.1.js");
   //  wp_enqueue_script( 'mkxls_jquery-ui', "//code.jquery.com/ui/1.10.4/jquery-ui.js");
   wp_enqueue_script( 'mkxls_main_js', get_template_directory_uri().'/secapi/js/secapi.js' );
-  wp_enqueue_script( 'mkxls_view_js', get_template_directory_uri().'/secapi/js/vc.js' ); 
-  wp_enqueue_script( 'mkxls_typeahead_js', get_template_directory_uri().'/secapi/js/typeahead.js' ); 
+  wp_enqueue_script( 'mkxls_view_js', get_template_directory_uri().'/secapi/js/vc.js' );
+  wp_enqueue_script( 'mkxls_typeahead_js', get_template_directory_uri().'/secapi/js/typeahead.js' );
 }
 add_action( 'admin_enqueue_scripts', 'load_mkixls_admin_style' );
 
 // enable additional mime types for uplaod
 function my_myme_types($mime_types){
-    $mime_types['xls'] = 'application/vnd.ms-excel'; 
-    $mime_types['xlsx'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; 
-    $mime_types['csv'] = 'text/csv';     
+    $mime_types['xls'] = 'application/vnd.ms-excel';
+    $mime_types['xlsx'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    $mime_types['csv'] = 'text/csv';
     return $mime_types;
 }
 add_filter('upload_mimes', 'my_myme_types', 1, 1);
@@ -442,7 +442,7 @@ define('ALLOW_UNFILTERED_UPLOADS', true);
 //hook into the init action and call create_book_taxonomies when it fires
 add_action( 'init', 'mki_create_year_taxonomy', 0 );
 
-//create a custom taxonomy 
+//create a custom taxonomy
 function mki_create_year_taxonomy() {
 
   $labels = array(
@@ -452,12 +452,12 @@ function mki_create_year_taxonomy() {
     'all_items' => __( 'All Years' ),
     'parent_item' => __( 'Parent Year' ),
     'parent_item_colon' => __( 'Parent Year:' ),
-    'edit_item' => __( 'Edit Year' ), 
+    'edit_item' => __( 'Edit Year' ),
     'update_item' => __( 'Update Year' ),
     'add_new_item' => __( 'Add New Year' ),
     'new_item_name' => __( 'New Year Name' ),
     'menu_name' => __( 'Year' ),
-  ); 	
+  );
 
 // Now register the taxonomy
 
@@ -486,18 +486,18 @@ add_action( 'save_post', 'mki_update_year_from_tag' );
 function mki_orderby_args(){
 	return array(
 		'meta_query' => array(
-              'relation' => 'OR', 
+              'relation' => 'OR',
               'years_not' => array(
-                  'key' => 'years', 
+                  'key' => 'years',
                   'compare' => 'NOT EXISTS'
               ),
   			'years' => array(
-                  'key' => 'years', 
+                  'key' => 'years',
   				'type'    => 'NUMERIC',
                   'compare' => 'EXISTS'
               )
 		  ),
-		'orderby' => array('meta_value_num'=>'DESC','date'=>'DESC')   
+		'orderby' => array('meta_value_num'=>'DESC','date'=>'DESC')
 	);
 }
 function mki_search_filter_years($query) {
@@ -515,11 +515,31 @@ add_action('pre_get_posts','mki_search_filter_years');
 function mki_advanced_search_query($query) {
 
 	if($query->is_search()) {
-		
-		// tag search
-		if (isset($_GET['years']) && is_array($_GET['years'])) {
-			$query->set('tag_slug__or', $_GET['years']);
-		}
+
+		// tag search (not working)
+		// if (isset($_GET['years']) && is_array($_GET['years'])) {
+		// 	$query->set('tag_slug__or', $_GET['years']);
+		// }
+    // If ymin and ymax
+    if (isset($_GET['ymin']) || isset($_GET['ymax'])){
+      $years = get_categories(array('taxonomy' => 'years','order'=>'DESC'));
+      $use_years = array();
+      foreach($years as $yid => $year){
+        if(isset($_GET['ymin']) && $_GET['ymin'] > $year->slug ){
+          // Ignore
+        } else
+        if(isset($_GET['ymax']) && $_GET['ymax'] < $year->slug ){
+          // Ignore
+        } else{
+          // Use!
+          array_push($use_years, $year->slug);
+        }
+      }
+      if(!empty($use_years)){
+        $query->set('years', $use_years);
+      }
+    }
+
 		// category search
 		if (isset($_GET['category']) && is_array($_GET['category'])) {
 			$query->set('category_name', implode(',',$_GET['category']));
@@ -529,3 +549,303 @@ function mki_advanced_search_query($query) {
 
 }
 add_action('pre_get_posts', 'mki_advanced_search_query', 1000);
+
+// DATA CHARTS
+function mki_data_file_get(){
+  if ( !wp_verify_nonce( $_REQUEST['nonce'], "mki_data_file_get_nonce")) {
+      exit("Forbidden");
+  }
+  // However, even non logged in users can generate charts.
+  $attachment_id = $_GET['post_id'];
+  $post = get_post($attachment_id);
+  // Only if it is an attachment
+  if(!$post || !$post->post_type == 'attachment'){
+    exit("Bad parameter");
+  }
+
+  if($_GET['format'] == 'twocols'){
+    $ce = $_GET['ce'];
+    $cv = $_GET['cv'];
+    $vt = $_GET['vt'];
+    $cr = (is_numeric(@$_GET['cr']) ? $_GET['cr'] : 0);
+    // FIXME Assumes CSV
+    $file = get_attached_file( $attachment_id );
+    $rn = 1;
+
+    print '{';
+    if (($handle = fopen($file, "r")) !== FALSE) {
+        $table = array('cols'=>array(),'rows'=>array());
+        while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+          if($cr && $rn <= $cr){
+            $rn++;
+            continue;
+          }
+            $num = count($data);
+            if($rn == (1 + $cr)){
+              print '"cols": [';
+              // First Line (Columns)
+              $col = array('id' => '', 'label' => $data[$ce], 'pattern' => '', 'type' => 'string');
+              print json_encode($col);
+              print ',';
+              $col = array('id' => '', 'label' => $data[$cv], 'pattern' => '', 'type' => $vt);
+              print json_encode($col);
+              print ']';
+            }else{
+              print ',';
+              if($rn == (2 + $cr)){
+                print '"rows": [';
+              }
+              // Rows
+              $row = array('c'=>array());
+              array_push($row['c'],array('v' => $data[$ce]));
+              array_push($row['c'],array('v' => $data[$cv]));
+              print json_encode($row);
+            }
+            $rn++;
+        }
+        print ']';
+        fclose($handle);
+    }
+    print '}';
+    die;
+  }else // Show original data
+  if($_GET['format'] == 'default'){
+    // FIXME Assumes CSV
+    // Ignores parameters (cr,cv, ...)
+    $file = get_attached_file( $attachment_id );
+    $rn = 1;
+    print '{';
+    if (($handle = fopen($file, "r")) !== FALSE) {
+        $table = array('cols'=>array(),'rows'=>array());
+        while (($data = fgetcsv($handle, 0, ",")) !== FALSE) {
+            $num = count($data);
+            if($rn == 1){
+              print '"cols": [';
+              // First Line (Columns)
+              for ($c=0; $c < $num; $c++) {
+                if($c>0) print ',';
+                  $col = array('id' => '', 'label' => $data[$c], 'pattern' => '', 'type' => 'string');
+                  print json_encode($col);
+              }
+              print ']';
+            }else{
+              print ',';
+              if($rn == 2){
+                print '"rows": [';
+              }
+              // Rows
+              $row = array('c'=>array());
+              for ($c=0; $c < $num; $c++) {
+                array_push($row['c'],array('v'=>$data[$c]));
+              }
+              print json_encode($row);
+            }
+            $rn++;
+        }
+        print ']';
+        fclose($handle);
+    }
+    print '}';
+    die;
+  }
+}
+add_action("wp_ajax_mki_data_file_get", "mki_data_file_get");
+add_action("wp_ajax_nopriv_mki_data_file_get", "mki_data_file_get");
+
+function mki_svg_to_png($stream, $output){
+  $im = new Imagick();
+  $im->readImageBlob($stream);
+  $im->setImageFormat("png24");
+  $im->writeImage($output);
+  $im->clear();
+  $im->destroy();
+}
+
+function mki_save_as_attachment(){
+  // check user is logged
+  if(!is_user_logged_in() ){
+    header("HTTP/1.0 403 Forbidden");
+    print "You need to be logged in";
+    die;
+  }
+  $p = get_post($_GET['post_id']);
+  //
+  $parent = wp_get_post_parent_id($p->ID);
+  //check post is valid post
+  if(!$parent){
+    header("HTTP/1.0 500 Server error");
+    print "An error occurred: $parent";
+    die;
+  }
+  // check user can edit post
+  if(!current_user_can( 'edit_post', $parent)){
+    header("HTTP/1.0 403 Forbidden");
+    $pa = get_post($parent);
+    print "File not saved. You cannot edit \"" . $pa->post_title . "\"";
+    die;
+  }
+  // Two supported formats
+  $format = 'svg';
+  if(@$_GET['format'] == 'png'){
+    $format = 'png';
+  }
+  $bits = file_get_contents('php://input');
+  // If PNG TODO Maybe other formats can be supported
+  if($format == 'png'){
+    $temporaryPng = tempnam(sys_get_temp_dir(), 'prefix');
+    mki_svg_to_png($bits, $temporaryPng);
+    $bits = file_get_contents($temporaryPng);
+  }
+  $filename = sanitize_text_field($_GET['name'] . '.' . $format);
+  //$filename = sanitize_text_field($p->post_title . '-chart.' . $format);
+  $time = current_time('mysql');
+  $upload = wp_upload_bits($filename, null, $bits, $time);
+  // The ID of the post this attachment is for.
+  $parent_post_id = $parent;
+  // Get the path to the upload directory.
+  $wp_upload_dir = wp_upload_dir();
+  // Prepare an array of post data for the attachment.
+  $attachment = array(
+    //'guid'           => $wp_upload_dir['url'] . '/' . basename( $filename ),
+    'guid'           => $upload['url'],
+  	'post_mime_type' => 'image/svg+xml',
+  	'post_title'     => preg_replace( '/\.[^.]+$/', '', $filename ),
+  	'post_content'   => 'Generated on ' . date('l jS \of F Y h:i:s A'),
+  	'post_status'    => 'inherit'
+  );
+  // Insert the attachment.
+  $attach_id = wp_insert_attachment( $attachment, $upload['url'], $parent_post_id );
+  // Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+  require_once( ABSPATH . 'wp-admin/includes/image.php' );
+  // Generate the metadata for the attachment, and update the database record.
+  $attach_data = wp_generate_attachment_metadata( $attach_id, $upload['url'] );
+  wp_update_attachment_metadata( $attach_id, $attach_data );
+  set_post_thumbnail( $parent_post_id, $attach_id );
+  print "The chart has been attached to the page ";
+  die;
+}
+add_action("wp_ajax_mki_save_chart", "mki_save_as_attachment");
+//
+function allow_new_mime_type($mimes) {
+  $mimes['svg'] = 'image/svg+xml';
+  $mimes['svgz'] = 'image/svgz+xml';
+  return $mimes;
+}
+add_filter( 'mime_types', 'allow_new_mime_type' );
+function mki_shortcode_mkisvg($atts){
+  if(!isset($atts['url'])){
+    return '[mkisvg error: "url" missing]';
+  }else{
+    return '<div>' . file_get_contents($atts['url']) . '</div>';
+  }
+}
+add_shortcode( 'mkisvg', 'mki_shortcode_mkisvg' );
+
+/* INFOBOXES SHORTCODES */
+function mki_shortcode_mkiinfobox($atts, $content=null){
+  $content = do_shortcode($content);
+  return <<<EOT
+  <div class="panel-group" id="accordion">${content}</div>
+  <p class="note"><strong>Note:</strong> Click on the linked heading text to expand or collapse the panels.</p>
+  <div class="clearfix margin-bottom-40"></div>
+EOT;
+}
+function mki_shortcode_mkiinfo($atts, $content=null){
+  $title = @$atts['title'];
+  $open = @$atts['open'] ? 'in' : '';
+  $expanded = @$atts['open'] ? 'aria-expanded="true"' : '';
+  $id = sanitize_html_class($title);
+  $content = do_shortcode($content);
+  return <<<EOT
+  <div class="panel panel-default">
+    <div class="panel-heading"><a data-toggle="collapse" data-parent="#accordion" href="#${id}"><h4 class="panel-title">${title}</h4></a></div>
+    <div id="${id}" class="panel-collapse collapse ${open}" ${expanded}>
+      <div class="panel-body">${content}</div>
+    </div>
+  </div>
+EOT;
+}
+add_shortcode( 'mkiinfobox', 'mki_shortcode_mkiinfobox' );
+add_shortcode( 'mkiinfo', 'mki_shortcode_mkiinfo' );
+/* FACTS SHORTCODES */
+function mki_shortcode_mkifacts($atts, $content=null){
+  $title = @$atts['title'];
+  $color = @$atts['color'] ? sanitize_html_class($atts['color']) : 'blue';
+  global $mkifacts_color, $mkifacts_counter;// FIXME there must be a better way
+  if(!isset($mkifacts_counter)){
+    $mkifacts_counter = 0;
+  }
+  $mkifacts_counter++;
+  // optimise layout
+  $optimise = '';
+  if($mkifacts_counter % 3 == 0){
+    // Print each 3 boxes
+    $optimise = <<<EOT
+<div class="clearfix ipadv"></div>
+EOT;
+  }
+  if($mkifacts_counter % 4 == 0){
+    // Print each 3 boxes
+    $optimise = <<<EOT
+<div class="clearfix desktop"></div>
+EOT;
+  }
+  $mkifacts_color = $color;
+  //remove_filter( 'the_content', 'wpautop' );
+  $content = do_shortcode($content);
+  //add_filter( 'the_content', 'wpautop' );
+  $mkifacts_color = null;
+  return <<<EOT
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <div class="${color}-box-full">${title}</div>
+  </div> ${optimise}
+${content}
+EOT;
+}
+function mki_shortcode_mkifact($atts, $content=null){
+  global $mkifacts_color, $mkifacts_counter;
+  if(!isset($mkifacts_counter)){
+    $mkifacts_counter = 0;
+  }
+  $mkifacts_counter++;
+  $color = $mkifacts_color ? $mkifacts_color : 'blue';
+  $icon = @$atts['icon'] ? $atts['icon'] : '';
+  $content = do_shortcode($content);
+  if($icon){
+    $icon = <<<EOT
+<div class="bottomright"><i data-icon="${icon}" class="icon" aria-hidden="true"></i></div>
+EOT;
+  }
+  // optimise layout
+  $optimise = '';
+  if($mkifacts_counter % 3 == 0){
+    // Print each 3 boxes
+    $optimise = <<<EOT
+<div class="clearfix ipadv"></div>
+EOT;
+  }
+  if($mkifacts_counter % 4 == 0){
+    // Print each 3 boxes
+    $optimise = <<<EOT
+<div class="clearfix desktop"></div>
+EOT;
+  }
+  return <<<EOT
+  <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <article class="green-box">${content}
+  ${icon}</article>
+  </div>${optimise}
+EOT;
+}
+add_shortcode( 'mkifacts', 'mki_shortcode_mkifacts' );
+add_shortcode( 'mkifact', 'mki_shortcode_mkifact' );
+function mki_shortcode_mkifactlist($atts, $content = null){
+  $content = do_shortcode($content);
+return <<<EOT
+${content}
+<div class="clearfix margin-bottom-40"></div>
+EOT;
+}
+add_shortcode( 'mkifactlist', 'mki_shortcode_mkifactlist' );
+require_once dirname(__FILE__) . '/assets/includes/shortcode-wpautop-control.php';
+chiedolabs_shortcode_wpautop_control(array('mkiinfobox','mkifactlist'));
