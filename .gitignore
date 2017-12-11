@@ -5,4 +5,6 @@ secapi/services/data/**
 mkio2/cache-bu/*
 mkio2/cache/*
 mkio2/canvas-old/*
-
+.idea*
+.idea/*
+.DS_Store*
