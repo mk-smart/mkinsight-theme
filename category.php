@@ -130,7 +130,11 @@ $checked = ( $cslug == $_GET['ymax'])? 'selected="selected"':""; ?>
 
 <script>
 $(document).ready(function() {
-    $('#categoryDataTable').DataTable();
+    $('#categoryDataTable').DataTable({
+        language: {
+            search: "Filter:"
+        }
+    });
     $('#category-data-page').fadeIn();
 } );
 </script>
