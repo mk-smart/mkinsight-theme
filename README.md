@@ -13,6 +13,26 @@ into ``wp-contents/themes`` directory, enabling it from WordPress admin backend.
 For further information please refer to [WordPress guide about themes](https://codex.wordpress.org/Using_Themes)
 
 
+### WordPress dependencies
+
+Currently MK:Insight is running under WordPress version 4.7.8
+
+Following the list of required plugins:
+
+- [amr shortcode any widget](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=amr-shortcode-any-widget&TB_iframe=true&width=600&height=550)
+- [Bop Search Box Item Type For Nav Menus](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=bop-search-box-item-type-for-nav-menus&TB_iframe=true&width=600&height=550)
+- [Contact Form DB](http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/)
+- [Cookie Consent](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=uk-cookie-consent&TB_iframe=true&width=600&height=550)
+- [Disable Comments](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=disable-comments&TB_iframe=true&width=600&height=550)
+- [Disable Real MIME Check](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=disable-real-mime-check&TB_iframe=true&width=600&height=550)
+- [Idea Factory](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=idea-factory&TB_iframe=true&width=600&height=550)
+- [iframe](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=iframe&TB_iframe=true&width=600&height=550)
+- [List category posts](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=list-category-posts&TB_iframe=true&width=600&height=550)
+- [Ultimate Social Media PLUS](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=ultimate-social-media-plus&TB_iframe=true&width=600&height=550)
+- [Very Simple Contact Form](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=very-simple-contact-form&TB_iframe=true&width=600&height=550)
+- [WP Attachments](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=wp-attachments&TB_iframe=true&width=600&height=550)
+- [WP Statistics](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=wp-statistics&TB_iframe=true&width=600&height=550)
+
 ## Development
 
 1. Download [WordPress downloads](https://wordpress.org/downloads)
