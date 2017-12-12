@@ -19,19 +19,21 @@ Currently MK:Insight is running under WordPress version 4.7.8
 
 Following the list of required plugins:
 
-- [amr shortcode any widget](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=amr-shortcode-any-widget&TB_iframe=true&width=600&height=550)
-- [Bop Search Box Item Type For Nav Menus](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=bop-search-box-item-type-for-nav-menus&TB_iframe=true&width=600&height=550)
-- [Contact Form DB](http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/)
-- [Cookie Consent](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=uk-cookie-consent&TB_iframe=true&width=600&height=550)
-- [Disable Comments](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=disable-comments&TB_iframe=true&width=600&height=550)
-- [Disable Real MIME Check](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=disable-real-mime-check&TB_iframe=true&width=600&height=550)
-- [Idea Factory](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=idea-factory&TB_iframe=true&width=600&height=550)
-- [iframe](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=iframe&TB_iframe=true&width=600&height=550)
-- [List category posts](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=list-category-posts&TB_iframe=true&width=600&height=550)
-- [Ultimate Social Media PLUS](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=ultimate-social-media-plus&TB_iframe=true&width=600&height=550)
-- [Very Simple Contact Form](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=very-simple-contact-form&TB_iframe=true&width=600&height=550)
-- [WP Attachments](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=wp-attachments&TB_iframe=true&width=600&height=550)
-- [WP Statistics](http://mkinsight.org/wp-admin/plugin-install.php?tab=plugin-information&plugin=wp-statistics&TB_iframe=true&width=600&height=550)
+- [amr shortcode any widget](https://wordpress.org/plugins/amr-shortcode-any-widget/)
+- [Bop Search Box Item Type For Nav Menus](https://wordpress.org/plugins/bop-search-box-item-type-for-nav-menus/)
+- [*Contact Form DB](http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/)
+- [UK Cookie Consent](https://wordpress.org/plugins/uk-cookie-consent/)
+- [Disable Comments](https://wordpress.org/plugins/disable-comments/)
+- [*Disable Real MIME Check](https://wordpress.org/plugins/disable-real-mime-check/)
+- [Idea Factory](https://wordpress.org/plugins/idea-factory/)
+- [iframe](https://wordpress.org/plugins/iframe/)
+- [List category posts](https://wordpress.org/plugins/list-category-posts/)
+- [Ultimate Social Media PLUS](https://wordpress.org/plugins/ultimate-social-media-plus/)
+- [Very Simple Contact Form](https://wordpress.org/plugins/very-simple-contact-form/)
+- [WP Attachments](https://wordpress.org/plugins/wp-attachments/)
+- [WP Statistics](https://wordpress.org/plugins/wp-statistics/)
+
+*Deprecated / No longer available plugins.
 
 ## Development
 
