@@ -21,6 +21,7 @@ Following the list of required plugins:
 
 - [amr shortcode any widget](https://wordpress.org/plugins/amr-shortcode-any-widget/)
 - [Bop Search Box Item Type For Nav Menus](https://wordpress.org/plugins/bop-search-box-item-type-for-nav-menus/)
+- [Co-Authors Plus](https://wordpress.org/plugins/co-authors-plus/)
 - [*Contact Form DB](http://wordpress.org/extend/plugins/contact-form-7-to-database-extension/)
 - [UK Cookie Consent](https://wordpress.org/plugins/uk-cookie-consent/)
 - [Disable Comments](https://wordpress.org/plugins/disable-comments/)
