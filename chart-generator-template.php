@@ -70,15 +70,13 @@
                 $examples = array(); // collect up to 6 examples
                 $cr = (is_numeric(@$_GET['cr']) ? $_GET['cr'] : 0);
 
-
-                // new methods
+                // loading data
+                // support to multiple formats with PHPExcel
                 $excelReader = PHPExcel_IOFactory::createReaderForFile($file);
                 $excelReader->setReadDataOnly();
                 $excelObj = $excelReader->load($file);
                 $tmp = $excelObj->getActiveSheet()->toArray(null, true,true,true);
-//                var_dump($tmp[1]);
-                function objectToArray($data)
-                {
+                function objectToArray($data) {
                     if (is_array($data) || is_object($data))
                     {
                         $result = array();
@@ -96,55 +94,7 @@
                 } else {
                     mki_error('A problem occurred while reading the data file.');
                 }
-//                if (($handle = fopen($file, "r")) !== FALSE) {
-//                    $rn = 1;
-//                    // todo switch to
-//                    while (($row = fgetcsv($handle, 0, ",")) !== FALSE) {
-//                        if ($rn < $cr + 1) {
-//                            $rn++;
-//                            continue;
-//                        }
-//                        $rn++;
-//                        if (empty($columns)) {
-//                            $columns = $row;
-//                            foreach ($columns as $cix => $col) {
-//                                $examples[$cix] = array();
-//                            }
-//                        } else {
-//                            if (count($examples[0]) < 5) {
-//                                foreach ($row as $ci => $cv) {
-//                                    // Check type TODO (this is not used at the moment)
-//                                    $t = 'string';
-//                                    if (is_numeric($cv)) {
-//                                        $t = 'number';
-//                                    } else switch ($cv) {
-//                                        case $cv == true:
-//                                        case $cv == 1:
-//                                        case strtolower($cv) == 'true':
-//                                        case strtolower($cv) == 'on':
-//                                        case strtolower($cv) == 'yes':
-//                                        case strtolower($cv) == 'y':
-//                                            $t = 'boolean';
-//                                            break;
-//                                        default:
-//                                            $t = 'string';
-//                                    }
-//                                    if (!@$types[$cix]) {
-//                                        $types[$cix] = array();
-//                                    }
-//                                    if (!in_array($t, $types[$cix])) {
-//                                        array_push($types[$cix], $t);
-//                                    }
-//                                    array_push($examples[$ci], $cv);
-//                                }
-//                            } else break;
-//                        }
-//                    }
-//                    fclose($handle);
-//                } else {
-//                    mki_error('A problem occurred while reading the data file.');
-//                }
-//                var_dump($columns);
+
                 // Prepare the data url for the table
                 $nonce = wp_create_nonce("mki_data_file_get_nonce");
                 $dataFormat = (isset($_GET['ce'])) ? "twocols" : "default";
@@ -164,7 +114,7 @@
                             async: false
                         }).responseText;
                         var jsonData = JSON.parse(data);
-                        console.log(jsonData);
+                        // console.log(jsonData);
                         var data = new google.visualization.DataTable(jsonData);
 
                         // Instantiate and draw our chart, passing in some options.
