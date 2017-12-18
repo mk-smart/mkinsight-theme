@@ -135,7 +135,47 @@ INPUT;
                     <?php while ( have_posts() ) : the_post(); ?>
                     <?php //get_template_part( 'entry' ); ?>
 					<div>
-						<h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+						<h3>
+                            <a href="<?php the_permalink(); ?>">
+                                <?php
+                                /* add icon to title
+                                 * folder: img/infographics/
+                                 * report: pie-chart3.png
+                                 * data: data-green.png
+                                 * page: document.png
+                                */
+                                // get post categories and filters for data or report
+                                $cat = array_reduce(get_the_category(), function ($carry, $cat){
+                                    // if category found
+                                    if($carry){return $carry;}
+                                    // search for category
+                                    if($cat->slug === 'data'){return 'data';}
+                                    if($cat->slug === 'report'){return 'report';}
+                                    if($cat->slug === 'news'){return 'news';}
+                                    if($cat->slug === 'essential'){return 'essential';}
+                                    // default false
+                                    return false;
+                                });
+
+                                switch($cat) {
+                                    case 'report':
+                                      echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/pie-chart3.png">';
+                                    break;
+                                    case 'data':
+                                      echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/data-green.png">';
+                                    break;
+                                    default:
+                                        if(get_post_type() == 'idea'){
+                                            echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/light-bulb-green.png">';
+                                        } else {
+                                            echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/document.png">';
+                                        }
+                                }
+
+                                ?>
+                                <?php the_title(); ?>
+                            </a>
+                        </h3>
 						<?php include 'entry-meta.php'; ?>
             <?php include 'entry-footer.php'; /*?>
 						<footer class="entry-footer">
