@@ -12,6 +12,15 @@ into ``wp-contents/themes`` directory, enabling it from WordPress admin backend.
 
 For further information please refer to [WordPress guide about themes](https://codex.wordpress.org/Using_Themes)
 
+A guide about how to use **mkinsight-theme** shortcodes and features can be found in the [**mkinsight-theme**  wiki](https://github.com/mk-smart/mkinsight-theme/wiki)
+
+
+### Shortcodes
+**mkinsight-theme** includes a set of short codes for authors:
+
+- [facts](https://github.com/mk-smart/mkinsight-theme/wiki/facts)
+- [infobox](https://github.com/mk-smart/mkinsight-theme/wiki/infobox)
+
 
 ### WordPress dependencies
 
@@ -51,6 +60,7 @@ For further information about the general mechanics of themes in WordPress, plea
 - [JQuery easing](http://gsgd.co.uk/sandbox/jquery/easing/)
 - [modernizr](https://modernizr.com)
 - [inline tweet](https://ireade.github.io/inlinetweetjs/)
+- [PHPExcel](https://github.com/PHPOffice/PHPExcel)
 
 ## Theme Structure
 ```
