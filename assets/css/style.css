@@ -636,6 +636,14 @@ div#content {padding-top: 100px !important;}
 	}
 }
 
+.vcenter {
+	display: flex;
+	align-items: center;
+}
+.vcenter .align-middle{
+	margin:0 auto;
+}
+
 /* mkinsight buttons */
 .btn-mkinsight{
 	height: 190px;

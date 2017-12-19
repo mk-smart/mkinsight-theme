@@ -339,9 +339,11 @@ function mkiicon_func($atts)
     if($href){
     return <<<HTML
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-        <a href="$href" class="btn btn-default btn-mkinsight">
-            <img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
-            <span class="strapline">$text</span>
+        <a href="$href" class="btn btn-default btn-mkinsight vcenter">
+            <div class="align-middle">
+                <img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
+                <span class="strapline">$text</span>
+            </div>
         </a>
     </div>
 HTML;
@@ -349,9 +351,11 @@ HTML;
         // if it has no link therefore it is a fact
     return <<<HTML
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-        <div class="btn-mkinsight btn-nolink">
-            <img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
-            <span class="strapline">$text</span>
+        <div class="btn-mkinsight btn-nolink vcenter">
+            <div class="align-middle">
+                <img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
+                <span class="strapline">$text</span>
+            </div>
         </div>
     </div>
 HTML;
