@@ -932,6 +932,7 @@ EOT;
 function mki_shortcode_mkifact($atts, $content = null)
 {
     global $mkifacts_color, $mkifacts_counter;
+
     if (!isset($mkifacts_counter)) {
         $mkifacts_counter = 0;
     }
@@ -960,7 +961,7 @@ EOT;
     }
     return <<<EOT
   <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  <article class="green-box">${content}
+  <article class="${color}-box">${content}
   ${icon}</article>
   </div>${optimise}
 EOT;
