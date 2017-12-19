@@ -625,11 +625,11 @@ div#content {padding-top: 100px !important;}
 	body.navbar-expanded #content {
 		margin-top: 150px;
 	}
-	a.btn-mkinsight {
+	.btn-mkinsight {
 	    padding:5px;
 	    overflow-y:hidden;
 	}
-	a.btn-mkinsight img.mkicons{
+	.btn-mkinsight img.mkicons{
 	    margin-top: 5px;
 	    width: auto; /* you can use % */
             height: 50px !important;
@@ -637,15 +637,35 @@ div#content {padding-top: 100px !important;}
 }
 
 /* mkinsight buttons */
-a.btn-mkinsight{
-	height: 160px;
+.btn-mkinsight{
+	height: 190px;
 	width: 100%;
 }
-a.btn-mkinsight img.mkicons{
-}
-a.btn-mkinsight .strapline{
+.btn-mkinsight .strapline{
 	white-space: pre-wrap;
 }
+.btn-mkinsight img.mkicons{
+	height: 90px !important;
+}
+div.btn-mkinsight{
+	cursor: initial;
+}
+div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focus{
+	background: initial;
+	border: solid 1px #ccc;
+	box-shadow: none;
+	padding: 6px 12px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+#content .btn-nolink .strapline {
+	color: #333;
+}
+#content .btn-nolink img.mkicons, #content .btn-nolink img.mkicons:hover{
+	opacity: 1;
+}
+
 
 /* advanced search and results */
 .advanced-search{ padding-left: 0px;}
