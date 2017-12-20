@@ -89,7 +89,10 @@
                     return $data;
                 }
                 if ($tmp) {
-                    $columns = objectToArray($tmp[1]);
+                    // $cr = index of row where data starts
+                    // $cr - 1 = index of row of columns labels
+                    // max($cr-1, 0) = to force columns index as positive integer
+                    $columns = objectToArray($tmp[max($cr-1,0)]);
 
                 } else {
                     mki_error('A problem occurred while reading the data file.');

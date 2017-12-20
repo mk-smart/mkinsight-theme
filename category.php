@@ -114,7 +114,13 @@ $term = get_queried_object();
                                     <?php print $cat->name; ?></button>
                             <?php endif;
                         } ?></td>
-                    <td><?php the_terms(get_the_ID(), 'years'); ?></td>
+                    <td><?php
+                        $years = get_the_terms(get_the_ID(), 'years');
+                        for($i = 0; $i < size($years); $i++){
+                            $year = $years[$i]->name;
+                            echo '<a href="#" onclick="setDate(${year})">${year}</a>';
+                        }
+                        ?></td>
                     <td><?php the_date(); ?></td>
                     <td>
                         <?php
@@ -180,6 +186,14 @@ $term = get_queried_object();
         ;$('#maxYear').change( function () {
             table.draw();
         } );
+
+
+        // click on a date to set interval
+        function setDate(year) {
+            $('#minYear').val(year);
+            $('#maxYear').val(year);
+            table.draw();
+        }
 
     });
 </script>
