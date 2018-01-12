@@ -12,7 +12,7 @@
                                       * page: document.png
                                      */
                                      ?>
-                                     <?php echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/document.png">'; ?>
+                                     <?php //echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/document.png">'; ?>
                                      <?php the_title(); ?>
                                  </h1>
                                 <?php else: ?>         
