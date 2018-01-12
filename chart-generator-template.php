@@ -209,6 +209,10 @@
                                     <button name="chart-editor" value="<?php print $post->ID; ?>"
                                             class="btn btn-default" type="submit">Edit chart
                                     </button>
+                                    <a name="chart-editor" type="button" class="btn btn-danger" href="/chart-generator/?data=<?php print $post->ID; ?>"
+                                            class="btn btn-default" type="submit">
+                                        Reset
+                                    </a>
                                 </div>
                             </div>
                         </form>
