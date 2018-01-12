@@ -336,8 +336,8 @@ function mkiicon_func($atts)
         $height = $a['img_height'];
     }
     // if a ref is defined it is a button
-    if($href){
-    return <<<HTML
+    if ($href) {
+        return <<<HTML
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <a href="$href" class="btn btn-default btn-mkinsight vcenter">
             <div class="align-middle">
@@ -347,9 +347,9 @@ function mkiicon_func($atts)
         </a>
     </div>
 HTML;
-    }else{
+    } else {
         // if it has no link therefore it is a fact
-    return <<<HTML
+        return <<<HTML
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <div class="btn-mkinsight btn-nolink vcenter">
             <div class="align-middle">
@@ -662,14 +662,17 @@ function mki_data_file_get()
     $excelObj = $excelReader->load($file);
 
     // init result
-    $tmp = $excelObj->getActiveSheet()->toArray(null, true,true,true);
+    $tmp = $excelObj->getActiveSheet()->toArray(null, true, true, true);
 
 
-    function arrayToCols($data){
+    function arrayToCols($data)
+    {
         $res = array();
-        if(!$data[0]){return $res;}
+        if (!$data[0]) {
+            return $res;
+        }
         $cols = $data[0];
-        for($i = 0; $i < count($cols); $i++) {
+        for ($i = 0; $i < count($cols); $i++) {
             $col = new stdClass();
             $col->id = "";
 //            $label = $cols[$i] ? (string)$cols[$i] : 'vuoto';
@@ -677,40 +680,46 @@ function mki_data_file_get()
             $col->label = $cols[$i];
             $col->pattern = "";
             $col->type = "string";
-            array_push($res,$col);
+            array_push($res, $col);
         }
         return $res;
     }
-    function arrayToRows($data){
+
+    function arrayToRows($data)
+    {
         $res = array();
-        if(!$data[0]){return $res;}
+        if (!$data[0]) {
+            return $res;
+        }
         for ($i = 1; $i <= count($data); $i++) {
             $row = new stdClass();
             $row->c = rowToCels($data[$i]);
-            array_push($res,$row);
+            array_push($res, $row);
         }
         return $res;
     }
-    function rowToCels($data){
+
+    function rowToCels($data)
+    {
         $res = array();
-        if(!$data[0]){return $res;}
+        if (!$data[0]) {
+            return $res;
+        }
         foreach ($data as $cel) {
             $c = new stdClass();
             $c->v = $cel;
             $c->f = null;
-            array_push($res,$c);
+            array_push($res, $c);
         }
         return $res;
     }
 
     function objectToArray($data)
     {
-        if (is_array($data) || is_object($data))
-        {
+        if (is_array($data) || is_object($data)) {
             $result = array();
-            foreach ($data as $key => $value)
-            {
-                array_push($result,objectToArray($value));
+            foreach ($data as $key => $value) {
+                array_push($result, objectToArray($value));
             }
             return $result;
         }
@@ -725,12 +734,12 @@ function mki_data_file_get()
     $data4charts->rows = arrayToRows($dataArray);
 
 
-    if($_GET['format'] != 'twocols'){
+    if ($_GET['format'] != 'twocols') {
 
         // return values
         print json_encode($data4charts);
         die;
-    }else{
+    } else {
         /*
          * cr=4 start index of rows, default 0
          * ce=0 first col index, default 0
@@ -743,33 +752,37 @@ function mki_data_file_get()
         $cr = (is_numeric(@$_GET['cr']) ? $_GET['cr'] : 0);
 
 
-        function extractCols($data,$start,$end,$type){
+        function extractCols($data, $start, $end, $type)
+        {
             $col1 = $data[$start];
             $col2 = $data[$end];
             $col2->type = $type;
-            $res = array($col1,$col2);
+            $res = array($col1, $col2);
             return $res;
         }
 
-        function extractRows($data,$col1,$col2,$start,$type){
+        function extractRows($data, $col1, $col2, $start, $type)
+        {
             $res = array();
-            $batch = array_slice($data,max(0, $start-1));
+            $batch = array_slice($data, max(0, $start - 1));
 //            if(!$col1){$col1 = 0;}
-            foreach($batch as $row){
+            foreach ($batch as $row) {
                 $newRow = new stdClass();
-                $newRow->c = extractCels($row->c,$col1,$col2,$type);
+                $newRow->c = extractCels($row->c, $col1, $col2, $type);
                 array_push($res, $newRow);
             }
             return $res;
         }
-        function extractCels($data,$col1,$col2,$type){
+
+        function extractCels($data, $col1, $col2, $type)
+        {
             $cel = new stdClass();
 
             // force casting to type of col2 values
-            if($type == 'number'){
+            if ($type == 'number') {
                 $cel->v = (int)$data[$col2]->v;
                 $cel->f = $data[$col2]->f;
-            }else{
+            } else {
                 $cel->v = (string)$data[$col2]->v;
                 $cel->f = $data[$col2]->f;
             }
@@ -778,8 +791,8 @@ function mki_data_file_get()
         }
 
         $twoColTable = new stdClass();
-        $twoColTable->cols = extractCols($data4charts->cols,$ce,$cv,$vt);
-        $twoColTable->rows = extractRows($data4charts->rows,$ce,$cv,$cr,$vt);
+        $twoColTable->cols = extractCols($data4charts->cols, $ce, $cv, $vt);
+        $twoColTable->rows = extractRows($data4charts->rows, $ce, $cv, $cr, $vt);
         print json_encode($twoColTable);
         die;
     }
@@ -899,12 +912,21 @@ function mki_shortcode_mkiinfo($atts, $content = null)
 {
     $title = @$atts['title'];
     $open = @$atts['open'] ? 'in' : '';
+    $openClass = @$atts['open'] ? '' : 'collapsed';
     $expanded = @$atts['open'] ? 'aria-expanded="true"' : '';
     $id = sanitize_html_class($title);
     $content = do_shortcode($content);
     return <<<EOT
   <div class="panel panel-default">
-    <div class="panel-heading"><a data-toggle="collapse" data-parent="#accordion" href="#${id}"><h4 class="panel-title">${title}</h4></a></div>
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-parent="#accordion" href="#${id}" class="${openClass}">
+            <h4 class="panel-title">
+                <i class="open-icon ion-arrow-down-b"></i>
+                <i class="closed-icon ion-arrow-right-b"></i>
+                ${title}
+            </h4>
+        </a>
+    </div>
     <div id="${id}" class="panel-collapse collapse ${open}" ${expanded}>
       <div class="panel-body">${content}</div>
     </div>

@@ -796,6 +796,11 @@ Quick Facts Layout
 #content #accordion .panel-default>.panel-heading a h4{color:#fff !important;text-decoration:none;padding:15px;}
 #content #accordion .panel-default>.panel-heading a:hover,#content #accordion .panel-default>.panel-heading a:focus{color:#fff !important;}
 #content #accordion .panel-default>.panel-heading p{display:none !important;}
+#content #accordion .panel-default>.panel-heading>a .panel-title i.closed-icon { display: none; }
+#content #accordion .panel-default>.panel-heading>a.collapsed .panel-title i.closed-icon { display:initial; }
+#content #accordion .panel-default>.panel-heading>a .panel-title i.open-icon { display:initial; }
+#content #accordion .panel-default>.panel-heading>a.collapsed .panel-title i.open-icon { display:none; }
+
 
 .panel, .panel-default>.panel-heading+.panel-collapse>.panel-body{border:none;}
 
