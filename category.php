@@ -182,7 +182,6 @@ $term = get_queried_object();
     }
 
     $(document).ready(function () {
-        console.log('hello here');
         var table = $('#categoryDataTable').DataTable({
             language: {
                 search: "Filter:"
@@ -220,7 +219,6 @@ $term = get_queried_object();
         $('#minYear').change(function () {
             if ('URLSearchParams' in window) {
                 var year = $('#minYear').val();
-                console.log(year);
 
                 var searchParams = new URLSearchParams(window.location.search);
 
@@ -235,8 +233,7 @@ $term = get_queried_object();
         })
         ;$('#maxYear').change(function () {
             if ('URLSearchParams' in window) {
-                var year = $('#maxYear').val();
-                console.log(year);
+                var year = $('#maxYear').val()
 
                 var searchParams = new URLSearchParams(window.location.search);
 
