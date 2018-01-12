@@ -137,10 +137,10 @@ $term = get_queried_object();
                             foreach ($files as $fid => $file):
                                 ?>
                                 <div class="dropdown file-hover-menu">
-                                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" data-hover="dropdown">
+                                    <a id="file-<?php print $file->ID; ?>" class="dropdown-toggle" href="#" data-toggle="dropdown" data-hover="dropdown">
                                         <?php print $file->post_title; ?>
                                     </a>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="file-<?php print $file->ID; ?>">
                                         <li>
                                             <a href="<?php print $file->guid; ?>" title="Download file: <?php print $file->post_title; ?>">
                                                 <i class="ion-android-download"></i>
