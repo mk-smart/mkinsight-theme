@@ -129,7 +129,7 @@
                 <section>
                     <h2>Specify chart data</h2>
                     <h3><?php print $parent->post_title; ?></h3>
-                    <h4>Data file: <?php print $post->post_title; ?></h4>
+                    <h4>Data file: <?php print $post->post_title; ?> <a href="<?php print $post->guid; ?>" title="Download file: <?php print $post->post_title; ?>"><i class="ion-android-download"></i></a></h4>
                     <section>
                         <form method="GET" class="form-horizontal">
                             <div class="form-group"><p class="col-sm-12">
