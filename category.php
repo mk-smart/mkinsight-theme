@@ -135,7 +135,26 @@ $term = get_queried_object();
                             <?php
                             $files = get_attached_media('', $query->post->ID);
                             foreach ($files as $fid => $file):
-                                ?><a href="<?php print $file->guid; ?>"><?php print $file->post_title; ?></a>
+                                ?>
+                                <div class="dropdown file-hover-menu">
+                                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" data-hover="dropdown">
+                                        <?php print $file->post_title; ?>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="<?php print $file->guid; ?>" title="Download file: <?php print $file->post_title; ?>">
+                                                <i class="ion-android-download"></i>
+                                                <span class="">Download</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="/chart-generator/?data=<?php print $file->ID; ?>" title="Chart generator: <?php print $file->post_title; ?>">
+                                                <i class="ion-pie-graph"></i>
+                                                <span class="">Charts</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 [<?php print $file->post_mime_type; ?>]<br/>
                             <?php
                             endforeach;
@@ -153,8 +172,6 @@ $term = get_queried_object();
 </section>
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
-
-
 <script>
     function setDate(year) {};
 
