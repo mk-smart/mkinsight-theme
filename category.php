@@ -151,30 +151,37 @@ $term = get_queried_object();
                             $files = get_attached_media('', $query->post->ID);
                             foreach ($files as $fid => $file):
                                 ?>
-                                <div class="dropdown file-hover-menu">
-                                    <a id="file-<?php print $file->ID; ?>" class="dropdown-toggle" href="#"
-                                       data-toggle="dropdown" data-hover="dropdown">
-                                        <?php print $file->post_title; ?>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu"
-                                        aria-labelledby="file-<?php print $file->ID; ?>">
-                                        <li>
-                                            <a href="<?php print $file->guid; ?>"
-                                               title="Download file: <?php print $file->post_title; ?>">
-                                                <i class="ion-android-download"></i>
-                                                <span class="">Download</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/chart-generator/?data=<?php print $file->ID; ?>"
-                                               title="Chart generator: <?php print $file->post_title; ?>">
-                                                <i class="ion-pie-graph"></i>
-                                                <span class="">Charts</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                [<?php print $file->post_mime_type; ?>]<br/>
+                                <ul class="files">
+                                    <li>
+                                        <span id="file-<?php print $file->ID; ?>">
+                                            <?php print $file->post_title; ?>
+                                        </span>
+                                        <span class="mimetype">
+                                            <?php
+                                            /*
+                                             * MIMEtypes
+                                             * - application/vnd.ms-excel > XLS
+                                             * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
+                                             */
+                                            echo '[';
+                                            print $file->post_mime_type == 'application/vnd.ms-excel' ? 'Excel' : 'CSV';
+                                            echo ']';
+                                            ?>
+                                        </span>
+                                        <a href="<?php print $file->guid; ?>"
+                                           role="button"
+                                           class="action"
+                                           title="Download file: <?php print $file->post_title; ?>">
+                                            <i class="ion-android-download"></i>
+                                        </a>
+                                        <a href="/chart-generator/?data=<?php print $file->ID; ?>"
+                                           role="button"
+                                           class="action"
+                                           title="Chart generator: <?php print $file->post_title; ?>">
+                                            <i class="ion-pie-graph"></i>
+                                        </a>
+                                    </li>
+                                </ul>
                             <?php
                             endforeach;
                             ?>

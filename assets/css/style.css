@@ -717,9 +717,10 @@ button.badge-category {margin-bottom:2px; padding: 2px 5px 2px 7px}
 #categoryDataFilter strong,
 #yearDataFilter label {color:black; display:inline-block;}
 
-#categoryDataTable .file-hover-menu ul{	list-style: none; padding: 0px;}
-#categoryDataTable .file-hover-menu ul li {	list-style: none; padding: 0px;	margin: 0px;}
-#categoryDataTable .file-hover-menu ul li a {font-size: 0.85em;}
+#categoryDataTable ul.files { padding: 0px;}
+#categoryDataTable ul.files li { list-style: disc; padding: 0px; margin: 0px 0px 10px 30px;}
+#categoryDataTable ul.files li a.action { }
+
 
 /* Fixes for compatibility with bootstrap select */
 div.dropdown-menu.open{
