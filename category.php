@@ -56,15 +56,30 @@ $term = get_queried_object();
                         $cid = $category->term_id;
                         if ($term->slug == $category->slug) {
                             // Immutable
+                            // goes back to the category selection
                             ?>
-                            <button class="btn btn-danger"><?php print $cname; ?></button> <?php
+                            <a class="btn btn-danger btn-sm"
+                               href="/categories/"
+                               role="button"
+                               title="Back to category selection">
+                                <i class="ion-android-close"></i>
+                                <?php print $cname; ?>
+                            </a>
+                            <?php
                         } else {
                             // Mutable
+                            // <button class="btn badge-category" type="submit" name="exclude"
                             ?>
-                            <button class="btn badge-category" type="submit" name="exclude"
-                                    value="<?php print $cid; ?>"> - <?php print $cname; ?></button> <input type="hidden"
-                                                                                                           name="term_id[]"
-                                                                                                           value="<?php print $cid; ?>"/><?php
+                            <button class="btn btn-outline-primary btn-sm"
+                                    type="submit"
+                                    name="exclude"
+                                    title="Remove <?php print $cname; ?> selection"
+                                    value="<?php print $cid; ?>">
+                                <i class="ion-android-remove"></i>
+                                <?php print $cname; ?>
+                            </button>
+                            <input type="hidden" name="term_id[]" value="<?php print $cid; ?>"/>
+                            <?php
                         }
                     }
                     ?>
@@ -126,8 +141,8 @@ $term = get_queried_object();
                             $years = get_the_terms(get_the_ID(), 'years');
                             for ($i = 0; $i < sizeof($years); $i++) {
                                 $year = $years[$i]->name;
-                                if($i > 0) echo ', ';
-                                echo '<a href="#" class="year-filter" onclick="setDate('.$year.')">'.$year.'</a>';
+                                if ($i > 0) echo ', ';
+                                echo '<a href="#" class="year-filter" onclick="setDate(' . $year . ')">' . $year . '</a>';
                             }
                             ?></td>
                         <td><?php the_date(); ?></td>
@@ -137,18 +152,22 @@ $term = get_queried_object();
                             foreach ($files as $fid => $file):
                                 ?>
                                 <div class="dropdown file-hover-menu">
-                                    <a id="file-<?php print $file->ID; ?>" class="dropdown-toggle" href="#" data-toggle="dropdown" data-hover="dropdown">
+                                    <a id="file-<?php print $file->ID; ?>" class="dropdown-toggle" href="#"
+                                       data-toggle="dropdown" data-hover="dropdown">
                                         <?php print $file->post_title; ?>
                                     </a>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="file-<?php print $file->ID; ?>">
+                                    <ul class="dropdown-menu" role="menu"
+                                        aria-labelledby="file-<?php print $file->ID; ?>">
                                         <li>
-                                            <a href="<?php print $file->guid; ?>" title="Download file: <?php print $file->post_title; ?>">
+                                            <a href="<?php print $file->guid; ?>"
+                                               title="Download file: <?php print $file->post_title; ?>">
                                                 <i class="ion-android-download"></i>
                                                 <span class="">Download</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/chart-generator/?data=<?php print $file->ID; ?>" title="Chart generator: <?php print $file->post_title; ?>">
+                                            <a href="/chart-generator/?data=<?php print $file->ID; ?>"
+                                               title="Chart generator: <?php print $file->post_title; ?>">
                                                 <i class="ion-pie-graph"></i>
                                                 <span class="">Charts</span>
                                             </a>
@@ -173,11 +192,12 @@ $term = get_queried_object();
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
 <script>
-    function setDate(year) {};
+    function setDate(year) {
+    };
 
     function updateQueryStringParameter(uri, key, value) {
         var re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
-        if( value === undefined ) {
+        if (value === undefined) {
             if (uri.match(re)) {
                 return uri.replace(re, '$1$2');
             } else {
@@ -187,8 +207,8 @@ $term = get_queried_object();
             if (uri.match(re)) {
                 return uri.replace(re, '$1' + key + "=" + value + '$2');
             } else {
-                var hash =  '';
-                if( uri.indexOf('#') !== -1 ){
+                var hash = '';
+                if (uri.indexOf('#') !== -1) {
                     hash = uri.replace(/.*#/, '#');
                     uri = uri.replace(/#.*/, '');
                 }
@@ -239,9 +259,9 @@ $term = get_queried_object();
 
                 var searchParams = new URLSearchParams(window.location.search);
 
-                if(!parseInt(year)){
+                if (!parseInt(year)) {
                     searchParams.delete("ymin");
-                }else{
+                } else {
                     searchParams.set("ymin", year);
                 }
 
@@ -254,9 +274,9 @@ $term = get_queried_object();
 
                 var searchParams = new URLSearchParams(window.location.search);
 
-                if(!parseInt(year)){
+                if (!parseInt(year)) {
                     searchParams.delete("ymax");
-                }else{
+                } else {
                     searchParams.set("ymax", year);
                 }
 
@@ -266,7 +286,7 @@ $term = get_queried_object();
 
         // year link click handler
         // sets both dates
-        setDate = function(year) {
+        setDate = function (year) {
             if ('URLSearchParams' in window) {
                 var searchParams = new URLSearchParams(window.location.search);
                 searchParams.set("ymin", year);
