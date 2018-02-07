@@ -516,12 +516,37 @@ a.mki_subtheme {
    color: #fff;
 }
 
-#s {
-  color: #fff;
-   background: #03bff4;
-   border: 1px solid #9a9b9c;
-   width: 100px;
+
+#advanced-filter-wrapper{
+	background-color: #f4f4f4;
+	padding: 8px 16px;
+	border-radius: 2px;
 }
+#content .advanced-search h1#search-title {
+	display: flex;
+}
+#content .advanced-search h1#search-title input#s{
+	margin: 0 0 0 10px;
+	flex: 1 1 auto;
+	vertical-align: text-top;
+	width: auto;
+	border: 1px solid #999;
+	border-radius: 0px;
+	background-color: white;
+}
+
+#advanced-filter-wrapper a#advance-search-toggler{
+	text-align: center;
+	display: block;
+}
+
+#advanced-filter-wrapper a#advance-search-toggler.collapsed  i.icon:before {
+	content:"+";
+}
+#advanced-filter-wrapper a#advance-search-toggler i.icon:before {
+	content: "-";
+}
+
 
 /** ED **/
 
@@ -681,12 +706,57 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 .advanced-search form input[type=submit]{width:100%;}
 .advanced-search form label{
 	font-size: 1.8rem;
-    font-weight: 400;
-
+    font-weight: 700;
+	margin-right: 6px;
 }
-div.results {padding-right:0px;}
+.advanced-search ul.checkboxes li{
+	margin-bottom: initial;
+}
+.advanced-search ul.checkboxes li.checkbox{
+	margin-top:initial;
+}
+.advanced-search ul.checkboxes li.checkbox input{
+	margin-top:5px;
+}
+.advanced-search ul.checkboxes li.checkbox label{
+	font-weight: 500;
+	padding-left: 6px;
+}
+
+
+
+div.results {
+	padding:0px;
+}
+div.results .cat-links, div.results .tag-links {
+	line-height: 2em;
+}
+div.results .cat-links button, div.results .tag-links button {
+	color:white;
+	padding:2px 6px;
+	font-weight: 500;
+	margin-right: 6px;
+	white-space: nowrap;
+	border: none;
+	line-height: 1.3em;
+}
+div.results .cat-links button:hover, div.results .tag-links button:hover {
+	opacity:0.75;
+ }
+div.results .tag-links button{
+	background-color: #f68822;
+}
+div.results .cat-links button{
+	background-color: #0e92dd;
+}
+div.results .cat-links button.unset, div.results .tag-links button.unset {
+	background-color: #999;
+}
+
+
 div.results_pagination{
 	margin:20px 0px;
+	text-align: center;
 }
 div.results_pagination a:hover { background-color:#EEE;}
 div.results_pagination .page-numbers {display:inline-block; margin:0px 0px; border: 1px solid; padding: 5px 10px;border-radius:2px;}
