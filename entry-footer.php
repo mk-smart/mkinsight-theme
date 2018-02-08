@@ -16,7 +16,8 @@
         $posttags = get_the_tags();
         if ($posttags) {
             foreach ($posttags as $tag) {
-                echo "<a href=\"/?s=$tag->name\">$tag->name</a>";
+                $tagQuery = str_replace(" ","-",$tag->name);
+                echo "<a href=\"/?s=&tag=$tagQuery\">$tag->name</a>";
             }
         }
         ?>

@@ -617,6 +617,14 @@ function mki_advanced_search_query($query)
         if (isset($_GET['category']) && is_array($_GET['category'])) {
             $query->set('category_name', implode(',', $_GET['category']));
         }
+        if (isset($_GET['tag'])){
+            $tags = explode(",", $_GET['tag']);
+            $tagString =  implode('+',$tags);
+            $tagQuery = str_replace(" ", "-", $tagString);
+//            $query->set('tag', "Milton Keynes");
+            $query->set('tag',$tagQuery);
+//            $query->set('tag',$tagQuery);
+        }
         return $query;
     }
 

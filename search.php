@@ -10,6 +10,10 @@
                 </h1>
                 <div id="advanced-filter-wrapper">
                     <div class="collapse" id="advanced-filters">
+                        <div class="form-group">
+                            <label style="display:inline-block">Tags:</label>
+                            <input id="tag-input" type="text" value="<?php echo str_replace("-"," ",@$_GET['tag']); ?>" data-role="tagsinput" name="tag" />
+                        </div>
                         <!-- YEAR RANGE -->
                         <div class="form-group">
                             <label style="display:inline-block">About years:</label>
@@ -212,12 +216,13 @@
                             $posttags = get_the_tags();
                             if ($posttags) {
                                 foreach ($posttags as $tag) {
-                                    $check = (@$_GET['s'] != $tag->name);
+                                    $tags = explode("," , @$_GET['tag']);
+                                    $check = ( !in_array(str_replace(" ", "-",$tag->name), $tags) );
                                     $tSlug = '\'' . trim($tag->name) . '\'';
                                     if ($check) {
                                         echo "<button onclick=\"setTag($tSlug)\">+ $tag->name</button>";
                                     } else {
-                                        echo "<button class='unset' onclick=\"unsetTag()\">- $tag->name</button>";
+                                        echo "<button class='unset' onclick=\"unsetTag($tSlug)\">- $tag->name</button>";
                                     }
                                 }
                             }
@@ -280,10 +285,14 @@
     // add tag to filter and apply
     function setTag(tag) {
         if (tag) {
-            $('#s').val(tag);
+            // $('#s').val(tag);
+            $("#tag-input").tagsinput("add",tag);
             $('#advanced-search-form').submit();
+
         }
-    }// uncheck the category and submit the form
+    }
+
+    // uncheck the category and submit the form
     function unsetCat(cat) {
         if(cat) {
             // unckeck checkbox
@@ -294,8 +303,8 @@
     }
 
     // add tag to filter and apply
-    function unsetTag() {
-        $('#s').val("");
+    function unsetTag(tag) {
+        $("#tag-input").tagsinput("remove",tag);
         $('#advanced-search-form').submit();
     }
 </script>
