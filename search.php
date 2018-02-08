@@ -49,35 +49,11 @@
                                     if ($checked != "") {
                                         array_push($checkedCats, $cslug);
                                     }
-//		  						print <<<INPUT
-//				<label><input type="checkbox" value="$cslug" $checked name="category[]" >$cname</label>
-//INPUT;
                                     echo "<li class='checkbox col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-6'><input id='check-$cslug' type='checkbox' value='$cslug' $checked name='category[]' class='form-check-input'><label for='check-$cslug' class=\"form-check-label\">$cname</label></li>";
                                 }
                                 ?>
                             </ul>
                         </div>
-
-                        <!-- END YEAR RANGE -->
-                        <?php /* OLD YEAR CHECKBOXES
-  					 <div class="form-group">
-  						<label>About year:</label>
-  					      <div class="checkbox">
-  		  					<?php
-  		  					// generate list of categories
-  		  					$categories = get_categories(array('taxonomy' => 'years','order'=>'DESC'));
-  		  					foreach ($categories as $category) {
-  								$cslug= $category->slug;
-  								$cname= $category->name;
-								$checked = (@in_array($cslug,$_GET['years']))? 'checked="checked"':"";
-  		  						print <<<INPUT
-  				<label><input type="checkbox" value="$cslug" name="years[]" $checked >$cname</label>
-INPUT;
-  		  					}
-  		  					?>
-  					      </div>
-  					  </div>
-*/ ?>
                         <div class="form-group" style="text-align:right;">
                             <input style="display: inline-block;width: auto;" type="submit" id="searchsubmit"
                                    value="Apply Filters">
@@ -116,9 +92,6 @@ INPUT;
             $total = $wp_query->found_posts;
         }
     }
-    /*
-    <pre><?php print_r($wp_query->query_vars);?></pre>
-    */
     ?>
     <?php if (have_posts()) : ?>
         <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 results">
@@ -246,7 +219,6 @@ INPUT;
                                     } else {
                                         echo "<button class='unset' onclick=\"unsetTag()\">- $tag->name</button>";
                                     }
-
                                 }
                             }
                             ?>

@@ -728,10 +728,11 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 div.results {
 	padding:0px;
 }
-div.results .cat-links, div.results .tag-links {
+
+.entry-footer .cat-links, .entry-footer .tag-links {
 	line-height: 2em;
 }
-div.results .cat-links button, div.results .tag-links button {
+.entry-footer .cat-links button, .entry-footer .tag-links button, .entry-footer .cat-links a, .entry-footer .tag-links a {
 	color:white;
 	padding:2px 6px;
 	font-weight: 500;
@@ -739,17 +740,18 @@ div.results .cat-links button, div.results .tag-links button {
 	white-space: nowrap;
 	border: none;
 	line-height: 1.3em;
+	display: inline;
 }
-div.results .cat-links button:hover, div.results .tag-links button:hover {
+.entry-footer .cat-links button:hover, .entry-footer .tag-links button:hover, .entry-footer .cat-links a:hover, .entry-footer .tag-links a:hover {
 	opacity:0.75;
  }
-div.results .tag-links button{
+.entry-footer .tag-links button, .entry-footer .tag-links a{
 	background-color: #f68822;
 }
-div.results .cat-links button{
+.entry-footer .cat-links button, .entry-footer .cat-links a{
 	background-color: #209ec8;
 }
-div.results .cat-links button.unset, div.results .tag-links button.unset {
+.entry-footer .cat-links button.unset, .entry-footer .tag-links button.unset {
 	background-color: #999;
 }
 
