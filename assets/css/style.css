@@ -109,7 +109,7 @@ a{
 	-o-transition:background-color .4s linear, color .4s linear;
 	-ms-transition:background-color .4s linear, color .4s linear;
 	transition:background-color .4s linear, color .4s linear;
-	color:#00bcf1;
+	color:#209ec8;
 }
 a:hover,
 a:focus{text-decoration:none;color:#00bcf1;}
@@ -200,7 +200,7 @@ nav .mki-icon img{margin-top:-2px;}
 .navbar-default ul{margin-bottom:10px !important;}
 .navbar-default .navbar-nav{margin:0;padding:0;text-align:left;}
 .navbar-default .navbar-nav li{list-style:none;display:inline;font-size:16px;font-size:1.6rem;font-weight:700;text-transform:uppercase;margin:0 0 0 20px;}
-.navbar-default .navbar-nav li a{display:inline-block;position:relative;color:#616365;padding:10px 0;margin:0 10px 5px 10px;-webkit-transition:.3s ease-out;-moz-transition:.1s linear;-o-transition:.1s ease-out;-ms-transition:.1s ease-out;transition:.1s linear;border-bottom:1px solid #00bcf1;}
+.navbar-default .navbar-nav li a{display:inline-block;position:relative;color:white;padding:10px 0;margin:0 10px 5px 10px;-webkit-transition:.3s ease-out;-moz-transition:.1s linear;-o-transition:.1s ease-out;-ms-transition:.1s ease-out;transition:.1s linear;border-bottom:1px solid #00bcf1;}
 
 .navbar-default .navbar-nav > .current-menu-item > a{background-color:#00bcf1;color:#fff;border-bottom:1px solid #fff;}
 .navbar-default .navbar-nav > .current-menu-item > a:after{transition:none !important;height:0;}
@@ -747,7 +747,7 @@ div.results .tag-links button{
 	background-color: #f68822;
 }
 div.results .cat-links button{
-	background-color: #0e92dd;
+	background-color: #209ec8;
 }
 div.results .cat-links button.unset, div.results .tag-links button.unset {
 	background-color: #999;

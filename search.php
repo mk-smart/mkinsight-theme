@@ -78,7 +78,7 @@ INPUT;
   					      </div>
   					  </div>
 */ ?>
-                        <div class="form-group" style="text-align:left;">
+                        <div class="form-group" style="text-align:right;">
                             <input style="display: inline-block;width: auto;" type="submit" id="searchsubmit"
                                    value="Apply Filters">
                         </div>
