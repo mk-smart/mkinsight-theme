@@ -797,6 +797,37 @@ button.badge-category {margin-bottom:2px; padding: 2px 5px 2px 7px}
 #categoryDataTable ul.files li a.action { }
 
 
+
+
+/* breadcrumbs and child pages */
+#breadcrumbs{
+	list-style:none;
+	margin:10px 0;
+	overflow:hidden;
+}
+
+#breadcrumbs li{
+	display:inline-block;
+	vertical-align:middle;
+	margin: 0px 6px 0px 0px;
+}
+
+#breadcrumbs .separator{
+	font-size:18px;
+	font-weight:100;
+	color:#ccc;
+}
+#children-pages-nav {font-size: 1em;}
+#children-pages-nav ul {margin: 0; padding:0;display: inline;}
+#children-pages-nav ul li{list-style:none; margin: 0; padding:0;display: inline;font-size: 1em; }
+#children-pages-nav ul li a{font-weight: 500;}
+#children-pages-nav ul li:after{content:',';}
+#children-pages-nav ul li:last-child:after{content:'';}
+#children-pages-nav ul li:nth-last-child(2):after{content:' and ';}
+
+
+
+
 /* Fixes for compatibility with bootstrap select */
 div.dropdown-menu.open{
   z-index:100000;
