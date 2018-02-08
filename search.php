@@ -265,15 +265,17 @@ INPUT;
         </div>
         <?php //get_template_part( 'nav', 'below' ); ?>
     <?php else : ?>
+    <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 results">
         <article id="post-0" class="post no-results not-found">
             <header class="header">
                 <h2 class="entry-title"><?php _e('Nothing Found', 'blankslate'); ?></h2>
             </header>
             <section class="entry-content">
                 <p><?php _e('Sorry, nothing matched your search. Please try again.', 'blankslate'); ?></p>
-                <?php get_search_form(); ?>
+                <?php //get_search_form(); ?>
             </section>
         </article>
+    </div>
     <?php endif; ?>
 </section>
 </div>
