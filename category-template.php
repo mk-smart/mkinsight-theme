@@ -10,7 +10,7 @@ $term = get_queried_object();
     <header class="header">
         <h1 class="entry-title">
             <?php
-            _e('Browes', 'blankslate');
+            _e('Browse Categories', 'blankslate');
             single_cat_title();
             ?>
         </h1>
@@ -30,6 +30,8 @@ $term = get_queried_object();
     $query = new WP_Query(array('category__and'=>$cats,'tag'=>$tags,'nopaging' => TRUE));
     ?>
     <form action="<?php print get_category_link($term->term_id); ?>">
+<!--        https://datatables.net/manual/options -->
+<!--        todo remove filter and dropdown to implement the template-->
         <div id="categoryDataFilter">
             <div>
                 <strong>Categories:</strong>

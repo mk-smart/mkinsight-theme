@@ -779,8 +779,8 @@ div.results footer{margin: 0px;padding:5px 0px 20px;border-top:none;}
 #categoryDataTable_filter input{ padding: 10px; color: black;}
 #categoryDataTable {padding: 0px; border-top-color: #333333;}
 #categoryDataTable thead th,
-#categoryDataTable thead td{ border-bottom-color: #333333; color: black; font-size:14px}
-#categoryDataTable tbody td{ border-bottom-color: #333333; color: black; font-size: 14px; padding: 5px; vertical-align:middle;}
+#categoryDataTable thead td{ border:none; color: white; font-size:14px}
+#categoryDataTable tbody td{ border-bottom-color: #333333; color: white; font-size: 14px; padding: 5px; vertical-align:middle;}
 #categoryDataTable tbody td .badge{ font-size: 14px}
 
 #yearDataFilter,
@@ -796,7 +796,43 @@ button.badge-category {margin-bottom:2px; padding: 2px 5px 2px 7px}
 #categoryDataTable ul.files li { list-style: disc; padding: 0px; margin: 0px 0px 10px 30px;}
 #categoryDataTable ul.files li a.action { }
 
+table#categoryDataTable thead {
+	background-color: #00bcf1;
+	color:white;
+}
 
+table.dataTable.no-footer{border:none !important;}
+#categoryDataTable_info, #categoryDataTable_length, #categoryDataTable_filter, #categoryDataTable_paginate {
+	margin:0;
+	padding:8px 12px;
+}
+#categoryDataTable_paginate a {
+	font-size: 14px;
+	border:none;
+	color:white !important;
+	background-color: #00bcf1;
+	padding:0 4px;
+	margin-left:4px;
+	border-radius:0px;
+	font-weight: 500;
+}
+#categoryDataTable_paginate a:hover{
+	background: #999;
+}
+#categoryDataTable_paginate a.current{
+	background: #999;
+}
+#categoryDataTable_paginate a.disabled, #categoryDataTable_paginate a.disabled:hover{
+	opacity:0.75;
+	 background: #00bcf1;
+}
+#categoryDataTable_length select {
+	color:white;
+	background: #00bcf1;
+	border:none;
+	border-radius: 0px;
+	height:2.5em;
+}
 
 
 /* breadcrumbs and child pages */
