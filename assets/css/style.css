@@ -69,6 +69,8 @@ body{background:#fff;margin:0;/*color:#9a9b9c;*/color:#5a5b5c;} /* ED made this 
 --------------------------------------------------*/
 .green{color:#37b34a;}
 .blue{color:#00bcf1;}
+.darkblue{color:#198BAF;}
+.orange{color:#ff8000;}
 .grey{color:#616365;}
 .midgrey{color:#9a9b9c;}
 .lightgrey{color:#e6e6e6;}
@@ -780,7 +782,8 @@ div.results footer{margin: 0px;padding:5px 0px 20px;border-top:none;}
 #categoryDataTable {padding: 0px; border-top-color: #333333;}
 #categoryDataTable thead th,
 #categoryDataTable thead td{ border:none; color: white; font-size:14px}
-#categoryDataTable tbody td{ border-bottom-color: #333333; color: white; font-size: 14px; padding: 2px 5px 2px 0px; vertical-align:middle;}
+#categoryDataTable tbody td{ border-bottom-color: #333333; color: white; font-size: 14px; padding: 4px 6px 4px 0px; vertical-align:middle;}
+#categoryDataTable tbody td:last-child{ padding-right:0px;}
 #categoryDataTable tbody td .badge{ font-size: 14px}
 
 #yearDataFilter,
@@ -803,10 +806,14 @@ button.badge-category {margin-bottom:4px; padding: 2px 5px 2px 7px}
 #categoryDataFilter strong,
 #yearDataFilter label {color:black; display:inline-block;}
 #yearDataFilter{display: flex;justify-content: space-between;}
+#yearDataFilter .years label{ margin-bottom:0px;}
 #yearDataFilter .years{
 	flex:1 0 0%;
-	padding: 8px 0px 0px 0px;
+	padding: 0px;
 }
+#yearDataFilter .years .bootstrap-select button{border-radius:0px; border:0px; color:white; background-color: #00bcf1; position: relative;}
+#yearDataFilter .years .bootstrap-select button .bs-caret {background-color: #198BAF; position: absolute; top:0px; right: 0px; height: 32px; width: 20px;}
+#yearDataFilter .years .bootstrap-select button .bs-caret .caret { right: 6px;}
 #yearDataFilter .textfilter {
 	flex:1 0 0%;
 	display: flex;
@@ -819,15 +826,19 @@ button.badge-category {margin-bottom:4px; padding: 2px 5px 2px 7px}
 	border: 0px;
 	background-color: #fff;
 	max-width: 300px;
+	font-size: 14px;
+	line-height: 14px;
+	height: 14px;
+	min-height: 32px;
 }
 #yearDataFilter .textfilter i:before{
-	padding: 14px;
+	padding: 10px 0px 0px 11px;
 }
 #yearDataFilter .textfilter i{
 	color: white;
 	border: 0px;
-	width: 40px;
-	height: 40px;
+	width: 32px;
+	height: 32px;
 	background-color: #00bcf1;
 }
 #categoryDataTable_filter{display: none;}
@@ -883,6 +894,37 @@ table.dataTable.no-footer{border:none !important;}
 	height:2.5em;
 }
 
+
+#categoryDataTable .fileactions {
+	min-width: 190px;
+	text-align: right
+}
+#categoryDataTable .dropdown ul, #categoryDataTable .dropdown ul li {
+	margin: 0px;
+	padding: 0px;
+}
+#categoryDataTable .dropdown {display: inline-block;}
+#categoryDataTable .dropdown i:before{
+	padding-top: 10px;
+}
+#categoryDataTable .dropdown i{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 32px;
+	width: 20px;
+	background-color: #198BAF;
+}
+#categoryDataTable .dropdown button{
+	border-radius: 0px;
+	border:0px;
+	color: white;
+	position: relative;
+	background-color: #00bcf1;
+	padding-right: 26px;
+}
+#categoryDataTable .fileactions .dropdown button .bs-caret {background-color: #198BAF; position: absolute; top:0px; right: 0px; height: 32px; width: 20px;}
+#categoryDataTable .fileactions .dropdown button .bs-caret .caret { position: relative; top:5px; }
 
 /* breadcrumbs and child pages */
 #breadcrumbs{

@@ -12,12 +12,12 @@ $category__and = @$_GET['term_id'];
     <header class="header">
         <h1 class="entry-title">
             <?php
-            _e('Browse Datasets and Reports', 'blankslate');
+            _e('Browse Datasets and Reports', 'mki');
             single_cat_title();
             ?>
         </h1>
         <?php if ('' != category_description()) echo apply_filters('archive_meta', '<div class="archive-meta">' . category_description() . '</div>'); ?>
-        <?php //todo list of highlighted categories ?>
+        <?php // list of highlighted categories ?>
         <div id="highlightedCategories" style="display: flex;">
             <?php
             $categories = get_categories(array('taxonomy' => 'category', 'order' => 'ASC'));
@@ -56,7 +56,7 @@ $category__and = @$_GET['term_id'];
                            onclick="addCat(<?php echo $cid; ?>)">
                             <div class="align-middle">
                                 <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
-                                     alt="<?php print $cname; ?>" style="height:80px;">
+                                     alt="<?php print $cname; ?>">
                                 <span class="strapline"><?php print $cname; ?></span>
                             </div>
                         </a>
@@ -85,7 +85,7 @@ $category__and = @$_GET['term_id'];
         <div id="yearDataFilter">
             <div class="years">
                 <label>From
-                    <select class="min year" id="minYear" name="ymin">
+                    <select class="min year selectpicker" id="minYear" name="ymin">
                         <option> ---</option>
                         <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'ASC'));
                         foreach ($categories as $category):
@@ -95,7 +95,7 @@ $category__and = @$_GET['term_id'];
                         <?php endforeach; ?>
                     </select>
                     to
-                    <select class="max year" id="maxYear" name="ymax">
+                    <select class="max year selectpicker" id="maxYear" name="ymax">
                         <option> ---</option>
                         <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
                         foreach ($categories as $category):
@@ -152,18 +152,64 @@ $category__and = @$_GET['term_id'];
                             }
                             ?></td>
                         <td><?php the_date(); ?></td>
-                        <td>
+                        <td class="fileactions">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                        id="menudownload-<?php print $file->ID; ?>"
+                                        data-toggle="dropdown">
+                                    <?php _e('Download', 'mki'); ?>
+                                    <span class="bs-caret"><span class="caret"></span></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
                             <?php
                             $files = get_attached_media('', $query->post->ID);
                             foreach ($files as $fid => $file):
                                 ?>
-                                <ul class="files"><?php //var_dump($file)
-                                    ?>
-                                    <li>
-                                        <span id="file-<?php print $file->ID; ?>">
+
+                                        <li role="presentation">
+                                            <a href="<?php print $file->guid; ?>"
+                                               title="Download file: <?php print $file->post_title; ?>"
+                                               id="file-<?php print $file->ID; ?>">
+                                                <?php print $file->post_title; ?>
+                                                <?php
+                                                /*
+                                                 * MIMEtypes
+                                                 * - application/vnd.ms-excel > XLS
+                                                 * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
+                                                 */
+                                                echo '[';
+                                                print $file->post_mime_type;
+                                                echo ']';
+                                                ?>
+                                            </a>
+                                        </li>
+
+                            <?php
+                            endforeach;
+                            ?>
+                                    </ul>
+                                </div>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button"
+                                        id="menucharts-<?php print $file->ID; ?>"
+                                        data-toggle="dropdown">
+                                    <?php _e('Charts', 'mki'); ?>
+                                    <span class="bs-caret"><span class="caret"></span></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu"
+                                    aria-labelledby="menucharts-<?php print $file->ID; ?>">
+                            <?php
+                            $files = get_attached_media('', $query->post->ID);
+                            foreach ($files
+
+                            as $fid => $file):
+                            ?>
+
+                                    <li role="presentation">
+                                        <a title="Chart generator: <?php print $file->post_title; ?>" role="menuitem"
+                                           id="file-<?php print $file->ID; ?>"
+                                           href="/chart-generator/?data=<?php print $file->ID; ?>">
                                             <?php print $file->post_title; ?>
-                                        </span>
-                                        <span class="mimetype">
                                             <?php
                                             /*
                                              * MIMEtypes
@@ -174,24 +220,13 @@ $category__and = @$_GET['term_id'];
                                             print $file->post_mime_type;
                                             echo ']';
                                             ?>
-                                        </span>
-                                        <a href="<?php print $file->guid; ?>"
-                                           role="button"
-                                           class="action"
-                                           title="Download file: <?php print $file->post_title; ?>">
-                                            <i class="ion-android-download"></i>
-                                        </a>
-                                        <a href="/chart-generator/?data=<?php print $file->ID; ?>"
-                                           role="button"
-                                           class="action"
-                                           title="Chart generator: <?php print $file->post_title; ?>">
-                                            <i class="ion-pie-graph"></i>
                                         </a>
                                     </li>
+                                <?php
+                                endforeach;
+                                ?>
                                 </ul>
-                            <?php
-                            endforeach;
-                            ?>
+                            </div>
                         </td>
                     </tr>
                 <?php
@@ -272,10 +307,10 @@ $category__and = @$_GET['term_id'];
 
 
         // text filter
-        $('#textfilter').on( 'keyup', function () {
+        $('#textfilter').on('keyup', function () {
             // console.log('asd ',this.value);
-            table.search( this.value ).draw();
-        } );
+            table.search(this.value).draw();
+        });
 
         // custom filter for time column
         $.fn.dataTable.ext.search.push(
