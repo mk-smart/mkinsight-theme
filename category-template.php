@@ -161,10 +161,10 @@ $category__and = @$_GET['term_id'];
                                     <span class="bs-caret"><span class="caret"></span></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                            <?php
-                            $files = get_attached_media('', $query->post->ID);
-                            foreach ($files as $fid => $file):
-                                ?>
+                                    <?php
+                                    $files = get_attached_media('', $query->post->ID);
+                                    foreach ($files as $fid => $file):
+                                        ?>
 
                                         <li role="presentation">
                                             <a href="<?php print $file->guid; ?>"
@@ -178,17 +178,21 @@ $category__and = @$_GET['term_id'];
                                                  * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
                                                  */
                                                 echo '[';
-                                                print $file->post_mime_type;
+                                                if ($file->post_mime_type == "application/vnd.ms-excel") {
+                                                    print "Excel";
+                                                } else {
+                                                    print "CSV";
+                                                }
                                                 echo ']';
                                                 ?>
                                             </a>
                                         </li>
 
-                            <?php
-                            endforeach;
-                            ?>
-                                    </ul>
-                                </div>
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </ul>
+                            </div>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                         id="menucharts-<?php print $file->ID; ?>"
@@ -198,33 +202,38 @@ $category__and = @$_GET['term_id'];
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu"
                                     aria-labelledby="menucharts-<?php print $file->ID; ?>">
-                            <?php
-                            $files = get_attached_media('', $query->post->ID);
-                            foreach ($files
+                                    <?php
+                                    $files = get_attached_media('', $query->post->ID);
+                                    foreach ($files
 
-                            as $fid => $file):
-                            ?>
+                                             as $fid => $file):
+                                        ?>
 
-                                    <li role="presentation">
-                                        <a title="Chart generator: <?php print $file->post_title; ?>" role="menuitem"
-                                           id="file-<?php print $file->ID; ?>"
-                                           href="/chart-generator/?data=<?php print $file->ID; ?>">
-                                            <?php print $file->post_title; ?>
-                                            <?php
-                                            /*
-                                             * MIMEtypes
-                                             * - application/vnd.ms-excel > XLS
-                                             * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
-                                             */
-                                            echo '[';
-                                            print $file->post_mime_type;
-                                            echo ']';
-                                            ?>
-                                        </a>
-                                    </li>
-                                <?php
-                                endforeach;
-                                ?>
+                                        <li role="presentation">
+                                            <a title="Chart generator: <?php print $file->post_title; ?>"
+                                               role="menuitem"
+                                               id="file-<?php print $file->ID; ?>"
+                                               href="/chart-generator/?data=<?php print $file->ID; ?>">
+                                                <?php print $file->post_title; ?>
+                                                <?php
+                                                /*
+                                                 * MIMEtypes
+                                                 * - application/vnd.ms-excel > XLS
+                                                 * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
+                                                 */
+                                                echo '[';
+                                                if ($file->post_mime_type == "application/vnd.ms-excel") {
+                                                    print "Excel";
+                                                } else {
+                                                    print "CSV";
+                                                }
+                                                echo ']';
+                                                ?>
+                                            </a>
+                                        </li>
+                                    <?php
+                                    endforeach;
+                                    ?>
                                 </ul>
                             </div>
                         </td>
