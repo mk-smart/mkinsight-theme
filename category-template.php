@@ -12,7 +12,7 @@ $category__and = @$_GET['term_id'];
     <header class="header">
         <h1 class="entry-title">
             <?php
-            _e('Browse Datasets', 'blankslate');
+            _e('Browse Datasets and Reports', 'blankslate');
             single_cat_title();
             ?>
         </h1>
@@ -53,7 +53,7 @@ $category__and = @$_GET['term_id'];
                         <?php
                     } else { ?>
                         <a href="#" class="btn btn-default vcenter"
-                           onclick="removeCat(<?php echo $cid; ?>)">
+                           onclick="addCat(<?php echo $cid; ?>)">
                             <div class="align-middle">
                                 <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
                                      alt="<?php print $cname; ?>" style="height:80px;">
@@ -107,8 +107,8 @@ $category__and = @$_GET['term_id'];
                 </label>
             </div>
             <div class="textfilter">
-                <input type="text" name="filter"/>
-                <button><i class="icon ion-search"></i></button>
+                <input id="textfilter" type="text" name="s"/>
+                <i class="icon ion-search"></i>
             </div>
         </div>
         <table id="categoryDataTable">
@@ -220,7 +220,7 @@ $category__and = @$_GET['term_id'];
             var searchParams = new URLSearchParams(window.location.search);
             var cats = searchParams.getAll("term_id[]");
             var index = cats.indexOf(catId + "");
-            console.log('check index', index, catId, cats);
+            // console.log('check index', index, catId, cats);
             if (index >= 0) {
                 cats.splice(index, 1);
                 searchParams.delete("term_id[]");
@@ -261,7 +261,7 @@ $category__and = @$_GET['term_id'];
 
     $(document).ready(function () {
         var table = $('#categoryDataTable').DataTable({
-            searching: false,
+            searching: true,
             "lengthChange": false,
             "pageLength": 50,
             language: {
@@ -270,6 +270,12 @@ $category__and = @$_GET['term_id'];
         });
         $('#category-data-page').fadeIn();
 
+
+        // text filter
+        $('#textfilter').on( 'keyup', function () {
+            // console.log('asd ',this.value);
+            table.search( this.value ).draw();
+        } );
 
         // custom filter for time column
         $.fn.dataTable.ext.search.push(

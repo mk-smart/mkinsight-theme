@@ -815,19 +815,22 @@ button.badge-category {margin-bottom:4px; padding: 2px 5px 2px 7px}
 #yearDataFilter .textfilter input{
 	flex: 1 0 auto;
 	margin: 0px;
-	padding: 2px 8px 2px 2px;
+	padding: 2px 2px 2px 8px;
 	border: 0px;
 	background-color: #fff;
 	max-width: 300px;
 }
-#yearDataFilter .textfilter button{
+#yearDataFilter .textfilter i:before{
+	padding: 14px;
+}
+#yearDataFilter .textfilter i{
 	color: white;
 	border: 0px;
 	width: 40px;
 	height: 40px;
 	background-color: #00bcf1;
 }
-
+#categoryDataTable_filter{display: none;}
 
 #highlightedCategories {width: 100%; flex-flow: row wrap; display: flex; margin-bottom: 12px;justify-content:space-between;}
 #highlightedCategories .box {flex: 1 1 auto;margin:0px 8px 4px 0px;}
