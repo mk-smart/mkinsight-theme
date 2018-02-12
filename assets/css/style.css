@@ -780,17 +780,63 @@ div.results footer{margin: 0px;padding:5px 0px 20px;border-top:none;}
 #categoryDataTable {padding: 0px; border-top-color: #333333;}
 #categoryDataTable thead th,
 #categoryDataTable thead td{ border:none; color: white; font-size:14px}
-#categoryDataTable tbody td{ border-bottom-color: #333333; color: white; font-size: 14px; padding: 5px; vertical-align:middle;}
+#categoryDataTable tbody td{ border-bottom-color: #333333; color: white; font-size: 14px; padding: 2px 5px 2px 0px; vertical-align:middle;}
 #categoryDataTable tbody td .badge{ font-size: 14px}
 
 #yearDataFilter,
 #categoryDataFilter{background: #e6e6e6;padding:10px;}
-.badge-category {background-color: #37b34a; color:white;}
+.badge-category {
+	background-color: #37b34a;
+	color:white;
+	border-radius: 0px;
+	margin: 0px 0px 4px 0px;
+	border: 0px;
+}
+.badge-category:hover{
+	color:white;
+	opacity: 0.75;
+}
+.badge-category.remove {background-color: #f68822;}
 .badge-category input[type=checkbox] {margin-right: 10px;}
-button.badge-category {margin-bottom:2px; padding: 2px 5px 2px 7px}
+button.badge-category {margin-bottom:4px; padding: 2px 5px 2px 7px}
 #categoryDataList {display:inline-block;}
 #categoryDataFilter strong,
 #yearDataFilter label {color:black; display:inline-block;}
+#yearDataFilter{display: flex;justify-content: space-between;}
+#yearDataFilter .years{
+	flex:1 0 0%;
+	padding: 8px 0px 0px 0px;
+}
+#yearDataFilter .textfilter {
+	flex:1 0 0%;
+	display: flex;
+	justify-content: flex-end;
+}
+#yearDataFilter .textfilter input{
+	flex: 1 0 auto;
+	margin: 0px;
+	padding: 2px 8px 2px 2px;
+	border: 0px;
+	background-color: #fff;
+	max-width: 300px;
+}
+#yearDataFilter .textfilter button{
+	color: white;
+	border: 0px;
+	width: 40px;
+	height: 40px;
+	background-color: #00bcf1;
+}
+
+
+#highlightedCategories {width: 100%; flex-flow: row wrap; display: flex; margin-bottom: 12px;justify-content:space-between;}
+#highlightedCategories .box {flex: 1 1 auto;margin:0px 8px 4px 0px;}
+#highlightedCategories .box:last-child {margin:0px 0px 4px 0px;}
+#highlightedCategories .box .selected {background-color: #e6e6e6; border-color: #adadad;}
+#highlightedCategories .box img {max-height: 40px;}
+#highlightedCategories {}
+
+
 
 #categoryDataTable ul.files { padding: 0px;}
 #categoryDataTable ul.files li { list-style: disc; padding: 0px; margin: 0px 0px 10px 30px;}

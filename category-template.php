@@ -5,80 +5,86 @@
 get_header(); ?>
 <?php
 $term = get_queried_object();
+// term_id
+$category__and = @$_GET['term_id'];
 ?>
 <section role="main" style="display:none" id="category-data-page">
     <header class="header">
         <h1 class="entry-title">
             <?php
-            _e('Browse Categories', 'blankslate');
+            _e('Browse Datasets', 'blankslate');
             single_cat_title();
             ?>
         </h1>
         <?php if ('' != category_description()) echo apply_filters('archive_meta', '<div class="archive-meta">' . category_description() . '</div>'); ?>
         <?php //todo list of highlighted categories ?>
+        <div id="highlightedCategories" style="display: flex;">
+            <?php
+            $categories = get_categories(array('taxonomy' => 'category', 'order' => 'ASC'));
+
+            //todo get by slug
+
+            function catFilter($val)
+            {
+                $highlights = ["data", "report", "health-and-social-care", "education-and-skills", "environment", "economy-and-business", "population", "housing"];
+                return (in_array($val->category_nicename, $highlights));
+            }
+
+            $highlightCats = array_filter($categories, "catFilter");
+            //            var_dump($highlightCats);
+            // generate list of categories
+            foreach ($highlightCats as $category) {
+                $cslug = $category->slug;
+                $cname = $category->name;
+                $cid = $category->term_id;
+                $img_url = get_template_directory_uri() . '/assets/img/icons/' . $cslug . '.png';
+                ?>
+                <div class="box">
+                    <?php if (in_array($cid, $category__and)) { ?>
+                        <a href="#" class="btn btn-default vcenter selected"
+                           onclick="removeCat(<?php echo $cid; ?>)">
+                            <div class="align-middle">
+                                <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
+                                     alt="<?php print $cname; ?>">
+                                <span class="strapline"><?php print $cname; ?></span>
+                            </div>
+                        </a>
+
+                        <?php
+                    } else { ?>
+                        <a href="#" class="btn btn-default vcenter"
+                           onclick="removeCat(<?php echo $cid; ?>)">
+                            <div class="align-middle">
+                                <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
+                                     alt="<?php print $cname; ?>" style="height:80px;">
+                                <span class="strapline"><?php print $cname; ?></span>
+                            </div>
+                        </a>
+                        <?php
+                    } ?>
+                </div>
+            <?php } ?>
+        </div>
     </header>
     <?php
-    // term_id
-    // and semantic
-    $cats = @$_GET['term_id'];
-//    $tags =  str_replace(",","+",@$_GET['tag']);
+
+    //    $tags =  str_replace(",","+",@$_GET['tag']);
     ?>
     <?php /*wp_tag_cloud(); */ ?>
 
     <?php
-    // todo manage search terms
-    $query = new WP_Query(array('category__and'=>$cats,'tag'=>$tags,'nopaging' => TRUE));
+    // manage search terms
+    $query = new WP_Query(array('category__and' => $category__and, 'nopaging' => TRUE));
+    if ($category__and == null) {
+        $category__and = array();
+    }
     ?>
-    <form action="<?php print get_category_link($term->term_id); ?>">
-<!--        https://datatables.net/manual/options -->
-<!--        todo remove filter and dropdown to implement the template-->
-        <div id="categoryDataFilter">
-            <div>
-                <strong>Categories:</strong>
-                <div id="categoryDataList">
-                    <?php
-                    // generate list of categories
-                    foreach ($categories as $category) {
-                        $cslug = $category->slug;
-                        $cname = $category->name;
-                        $cid = $category->term_id;
-                        if ($term->slug == $category->slug) {
-                            // Immutable
-                            // goes back to the category selection
-                            ?>
-                            <a class="btn btn-danger btn-sm"
-                               href="/categories/"
-                               role="button"
-                               title="Back to category selection">
-                                <i class="ion-android-close"></i>
-                                <?php print $cname; ?>
-                            </a>
-                            <?php
-                        } else {
-                            // Mutable
-                            // <button class="btn badge-category" type="submit" name="exclude"
-                            ?>
-                            <button class="btn btn-outline-primary btn-sm"
-                                    type="submit"
-                                    name="exclude"
-                                    title="Remove <?php print $cname; ?> selection"
-                                    value="<?php print $cid; ?>">
-                                <i class="ion-android-remove"></i>
-                                <?php print $cname; ?>
-                            </button>
-                            <input type="hidden" name="term_id[]" value="<?php print $cid; ?>"/>
-                            <?php
-                        }
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
+    <form style="clear:both;" action="<?php print get_category_link($term->term_id); ?>">
+        <!--        https://datatables.net/manual/options -->
         <!-- add event trigger at select -->
         <div id="yearDataFilter">
-            <div>
-                <label>About years </label>
-                <label>from
+            <div class="years">
+                <label>From
                     <select class="min year" id="minYear" name="ymin">
                         <option> ---</option>
                         <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'ASC'));
@@ -100,6 +106,10 @@ $term = get_queried_object();
                     </select>
                 </label>
             </div>
+            <div class="textfilter">
+                <input type="text" name="filter"/>
+                <button><i class="icon ion-search"></i></button>
+            </div>
         </div>
         <table id="categoryDataTable">
             <thead>
@@ -118,11 +128,19 @@ $term = get_queried_object();
                         <td><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></td>
                         <td><?php $cats = get_the_category();
                             foreach ($cats as $cat) {
-                                if (!in_array($cat->term_id, $category__and)): ?>
-                                    <button type="submit" class="btn badge-category" name="term_id[]"
-                                            value="<?php print $cat->term_id; ?>">
+                                if (!in_array($cat->term_id, $category__and)):
+                                    ?>
+                                    <a onclick="addCat(<?php print $cat->term_id; ?>);" href=#"
+                                       class="btn badge-category" name="term_id[]"
+                                       value="<?php print $cat->term_id; ?>">
                                         +
-                                        <?php print $cat->name; ?></button>
+                                        <?php print $cat->name; ?></a>
+                                <?php else: ?>
+                                    <a onclick="removeCat(<?php print $cat->term_id; ?>);"
+                                       class="btn badge-category remove" name="term_id[]"
+                                       value="<?php print $cat->term_id; ?>">
+                                        -
+                                        <?php print $cat->name; ?></a>
                                 <?php endif;
                             } ?></td>
                         <td><?php
@@ -139,7 +157,8 @@ $term = get_queried_object();
                             $files = get_attached_media('', $query->post->ID);
                             foreach ($files as $fid => $file):
                                 ?>
-                                <ul class="files">
+                                <ul class="files"><?php //var_dump($file)
+                                    ?>
                                     <li>
                                         <span id="file-<?php print $file->ID; ?>">
                                             <?php print $file->post_title; ?>
@@ -152,7 +171,7 @@ $term = get_queried_object();
                                              * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
                                              */
                                             echo '[';
-                                            print $file->post_mime_type == 'application/vnd.ms-excel' ? 'Excel' : 'CSV';
+                                            print $file->post_mime_type;
                                             echo ']';
                                             ?>
                                         </span>
@@ -187,6 +206,33 @@ $term = get_queried_object();
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
 <script>
+    function addCat(catId) {
+        if ('URLSearchParams' in window) {
+            var searchParams = new URLSearchParams(window.location.search);
+            searchParams.append("term_id[]", catId);
+            window.location.search = searchParams.toString();
+            return false;
+        }
+    }
+
+    function removeCat(catId) {
+        if ('URLSearchParams' in window) {
+            var searchParams = new URLSearchParams(window.location.search);
+            var cats = searchParams.getAll("term_id[]");
+            var index = cats.indexOf(catId + "");
+            console.log('check index', index, catId, cats);
+            if (index >= 0) {
+                cats.splice(index, 1);
+                searchParams.delete("term_id[]");
+                cats.forEach(function (value) {
+                    searchParams.append("term_id[]", value);
+                });
+                window.location.search = searchParams.toString();
+            }
+            return false;
+        }
+    }
+
     function setDate(year) {
     };
 
@@ -215,6 +261,9 @@ $term = get_queried_object();
 
     $(document).ready(function () {
         var table = $('#categoryDataTable').DataTable({
+            searching: false,
+            "lengthChange": false,
+            "pageLength": 50,
             language: {
                 search: "Filter:"
             }
@@ -289,6 +338,7 @@ $term = get_queried_object();
                 window.location.search = searchParams.toString();
             }
         }
+
 
     });
 </script>
