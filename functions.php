@@ -996,6 +996,11 @@ function mki_shortcode_mkifact($atts, $content = null)
         $icon = <<<EOT
 <div class="bottomright"><i data-icon="${icon}" class="icon" aria-hidden="true"></i></div>
 EOT;
+    }else if(@$atts['ionicon']){
+        $ionicon = @$atts['ionicon'] ? @$atts['ionicon']: '';
+        $icon = <<<EOT
+<div class="bottomright"><i class="icon ${ionicon}" aria-hidden="true"></i></div>
+EOT;
     }
     // optimise layout
     $optimise = '';

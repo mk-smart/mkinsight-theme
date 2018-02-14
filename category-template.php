@@ -204,11 +204,7 @@ $category__and = @$_GET['term_id'];
                                     aria-labelledby="menucharts-<?php print $file->ID; ?>">
                                     <?php
                                     $files = get_attached_media('', $query->post->ID);
-                                    foreach ($files
-
-                                             as $fid => $file):
-                                        ?>
-
+                                    foreach ($files  as $fid => $file):  ?>
                                         <li role="presentation">
                                             <a title="Chart generator: <?php print $file->post_title; ?>"
                                                role="menuitem"
