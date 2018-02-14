@@ -46,7 +46,7 @@
     // closing contents section
 
 
-    // todo section about highlighted categories
+    // section about highlighted categories
     $sourcesMKI = $sourcesMKI . "[mkifacts title=\"What can i know about Milton Keynes?\" color=\"green\"]";
     $hightlightText = __("MK:Insight provide data supported facts about Milton Keynes. You can start browsing among the macro areas on <a href='/'>MK:Insight homepage</a>.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-stats-bars\"]<p>$hightlightText</p>[/mkifact]";
@@ -54,7 +54,7 @@
     $sourcesMKI = $sourcesMKI . "[/mkifacts]";
 
 
-    // todo section about mki features
+    // section about mki features
     $sourcesMKI = $sourcesMKI . "[mkifacts title=\"What can i do with MK:Insight?\" color=\"blue\"]";
     // facts feature
     $searchFeature = __("From the <a href='/'>homepage</a> is possible to browse a selection of facts about MK extracted by the datasources within MK:insight.","mki");
