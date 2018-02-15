@@ -361,6 +361,19 @@ hr{border-top:1px solid #616365;border-bottom:1px solid #fff;display:block;margi
 
 /*------------------------------------------------
 #
+# search box menu
+#
+--------------------------------------------------*/
+.bop-nav-search {}
+.bop-nav-search #s{ border: 0px; background: white;color:black;font-weight: 500;}
+.bop-nav-search #searchsubmit{color:white; background-color: #198BAF; border-color:#198BAF;font-weight: 500;}
+
+
+
+
+
+/*------------------------------------------------
+#
 # forms
 #
 --------------------------------------------------*/
