@@ -609,6 +609,7 @@ function mki_advanced_search_query($query)
                     }
             }
             if (!empty($use_years)) {
+//                var_dump($use_years);
                 $query->set('years', $use_years);
             }
         }
@@ -996,8 +997,8 @@ function mki_shortcode_mkifact($atts, $content = null)
         $icon = <<<EOT
 <div class="bottomright"><i data-icon="${icon}" class="icon" aria-hidden="true"></i></div>
 EOT;
-    }else if(@$atts['ionicon']){
-        $ionicon = @$atts['ionicon'] ? @$atts['ionicon']: '';
+    } else if (@$atts['ionicon']) {
+        $ionicon = @$atts['ionicon'] ? @$atts['ionicon'] : '';
         $icon = <<<EOT
 <div class="bottomright"><i class="icon ${ionicon}" aria-hidden="true"></i></div>
 EOT;
@@ -1292,3 +1293,32 @@ function childrenPages()
         }
     }
 }
+
+function my_custom_function($html)
+{ //Alter final html
+    preg_match('~<h3>([^{]*)</h3>~i', $html, $h);
+    $head = "$h[1]: ";
+    $dropOpen = "<div class=\"dropdown\" >";
+    $dropClose = "</div>";
+    $downloadButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Download<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
+    $chartsButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Preview<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
+    // get list
+    preg_match('~<ul class="post-attachments">([^{]*)</ul>~i', $html, $match);
+    $list = ($match[1]);
+//    $listPreview = str_replace("", "", $list);
+    preg_match_all('/href="([^{]*)"/', $list, $urls);
+    $listPreview = $list;
+    $urls = $urls[1];
+    foreach($urls as $url){
+        $id = attachment_url_to_postid($url);
+        $link = "/chart-generator?data=$id";
+        $listPreview = str_replace($url,$link, $listPreview);
+    }
+//    var_dump($urls);
+    $new_html = "<div class=\"fileactions entry-meta-end\">$head$dropOpen$downloadButton<ul class='dropdown-menu'>$list</ul>$dropClose $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose</div>";
+    echo $new_html;
+//    return $new_html;
+    return "";
+}
+
+add_filter('wpatt_list_html', 'my_custom_function');
