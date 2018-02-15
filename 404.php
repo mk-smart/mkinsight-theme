@@ -10,15 +10,15 @@
             <p>
                 To find what you are looking for you can:
             <ul>
-                <li>Start from the <a href="/">homepage</a> and select a macro area to explore facts about MK.</li>
-                <li>Go to to <a href="/categories">browse page</a> to filter and download/view datasources withing
+                <li>Start from the <a href="/">homepage</a> and select a topic area to explore facts about MK.</li>
+                <li>Go to <a href="/categories">browse page</a> to filter and download/view datasources within
                     MK:Insight.
                 </li>
-                <li>If you don't know what MK:Insight is or what you can do with it, start checking some <a
+                <li>If you don't know what MK:Insight is or what you can do with it, have a look at some <a
                             href="#quick-facts">quick facts about MK:Insight</a></li>
                 <li>
-                    In alternative, search for a keyword within MK:Insight filling the following search
-                        form<br/>
+                    As an alternative, search for a keyword within MK:Insight using the search
+                        below<br/>
                     <div class="search-box">
                         <?php get_search_form(); ?>
                     </div>

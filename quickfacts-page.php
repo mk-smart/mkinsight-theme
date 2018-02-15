@@ -17,9 +17,9 @@
 
     // section about contents
     $sourcesMKI = "[mkifactlist]";
-    $sourcesMKI = $sourcesMKI . "[mkifacts title=\"Which contents are available in MK:Insigts?\" color=\"blue\"]";
+    $sourcesMKI = $sourcesMKI . "[mkifacts title=\"Which contents are available in MK:Insight?\" color=\"blue\"]";
     // facts
-    $facts = __("From the <a href='/'>homepage</a> You can browse insights about Milton Keynes.<br/>Start selecting a macro area to explore facts about MK.","mki");
+    $facts = __("From the <a href='/'>homepage</a> You can browse insights about Milton Keynes.<br/>Start selecting a topic area to explore facts about MK.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-star\"]<p>$facts</p>[/mkifact]";
     // reports
     // number of reports and link to reports;
@@ -38,7 +38,7 @@
     $nDatasets = $data->count;
     $datasetsID = $data->term_id;
     $datasetsURL ="/categories/?term_id[]=$datasetsID";
-    $datasets = __('MK:Insigts includes <a href="%s2">%s1 data sources</a>. You can either have a <strong>preview</strong> within MK:Insight or <strong>download</strong> the data source files.','mki');
+    $datasets = __('MK:Insight includes <a href="%s2">%s1 data sources</a>. You can either have a <strong>preview</strong> within MK:Insight or <strong>download</strong> the data source files.','mki');
     $datasets = str_replace("%s1","$nDatasets", $datasets);
     $datasets = str_replace("%s2","$datasetsURL", $datasets);
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-pie-graph\"]<p>$datasets</p>[/mkifact]";
@@ -47,26 +47,26 @@
 
 
     // section about highlighted categories
-    $sourcesMKI = $sourcesMKI . "[mkifacts title=\"What can i know about Milton Keynes?\" color=\"green\"]";
-    $hightlightText = __("MK:Insight provide data supported facts about Milton Keynes. You can start browsing among the macro areas on <a href='/'>MK:Insight homepage</a>.","mki");
+    $sourcesMKI = $sourcesMKI . "[mkifacts title=\"What can I find out about Milton Keynes?\" color=\"green\"]";
+    $hightlightText = __("MK:Insight provides data supported facts about Milton Keynes. You can start browsing among the topic areas on the <a href='/'>MK:Insight homepage</a>.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-stats-bars\"]<p>$hightlightText</p>[/mkifact]";
     //$sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-pie-graph\"]<p>test</p>[/mkifact]";
     $sourcesMKI = $sourcesMKI . "[/mkifacts]";
 
 
     // section about mki features
-    $sourcesMKI = $sourcesMKI . "[mkifacts title=\"What can i do with MK:Insight?\" color=\"blue\"]";
+    $sourcesMKI = $sourcesMKI . "[mkifacts title=\"What can I do with MK:Insight?\" color=\"blue\"]";
     // facts feature
-    $searchFeature = __("From the <a href='/'>homepage</a> is possible to browse a selection of facts about MK extracted by the datasources within MK:insight.","mki");
+    $searchFeature = __("From the <a href='/'>homepage</a> it is possible to browse a selection of facts about MK extracted by the datasources within MK:insight.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-home\"]<p>$searchFeature</p>[/mkifact]";
     // browse feature
-    $browseFeature = __("From the <a href='/categories/'>browse page</a> it is possible to filter datasources by category.<br/>From browse it is possible to download sources or have a preview of their contents.","mki");
+    $browseFeature = __("From the <a href='/categories/'>browse page</a> it is possible to filter datasources by category.<br/>From the <a href='/categories'>browse page</a> it is possible to download sources or have a preview of their contents.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-paperclip\"]<p>$browseFeature</p>[/mkifact]";
     // chart feature
-    $searchFeature = __("Selecting to <strong>preview</strong> a datasource is possible to look to the file content and extract figures from it.","mki");
+    $searchFeature = __("By selecting to <strong>preview</strong> a datasource you can look at the file content and extract figures from it.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-pie-graph\"]<p>$searchFeature</p>[/mkifact]";
     // search feature
-    $searchFeature = __("Within the <a href='/?s='>search page</a> is possible to filter contents based on keywords, tags and categories.","mki");
+    $searchFeature = __("Within the <a href='/?s='>search page</a> it is possible to filter contents based on keywords, tags and categories.","mki");
     $sourcesMKI = $sourcesMKI . "[mkifact ionicon=\"ion-pound\"]<p>$searchFeature</p>[/mkifact]";
     $sourcesMKI = $sourcesMKI . "[/mkifacts]";
 
