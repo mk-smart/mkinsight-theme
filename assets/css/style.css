@@ -743,6 +743,7 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 }
 .advanced-search ul.checkboxes li.checkbox{
 	margin-top:initial;
+	margin-left:40px;
 }
 .advanced-search ul.checkboxes li.checkbox input{
 	top: 8px;
@@ -755,7 +756,8 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 	font-weight: 500;
 	padding-left: 6px;
 }
-
+/*.advanced-search select {background-color: white;border:1px solid #ccc; border-radius: 4px;}*/
+/*.advanced-search select:after {content:''}*/
 
 
 div.results {
