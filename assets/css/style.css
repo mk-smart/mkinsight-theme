@@ -745,7 +745,11 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 	margin-top:initial;
 }
 .advanced-search ul.checkboxes li.checkbox input{
-	margin-top:5px;
+	top: 8px;
+	margin: 0px;
+	padding: 0px;
+	left: -8px;
+	min-height: auto;
 }
 .advanced-search ul.checkboxes li.checkbox label{
 	font-weight: 500;
