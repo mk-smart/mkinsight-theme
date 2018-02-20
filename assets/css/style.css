@@ -332,7 +332,7 @@ hr{border-top:1px solid #616365;border-bottom:1px solid #fff;display:block;margi
 # footer
 #
 --------------------------------------------------*/
-#footer{padding:100px 0;background:#fff;}
+#footer{padding:40px 0 20px;background:#fff;}
 #footer .mkc{height:110px;margin-right:20px;}
 #footer .mks{height:90px;margin-top:2px;}
 #footer ul{margin:30px 0;padding:0;text-align:center;}
