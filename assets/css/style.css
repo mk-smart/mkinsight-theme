@@ -974,6 +974,7 @@ table.dataTable.no-footer{border:none !important;}
 	font-weight:100;
 	color:#ccc;
 }
+#breadcrumbs a {font-weight: 500;}
 #children-pages-nav {font-size: 1em;}
 #children-pages-nav ul {margin: 0; padding:0;display: inline;}
 #children-pages-nav ul li{list-style:none; margin: 0; padding:0;display: inline;font-size: 1em; }
