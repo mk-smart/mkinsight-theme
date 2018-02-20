@@ -27,7 +27,7 @@
     <![endif]-->
     <?php wp_head(); ?>
     <script src="//code.jquery.com/jquery-latest.min.js"></script>
-    <!-- script src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script -->
+    <!-- script src="<?php //echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script -->
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.easing.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/inline-tweet.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.mobile.custom.min.js"></script>
@@ -43,7 +43,7 @@
 
     <script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"/>tag
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"/>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
