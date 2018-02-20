@@ -552,13 +552,15 @@ a.mki_subtheme {
 	display: flex;
 }
 #content .advanced-search h1#search-title input#s{
-	margin: 0 0 0 10px;
+	margin: 10px 0 0 10px;
 	flex: 1 1 auto;
-	vertical-align: text-top;
+	vertical-align: text-bottom;
 	width: auto;
 	border: 1px solid #999;
 	border-radius: 0px;
 	background-color: white;
+	min-height: auto;
+	padding: 2px 2px 0px 6px;
 }
 
 #advanced-filter-wrapper a#advance-search-toggler{
