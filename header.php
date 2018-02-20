@@ -69,7 +69,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="mki-icon"><a class="page-scroll navbar-brand" href="<?php print home_url(); ?>"
                                          title="MK Insight"><img
-                                src="<?php echo get_template_directory_uri(); ?>/assets/img/MKInsight-logo.png"
+                                src="<?php echo get_template_directory_uri(); ?>/assets/img/MKInsight-logo-small.png"
                                 height="60" alt="MK Insight - Logo"></a></div>
                 <div class="navbar-header page-scroll">
                     <button type="button" class="navbar-toggle" data-toggle="collapse"
