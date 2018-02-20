@@ -148,6 +148,10 @@ strong{ font-weight: bold; font-family: sans-serif; }
 
 
 
+.btn {border-radius: 0px;}
+.btn-primary {background-color: #37b34a;border-color: #37b34a;}
+.btn-primary:hover {background-color: #37b34a;border-color: #37b34a;opacity: 0.75;}
+.btn-primary:focus {background-color: #37b34a;border-color: #37b34a;}
 
 /*------------------------------------------------
 #
