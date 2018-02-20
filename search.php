@@ -4,20 +4,21 @@
         <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
             <form id="advanced-search-form" class="" role="search" method="get" action="<?php print home_url(); ?>">
                 <h1 class="entry-title form-group" id="search-title">
-                    <span for="s">Search Results:</span>
+                    <span for="s"><?php _e("Results:","mki"); ?></span>
                     <input type="text" class="form-control" value="<?php print @$_GET['s']; ?>" name="s" id="s"
                            placeholder="keywords">
                 </h1>
                 <div id="advanced-filter-wrapper">
                     <div class="collapse" id="advanced-filters">
                         <div class="form-group">
-                            <label style="display:inline-block">Tags:</label>
+                            <label style="display:inline-block"><?php _e("Tags:","mki"); ?></label>
                             <input id="tag-input" type="text" value="<?php echo str_replace("-"," ",@$_GET['tag']); ?>" data-role="tagsinput" name="tag" />
                         </div>
                         <!-- YEAR RANGE -->
                         <div class="form-group">
-                            <label style="display:inline-block">About years:</label>
-                            <span>from
+                            <label style="display:inline-block"><?php _e("About years:","mki"); ?></label>
+                            <span>
+                                <?php _e("from", "mki"); ?>
                                 <select class="min year" id="minYear" name="ymin">
                                     <option> ---</option>
                                     <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'ASC'));
@@ -27,7 +28,7 @@
                                         <option value="<?php print $cslug; ?>" <?php print $checked; ?> ><?php print $category->name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                to
+                                <?php _e("to","mki"); ?>
                                 <select class="max year" id="maxYear" name="ymax">
                                     <option> ---</option>
                                     <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
@@ -40,7 +41,7 @@
                             </span>
                         </div>
                         <div class="form-group">
-                            <label>Categories:</label>
+                            <label><?php _e("Categories:","mki"); ?></label>
                             <ul class="checkboxes list-unstyled row">
                                 <?php
                                 // generate list of categories
@@ -60,12 +61,13 @@
                         </div>
                         <div class="form-group" style="text-align:right;">
                             <input style="display: inline-block;width: auto;" type="submit" id="searchsubmit"
-                                   value="Apply Filters">
+                                   value="<?php _e("Apply Filters","mki"); ?>">
                         </div>
                     </div>
                     <a id="advance-search-toggler" class="collapsed" data-toggle="collapse" href="#advanced-filters"
                        role="button" aria-expanded="false" aria-controls="advanced-filters"><i class="icon"></i>
-                        Advanced Search</a>
+                        <?php _e("Advanced Search","mki"); ?>
+                    </a>
                 </div>
             </form>
         </div>
