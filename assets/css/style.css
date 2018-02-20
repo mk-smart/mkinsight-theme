@@ -584,6 +584,7 @@ a.mki_subtheme {
 @media (min-width: 768px) {.col-sm-4 {margin-bottom: 40px;} }
 @media (max-width: 1200px) {.col-lg-3 {margin-bottom: 20px;padding-left: 10px;padding-right: 10px;} }
 @media (max-width: 500px) {.col-xs-6 {margin-bottom: 12px;padding-left: 6px;padding-right: 6px;} }
+@media (max-width: 500px) {.col-xs-12 {margin-bottom: 12px;padding-left: 6px;padding-right: 6px;} }
 
 div#content {padding-top: 100px !important;}
 
@@ -1079,10 +1080,10 @@ Quick Facts Layout
 
 
 #content p.note{padding:0;margin:20px 15px 20px 15px;font-family:'PT Sans', sans-serif;font-weight:400;font-size:12px;font-size:1.2rem;line-height:1.6;}
-#content .blue-box-full{display:flex;justify-content:center;/* align horizontal */align-items:center;/* align vertical */background:#00bcf1;width:100%;min-height:220px;text-align:center;font-weight:600;color:#fff;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
-#content .green-box-full{display:flex;justify-content:center;/* align horizontal */align-items:center;/* align vertical */background:#52bc61;width:100%;min-height:220px;text-align:center;font-weight:600;color:#fff;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
-#content .blue-box{border:1px solid #636463;border-top:3px solid #00bcf1;width:100%;min-height:220px;font-weight:300;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
-#content .green-box{border:1px solid #636463;border-top:3px solid #52bc61;width:100%;min-height:220px;font-weight:300;margin:20px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .blue-box-full{display:flex;justify-content:center;/* align horizontal */align-items:center;/* align vertical */background:#00bcf1;width:100%;min-height:220px;text-align:center;font-weight:600;color:#fff;margin:0px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .green-box-full{display:flex;justify-content:center;/* align horizontal */align-items:center;/* align vertical */background:#52bc61;width:100%;min-height:220px;text-align:center;font-weight:600;color:#fff;margin:0px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .blue-box{border:1px solid #636463;border-top:3px solid #00bcf1;width:100%;min-height:220px;font-weight:300;margin:0px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
+#content .green-box{border:1px solid #636463;border-top:3px solid #52bc61;width:100%;min-height:220px;font-weight:300;margin:0px 0 0 0;font-size:16px;font-size:1.6em;font-style:oblique;}
 
 #content article.blue-box h1, #content article.green-box h1{display:block;font-size:18px;font-size:1.8rem;font-weight:600;margin:10px 0;line-height:1.6;text-align:center;}
 #content article.blue-box p, #content article.green-box p{font-size:14px;font-size:1.4rem;margin:10px 20px;}
