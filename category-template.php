@@ -8,17 +8,17 @@ $term = get_queried_object();
 // term_id
 $category__and = @$_GET['term_id'];
 ?>
-<section role="main" style="display:none" id="category-data-page">
+<section role="main" id="category-data-page">
     <header class="header">
         <h1 class="entry-title">
             <?php
-            _e('Browse Datasets and Reports', 'mki');
+            _e('Browse Sources', 'mki');
             single_cat_title();
             ?>
         </h1>
         <?php if ('' != category_description()) echo apply_filters('archive_meta', '<div class="archive-meta">' . category_description() . '</div>'); ?>
         <?php // list of highlighted categories ?>
-        <div id="highlightedCategories" style="display: flex;">
+        <div class="ipad desktop"><div  id="highlightedCategories"  style="display: flex;">
             <?php
             $categories = get_categories(array('taxonomy' => 'category', 'order' => 'ASC'));
 
@@ -64,6 +64,7 @@ $category__and = @$_GET['term_id'];
                     } ?>
                 </div>
             <?php } ?>
+            </div>
         </div>
     </header>
     <?php
@@ -79,7 +80,7 @@ $category__and = @$_GET['term_id'];
         $category__and = array();
     }
     ?>
-    <form style="clear:both;" action="<?php print get_category_link($term->term_id); ?>">
+    <form style="clear:both;overflow:visible;width: fit-content;" action="<?php print get_category_link($term->term_id); ?>">
         <!--        https://datatables.net/manual/options -->
         <!-- add event trigger at select -->
         <div id="yearDataFilter">

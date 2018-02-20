@@ -801,7 +801,7 @@ div.results h3{margin-bottom:10px;}
 div.results footer{margin: 0px;padding:5px 0px 20px;border-top:none;}
 
 /* category browser table */
-#categoryDataTable_wrapper {background: #e6e6e6;}
+#categoryDataTable_wrapper {background: #e6e6e6;overflow: visible;width: fit-content;}
 #categoryDataTable_length {margin-top: 0px; color: black; margin-top: 10px; margin-left:10px;}
 #categoryDataTable_length select { height: 45px; color: black;}
 #categoryDataTable_filter {color: black; margin-top: 10px; margin-right: 10px}
