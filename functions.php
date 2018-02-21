@@ -336,8 +336,8 @@ function mkiicon_func($atts)
         $height = $a['img_height'];
     }
     // if a ref is defined it is a button
-    if($href){
-    return <<<HTML
+    if ($href) {
+        return <<<HTML
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <a href="$href" class="btn btn-default btn-mkinsight vcenter">
             <div class="align-middle">
@@ -347,9 +347,9 @@ function mkiicon_func($atts)
         </a>
     </div>
 HTML;
-    }else{
+    } else {
         // if it has no link therefore it is a fact
-    return <<<HTML
+        return <<<HTML
     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
         <div class="btn-mkinsight btn-nolink vcenter">
             <div class="align-middle">
@@ -609,6 +609,7 @@ function mki_advanced_search_query($query)
                     }
             }
             if (!empty($use_years)) {
+//                var_dump($use_years);
                 $query->set('years', $use_years);
             }
         }
@@ -616,6 +617,14 @@ function mki_advanced_search_query($query)
         // category search
         if (isset($_GET['category']) && is_array($_GET['category'])) {
             $query->set('category_name', implode(',', $_GET['category']));
+        }
+        if (isset($_GET['tag'])) {
+            $tags = explode(",", $_GET['tag']);
+            $tagString = implode('+', $tags);
+            $tagQuery = str_replace(" ", "-", $tagString);
+//            $query->set('tag', "Milton Keynes");
+            $query->set('tag', $tagQuery);
+//            $query->set('tag',$tagQuery);
         }
         return $query;
     }
@@ -662,14 +671,17 @@ function mki_data_file_get()
     $excelObj = $excelReader->load($file);
 
     // init result
-    $tmp = $excelObj->getActiveSheet()->toArray(null, true,true,true);
+    $tmp = $excelObj->getActiveSheet()->toArray(null, true, true, true);
 
 
-    function arrayToCols($data){
+    function arrayToCols($data)
+    {
         $res = array();
-        if(!$data[0]){return $res;}
+        if (!$data[0]) {
+            return $res;
+        }
         $cols = $data[0];
-        for($i = 0; $i < count($cols); $i++) {
+        for ($i = 0; $i < count($cols); $i++) {
             $col = new stdClass();
             $col->id = "";
 //            $label = $cols[$i] ? (string)$cols[$i] : 'vuoto';
@@ -677,40 +689,46 @@ function mki_data_file_get()
             $col->label = $cols[$i];
             $col->pattern = "";
             $col->type = "string";
-            array_push($res,$col);
+            array_push($res, $col);
         }
         return $res;
     }
-    function arrayToRows($data){
+
+    function arrayToRows($data)
+    {
         $res = array();
-        if(!$data[0]){return $res;}
+        if (!$data[0]) {
+            return $res;
+        }
         for ($i = 1; $i <= count($data); $i++) {
             $row = new stdClass();
             $row->c = rowToCels($data[$i]);
-            array_push($res,$row);
+            array_push($res, $row);
         }
         return $res;
     }
-    function rowToCels($data){
+
+    function rowToCels($data)
+    {
         $res = array();
-        if(!$data[0]){return $res;}
+        if (!$data[0]) {
+            return $res;
+        }
         foreach ($data as $cel) {
             $c = new stdClass();
             $c->v = $cel;
             $c->f = null;
-            array_push($res,$c);
+            array_push($res, $c);
         }
         return $res;
     }
 
     function objectToArray($data)
     {
-        if (is_array($data) || is_object($data))
-        {
+        if (is_array($data) || is_object($data)) {
             $result = array();
-            foreach ($data as $key => $value)
-            {
-                array_push($result,objectToArray($value));
+            foreach ($data as $key => $value) {
+                array_push($result, objectToArray($value));
             }
             return $result;
         }
@@ -725,12 +743,12 @@ function mki_data_file_get()
     $data4charts->rows = arrayToRows($dataArray);
 
 
-    if($_GET['format'] != 'twocols'){
+    if ($_GET['format'] != 'twocols') {
 
         // return values
         print json_encode($data4charts);
         die;
-    }else{
+    } else {
         /*
          * cr=4 start index of rows, default 0
          * ce=0 first col index, default 0
@@ -743,33 +761,37 @@ function mki_data_file_get()
         $cr = (is_numeric(@$_GET['cr']) ? $_GET['cr'] : 0);
 
 
-        function extractCols($data,$start,$end,$type){
+        function extractCols($data, $start, $end, $type)
+        {
             $col1 = $data[$start];
             $col2 = $data[$end];
             $col2->type = $type;
-            $res = array($col1,$col2);
+            $res = array($col1, $col2);
             return $res;
         }
 
-        function extractRows($data,$col1,$col2,$start,$type){
+        function extractRows($data, $col1, $col2, $start, $type)
+        {
             $res = array();
-            $batch = array_slice($data,max(0, $start-1));
+            $batch = array_slice($data, max(0, $start - 1));
 //            if(!$col1){$col1 = 0;}
-            foreach($batch as $row){
+            foreach ($batch as $row) {
                 $newRow = new stdClass();
-                $newRow->c = extractCels($row->c,$col1,$col2,$type);
+                $newRow->c = extractCels($row->c, $col1, $col2, $type);
                 array_push($res, $newRow);
             }
             return $res;
         }
-        function extractCels($data,$col1,$col2,$type){
+
+        function extractCels($data, $col1, $col2, $type)
+        {
             $cel = new stdClass();
 
             // force casting to type of col2 values
-            if($type == 'number'){
+            if ($type == 'number') {
                 $cel->v = (int)$data[$col2]->v;
                 $cel->f = $data[$col2]->f;
-            }else{
+            } else {
                 $cel->v = (string)$data[$col2]->v;
                 $cel->f = $data[$col2]->f;
             }
@@ -778,8 +800,8 @@ function mki_data_file_get()
         }
 
         $twoColTable = new stdClass();
-        $twoColTable->cols = extractCols($data4charts->cols,$ce,$cv,$vt);
-        $twoColTable->rows = extractRows($data4charts->rows,$ce,$cv,$cr,$vt);
+        $twoColTable->cols = extractCols($data4charts->cols, $ce, $cv, $vt);
+        $twoColTable->rows = extractRows($data4charts->rows, $ce, $cv, $cr, $vt);
         print json_encode($twoColTable);
         die;
     }
@@ -899,12 +921,21 @@ function mki_shortcode_mkiinfo($atts, $content = null)
 {
     $title = @$atts['title'];
     $open = @$atts['open'] ? 'in' : '';
+    $openClass = @$atts['open'] ? '' : 'collapsed';
     $expanded = @$atts['open'] ? 'aria-expanded="true"' : '';
     $id = sanitize_html_class($title);
     $content = do_shortcode($content);
     return <<<EOT
   <div class="panel panel-default">
-    <div class="panel-heading"><a data-toggle="collapse" data-parent="#accordion" href="#${id}"><h4 class="panel-title">${title}</h4></a></div>
+    <div class="panel-heading">
+        <a data-toggle="collapse" data-parent="#accordion" href="#${id}" class="${openClass}">
+            <h4 class="panel-title">
+                <i class="open-icon ion-arrow-down-b"></i>
+                <i class="closed-icon ion-arrow-right-b"></i>
+                ${title}
+            </h4>
+        </a>
+    </div>
     <div id="${id}" class="panel-collapse collapse ${open}" ${expanded}>
       <div class="panel-body">${content}</div>
     </div>
@@ -966,6 +997,11 @@ function mki_shortcode_mkifact($atts, $content = null)
         $icon = <<<EOT
 <div class="bottomright"><i data-icon="${icon}" class="icon" aria-hidden="true"></i></div>
 EOT;
+    } else if (@$atts['ionicon']) {
+        $ionicon = @$atts['ionicon'] ? @$atts['ionicon'] : '';
+        $icon = <<<EOT
+<div class="bottomright"><i class="icon ${ionicon}" aria-hidden="true"></i></div>
+EOT;
     }
     // optimise layout
     $optimise = '';
@@ -1003,3 +1039,286 @@ EOT;
 add_shortcode('mkifactlist', 'mki_shortcode_mkifactlist');
 require_once dirname(__FILE__) . '/assets/includes/shortcode-wpautop-control.php';
 chiedolabs_shortcode_wpautop_control(array('mkiinfobox', 'mkifactlist'));
+
+
+// Breadcrumbs
+function custom_breadcrumbs()
+{
+
+    // Settings
+    $separator = '&gt;';
+    $breadcrums_id = 'breadcrumbs';
+    $breadcrums_class = 'breadcrumbs';
+    $home_title = 'Home';
+
+    // If you have any custom post types with custom taxonomies, put the taxonomy name below (e.g. product_cat)
+    $custom_taxonomy = 'product_cat';
+
+    // Get the query & post information
+    global $post, $wp_query;
+
+    // Do not display on the homepage
+    if (!is_front_page()) {
+
+        // Build the breadcrums
+        echo '<ul id="' . $breadcrums_id . '" class="' . $breadcrums_class . '">';
+
+        // Home page
+        echo '<li class="item-home"><a class="bread-link bread-home" href="' . get_home_url() . '" title="' . $home_title . '">' . $home_title . '</a></li>';
+        echo '<li class="separator separator-home"> ' . $separator . ' </li>';
+
+        if (is_archive() && !is_tax() && !is_category() && !is_tag()) {
+
+            echo '<li class="item-current item-archive"><span class="bread-current bread-archive">' . post_type_archive_title($prefix, false) . '</span></li>';
+
+        } else if (is_archive() && is_tax() && !is_category() && !is_tag()) {
+
+            // If post is a custom post type
+            $post_type = get_post_type();
+
+            // If it is a custom post type display name and link
+            if ($post_type != 'post') {
+
+                $post_type_object = get_post_type_object($post_type);
+                $post_type_archive = get_post_type_archive_link($post_type);
+
+                echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
+                echo '<li class="separator"> ' . $separator . ' </li>';
+
+            }
+
+            $custom_tax_name = get_queried_object()->name;
+            echo '<li class="item-current item-archive"><span class="bread-current bread-archive">' . $custom_tax_name . '</span></li>';
+
+        } else if (is_single()) {
+
+            // If post is a custom post type
+            $post_type = get_post_type();
+
+            // If it is a custom post type display name and link
+            if ($post_type != 'post') {
+
+                $post_type_object = get_post_type_object($post_type);
+                $post_type_archive = get_post_type_archive_link($post_type);
+
+                echo '<li class="item-cat item-custom-post-type-' . $post_type . '"><a class="bread-cat bread-custom-post-type-' . $post_type . '" href="' . $post_type_archive . '" title="' . $post_type_object->labels->name . '">' . $post_type_object->labels->name . '</a></li>';
+                echo '<li class="separator"> ' . $separator . ' </li>';
+
+            }
+
+            // Get post category info
+            $category = get_the_category();
+
+            if (!empty($category)) {
+
+                // Get last category post is in
+                $last_category = end(array_values($category));
+
+                // Get parent any categories and create array
+                $get_cat_parents = rtrim(get_category_parents($last_category->term_id, true, ','), ',');
+                $cat_parents = explode(',', $get_cat_parents);
+
+                // Loop through parent categories and store in variable $cat_display
+                $cat_display = '';
+                foreach ($cat_parents as $parents) {
+                    $cat_display .= '<li class="item-cat">' . $parents . '</li>';
+                    $cat_display .= '<li class="separator"> ' . $separator . ' </li>';
+                }
+
+            }
+
+            // If it's a custom post type within a custom taxonomy
+            $taxonomy_exists = taxonomy_exists($custom_taxonomy);
+            if (empty($last_category) && !empty($custom_taxonomy) && $taxonomy_exists) {
+
+                $taxonomy_terms = get_the_terms($post->ID, $custom_taxonomy);
+                $cat_id = $taxonomy_terms[0]->term_id;
+                $cat_nicename = $taxonomy_terms[0]->slug;
+                $cat_link = get_term_link($taxonomy_terms[0]->term_id, $custom_taxonomy);
+                $cat_name = $taxonomy_terms[0]->name;
+
+            }
+
+            // Check if the post is in a category
+            if (!empty($last_category)) {
+                echo $cat_display;
+                echo '<li class="item-current item-' . $post->ID . '"><span class="bread-current bread-' . $post->ID . '" title="' . get_the_title() . '">' . get_the_title() . '</span></li>';
+
+                // Else if post is in a custom taxonomy
+            } else if (!empty($cat_id)) {
+
+                echo '<li class="item-cat item-cat-' . $cat_id . ' item-cat-' . $cat_nicename . '"><a class="bread-cat bread-cat-' . $cat_id . ' bread-cat-' . $cat_nicename . '" href="' . $cat_link . '" title="' . $cat_name . '">' . $cat_name . '</a></li>';
+                echo '<li class="separator"> ' . $separator . ' </li>';
+                echo '<li class="item-current item-' . $post->ID . '"><span class="bread-current bread-' . $post->ID . '" title="' . get_the_title() . '">' . get_the_title() . '</span></li>';
+
+            } else {
+
+                echo '<li class="item-current item-' . $post->ID . '"><span class="bread-current bread-' . $post->ID . '" title="' . get_the_title() . '">' . get_the_title() . '</span></li>';
+
+            }
+
+        } else if (is_category()) {
+
+            // Category page
+            echo '<li class="item-current item-cat"><span class="bread-current bread-cat">' . single_cat_title('', false) . '</span></li>';
+
+        } else if (is_page()) {
+
+            // Standard page
+            if ($post->post_parent) {
+
+                // If child page, get parents
+                $anc = get_post_ancestors($post->ID);
+
+                // Get parents in the right order
+                $anc = array_reverse($anc);
+
+                // Parent page loop
+                if (!isset($parents)) $parents = null;
+                foreach ($anc as $ancestor) {
+                    $parents .= '<li class="item-parent item-parent-' . $ancestor . '"><a class="bread-parent bread-parent-' . $ancestor . '" href="' . get_permalink($ancestor) . '" title="' . get_the_title($ancestor) . '">' . get_the_title($ancestor) . '</a></li>';
+                    $parents .= '<li class="separator separator-' . $ancestor . '"> ' . $separator . ' </li>';
+                }
+
+                // Display parent pages
+                echo $parents;
+
+                // Current page
+                echo '<li class="item-current item-' . $post->ID . '"><span title="' . get_the_title() . '"> ' . get_the_title() . '</span></li>';
+
+            } else {
+
+                // Just display current page if not parents
+                echo '<li class="item-current item-' . $post->ID . '"><span class="bread-current bread-' . $post->ID . '"> ' . get_the_title() . '</span></li>';
+
+            }
+
+        } else if (is_tag()) {
+
+            // Tag page
+
+            // Get tag information
+            $term_id = get_query_var('tag_id');
+            $taxonomy = 'post_tag';
+            $args = 'include=' . $term_id;
+            $terms = get_terms($taxonomy, $args);
+            $get_term_id = $terms[0]->term_id;
+            $get_term_slug = $terms[0]->slug;
+            $get_term_name = $terms[0]->name;
+
+            // Display the tag name
+            echo '<li class="item-current item-tag-' . $get_term_id . ' item-tag-' . $get_term_slug . '"><span class="bread-current bread-tag-' . $get_term_id . ' bread-tag-' . $get_term_slug . '">' . $get_term_name . '</span></li>';
+
+        } elseif (is_day()) {
+
+            // Day archive
+
+            // Year link
+            echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="bread-year bread-year-' . get_the_time('Y') . '" href="' . get_year_link(get_the_time('Y')) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>';
+            echo '<li class="separator separator-' . get_the_time('Y') . '"> ' . $separator . ' </li>';
+
+            // Month link
+            echo '<li class="item-month item-month-' . get_the_time('m') . '"><a class="bread-month bread-month-' . get_the_time('m') . '" href="' . get_month_link(get_the_time('Y'), get_the_time('m')) . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</a></li>';
+            echo '<li class="separator separator-' . get_the_time('m') . '"> ' . $separator . ' </li>';
+
+            // Day display
+            echo '<li class="item-current item-' . get_the_time('j') . '"><span class="bread-current bread-' . get_the_time('j') . '"> ' . get_the_time('jS') . ' ' . get_the_time('M') . ' Archives</span></li>';
+
+        } else if (is_month()) {
+
+            // Month Archive
+
+            // Year link
+            echo '<li class="item-year item-year-' . get_the_time('Y') . '"><a class="bread-year bread-year-' . get_the_time('Y') . '" href="' . get_year_link(get_the_time('Y')) . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</a></li>';
+            echo '<li class="separator separator-' . get_the_time('Y') . '"> ' . $separator . ' </li>';
+
+            // Month display
+            echo '<li class="item-month item-month-' . get_the_time('m') . '"><span class="bread-month bread-month-' . get_the_time('m') . '" title="' . get_the_time('M') . '">' . get_the_time('M') . ' Archives</span></li>';
+
+        } else if (is_year()) {
+
+            // Display year archive
+            echo '<li class="item-current item-current-' . get_the_time('Y') . '"><span class="bread-current bread-current-' . get_the_time('Y') . '" title="' . get_the_time('Y') . '">' . get_the_time('Y') . ' Archives</span></li>';
+
+        } else if (is_author()) {
+
+            // Auhor archive
+
+            // Get the author information
+            global $author;
+            $userdata = get_userdata($author);
+
+            // Display author name
+            echo '<li class="item-current item-current-' . $userdata->user_nicename . '"><span class="bread-current bread-current-' . $userdata->user_nicename . '" title="' . $userdata->display_name . '">' . 'Author: ' . $userdata->display_name . '</span></li>';
+
+        } else if (get_query_var('paged')) {
+
+            // Paginated archives
+            echo '<li class="item-current item-current-' . get_query_var('paged') . '"><span class="bread-current bread-current-' . get_query_var('paged') . '" title="Page ' . get_query_var('paged') . '">' . __('Page') . ' ' . get_query_var('paged') . '</span></li>';
+
+        } else if (is_search()) {
+
+            // Search results page
+            echo '<li class="item-current item-current-' . get_search_query() . '"><span class="bread-current bread-current-' . get_search_query() . '" title="Search results for: ' . get_search_query() . '">Search results for: ' . get_search_query() . '</span></li>';
+
+        } elseif (is_404()) {
+
+            // 404 page
+            echo '<li>' . 'Error 404' . '</li>';
+        }
+
+        echo '</ul>';
+
+    }
+
+}
+
+
+function childrenPages()
+{
+    if (is_page() && !is_front_page()) {
+        global $post;
+        $children = wp_list_pages(array(
+            'child_of' => $post->ID,
+            'depth' => 1,
+            'show_date' => '',
+            'title_li' => false,
+            'link_after' => '',
+            'link_before' => '',
+            'echo' => 0
+        ));
+
+        if ($children != "") {
+            echo "<div id=\"children-pages-nav\" >$post->post_title is including: <ul class=\"children-pages\">$children</ul></div>";
+        }
+    }
+}
+
+function my_custom_function($html)
+{ //Alter final html
+    preg_match('~<h3>([^{]*)</h3>~i', $html, $h);
+    $head = "$h[1]: ";
+    $dropOpen = "<div class=\"dropdown\" >";
+    $dropClose = "</div>";
+    $downloadButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Download<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
+    $chartsButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Preview<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
+    // get list
+    preg_match('~<ul class="post-attachments">([^{]*)</ul>~i', $html, $match);
+    $list = ($match[1]);
+//    $listPreview = str_replace("", "", $list);
+    preg_match_all('/href="([^{]*)"/', $list, $urls);
+    $listPreview = $list;
+    $urls = $urls[1];
+    foreach($urls as $url){
+        $id = attachment_url_to_postid($url);
+        $link = "/chart-generator?data=$id";
+        $listPreview = str_replace($url,$link, $listPreview);
+    }
+//    var_dump($urls);
+    $new_html = "<div class=\"fileactions entry-meta-end\">$head$dropOpen$downloadButton<ul class='dropdown-menu'>$list</ul>$dropClose $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose</div>";
+    echo $new_html;
+//    return $new_html;
+    return "";
+}
+
+add_filter('wpatt_list_html', 'my_custom_function');

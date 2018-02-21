@@ -89,7 +89,10 @@
                     return $data;
                 }
                 if ($tmp) {
-                    $columns = objectToArray($tmp[1]);
+                    // $cr = index of row where data starts
+                    // $cr - 1 = index of row of columns labels
+                    // max($cr-1, 0) = to force columns index as positive integer
+                    $columns = objectToArray($tmp[max($cr-1,0)]);
 
                 } else {
                     mki_error('A problem occurred while reading the data file.');
@@ -126,7 +129,7 @@
                 <section>
                     <h2>Specify chart data</h2>
                     <h3><?php print $parent->post_title; ?></h3>
-                    <h4>Data file: <?php print $post->post_title; ?></h4>
+                    <h4>Data file: <?php print $post->post_title; ?> <a href="<?php print $post->guid; ?>" title="Download file: <?php print $post->post_title; ?>"><i class="ion-android-download"></i></a></h4>
                     <section>
                         <form method="GET" class="form-horizontal">
                             <div class="form-group"><p class="col-sm-12">
@@ -206,6 +209,10 @@
                                     <button name="chart-editor" value="<?php print $post->ID; ?>"
                                             class="btn btn-default" type="submit">Edit chart
                                     </button>
+                                    <a name="chart-editor" type="button" class="btn btn-danger" href="/chart-generator/?data=<?php print $post->ID; ?>"
+                                            class="btn btn-default" type="submit">
+                                        Reset
+                                    </a>
                                 </div>
                             </div>
                         </form>
