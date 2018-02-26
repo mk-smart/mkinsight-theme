@@ -256,8 +256,9 @@ nav .mki-icon img{margin-top:-2px;}
 #content p{font-size:18px;font-size:1.8rem;font-weight:400;line-height:1.8;margin:10px 0;}
 #content p.large{font-size:26px;font-size:2.6rem;font-weight:300;margin:10px 0 20px 0;}
 #content p.twtr{font-size:18px;font-size:1.8rem;font-weight:700;margin:10px 10px 60px 10px;}
-#content p.strapline{font-family:'PT Sans Narrow', sans-serif;font-size:19px;font-size:1.9rem;margin:20px 0 0 0;text-align:center;color:#37b34a;}
-#content span.strapline{font-family:'PT Sans Narrow', sans-serif;font-size:19px;font-size:1.9rem;margin:20px 0 0 0;text-align:center;color:#37b34a;}
+#content p.strapline{font-family:'PT Sans Narrow', sans-serif;font-size:19px;font-size:1.9rem;margin:20px 0 0 0;text-align:center;color:black;}
+#content span.strapline{font-family:'PT Sans Narrow', sans-serif;font-size:19px;font-size:1.9rem;margin:20px 0 0 0;text-align:center;color:black;}
+#content span.strapline strong, #content p.strapline strong{color:#37b34a;}
 /*--------------------------------------------------*/
 [data-inline-tweet] a{text-decoration:none;color:#000;border:none;}
 [data-inline-tweet] a span{border-bottom:2px dotted rgb(0,172,237);/*font-style:italic;*/margin-right:10px;padding-bottom:3px;} [data-inline-tweet] a:hover span{background-color:rgba(0,172,237,0.1);}
@@ -726,6 +727,21 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 }
 #content .btn-nolink img.mkicons, #content .btn-nolink img.mkicons:hover{
 	opacity: 1;
+}
+
+
+
+/* mkifigure */
+.mkifigure {
+	text-align: center;
+
+}
+.mkifigure .sources a{
+	border-top: 1px solid #ccc;
+	padding: 6px 12px;
+	margin-top: 12px;
+	display: inline-block;
+	color: #337ab7;
 }
 
 

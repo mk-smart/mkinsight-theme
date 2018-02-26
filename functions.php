@@ -364,6 +364,98 @@ HTML;
 
 add_shortcode('mkiicon', 'mkiicon_func');
 
+
+// shortcode for icons in infographics
+function mkifigures_func($atts)
+{
+    $a = shortcode_atts(array(
+        'icon' => 'population',
+        'text' => 'Use the "text" attribute to add text',
+        'link' => '',
+        'img_height' => ''
+    ), $atts);
+    if (strpos($a['icon'], 'http://') === 0 ||
+        strpos($a['icon'], 'https://') === 0 ||
+        strpos($a['icon'], '//') === 0) {
+        $img_url = $a['icon'];
+    } else {
+        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
+    }
+
+    if (strpos($a['link'], 'http://') === 0 ||
+        strpos($a['link'], 'https://') === 0 ||
+        strpos($a['link'], '//') === 0) {
+        $href = $a['link'];
+    } else if ($a['link']) {
+        $href = home_url() . '/' . $a['link'];
+    } else {
+        $href = false;
+    }
+    $text = $a['text'];
+    if (!$a['img_height']) {
+        $height = 120;
+        if (strlen($text) > 30) {
+            $height = 90;
+        }
+        if (strlen($text) > 60) {
+            $height = 70;
+        }
+    } else {
+        $height = $a['img_height'];
+    }
+    // if a ref is defined it is a button
+    if ($href) {
+        // todo parse icon from $href
+        $url_host = parse_url($href, PHP_URL_HOST);
+        $base_url_host = parse_url(get_site_url(), PHP_URL_HOST);
+        $urlName = basename($href);
+        if($url_host == $base_url_host || empty($url_host))
+        {
+            // internal link ...
+            $iconClass = '';
+            // todo check if file
+        }
+        else {
+            // external link ...
+            $iconClass = 'ion-link';
+        }
+        // parse text to hightlight numbers
+        preg_match_all('!\d+[\,%\.]*\d*!', $text, $matches);
+        foreach($matches[0] as $numb){
+            $text = str_replace($numb, "<strong>$numb</strong>",$text);
+        }
+        return <<<HTML
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 mkifigure">
+        <div class="align-middle figure">
+            <img class="aligncenter size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
+            <span class="strapline">$text</span>
+        </div>
+        <div class="sources align-middle">
+            <a href="$href" class="aligncenter" title="$urlName">
+                <i class="icon $iconClass"></i>
+            </a>
+        </div>
+    </div>
+HTML;
+    } else {
+        // if it has no link therefore it is a fact
+        return <<<HTML
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+        <div class="btn-mkinsight btn-nolink vcenter">
+            <div class="align-middle">
+                <img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
+                <span class="strapline">$text</span>
+            </div>
+        </div>
+    </div>
+HTML;
+    }
+}
+
+add_shortcode('mkifigures', 'mkifigures_func');
+
+
+
 require_once('mkio2/mkio2.php');
 
 // shortcode to include the chart interface
