@@ -736,6 +736,10 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 	text-align: center;
 
 }
+.mkifigure span.strapline{
+	min-height: 3em;
+	display: inline-block;
+}
 .mkifigure .sources a i{ font-size: 1.4em; }
 .mkifigure .sources a{
 	border-top: 1px solid #ccc;
