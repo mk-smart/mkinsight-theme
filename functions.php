@@ -433,7 +433,7 @@ function mkifigures_func($atts)
     // text management
     $text = $a['text'];
     if (!$a['img_height']) {
-        $height = 120;
+        $height = 90;
         if (strlen($text) > 30) {
             $height = 90;
         }
