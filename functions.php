@@ -311,7 +311,8 @@ function mkiicon_func($atts)
         strpos($a['icon'], '//') === 0) {
         $img_url = $a['icon'];
     } else {
-        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
+        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $a['icon'] . '.svg';
+//        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
     }
 
     if (strpos($a['link'], 'http://') === 0 ||
@@ -379,7 +380,8 @@ function mkifigures_func($atts)
         strpos($a['icon'], '//') === 0) {
         $img_url = $a['icon'];
     } else {
-        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
+        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $a['icon'] . '.svg';
+//        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
     }
 
     if (strpos($a['link'], 'http://') === 0 ||
