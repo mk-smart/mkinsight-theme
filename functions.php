@@ -369,6 +369,7 @@ add_shortcode('mkiicon', 'mkiicon_func');
 // shortcode for icons in infographics
 function mkifigures_func($atts)
 {
+//    var_dump($atts);
     $a = shortcode_atts(array(
         'icon' => 'population',
         'text' => 'Use the "text" attribute to add text',
@@ -384,15 +385,52 @@ function mkifigures_func($atts)
 //        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
     }
 
-    if (strpos($a['link'], 'http://') === 0 ||
-        strpos($a['link'], 'https://') === 0 ||
-        strpos($a['link'], '//') === 0) {
-        $href = $a['link'];
-    } else if ($a['link']) {
-        $href = home_url() . '/' . $a['link'];
-    } else {
-        $href = false;
+    // management of multiple links
+    $hrefs = explode(",", $a['link']);
+    $links = "";
+    // for each link
+    foreach ($hrefs as $href) {
+        $href = trim($href);
+        $url = parse_url($href);
+        $path_parts = pathinfo($href);
+//        var_dump($url["host"]);
+        // complete url
+        if ($url["host"]) {
+            // could be external
+            $link = $href;
+            //  parse icon from $href
+//            var_dump($link);
+//            var_dump(url_to_postid($link));
+            // internal link ...
+            if (($url["host"] == "mkinsight.org" || $url["host"] == "localhost") || url_to_postid($link)) {
+                // if it is a file
+                if($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html"){
+                    $iconClass = 'ion-android-attach';
+                }else{
+                    $iconClass = 'ion-document';
+                }
+            } else {
+                // external link ...
+                $iconClass = 'ion-link';
+            }
+        } else if ($a['link']) { // relative path
+            // internal link
+            // if it is a file
+            if($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html"){
+                $iconClass = 'ion-android-attach';
+            }else{
+                $iconClass = 'ion-document';
+            }
+            $link = home_url() . '/' .$href;
+        } else {
+            $link = false;
+        }
+        $urlName = basename($link);
+        $links = $links . "<a href =\"$link\" class=\"aligncenter\" title=\"$urlName\"><i class=\"icon $iconClass\"></i></a>";
     }
+
+
+    // text management
     $text = $a['text'];
     if (!$a['img_height']) {
         $height = 120;
@@ -405,57 +443,57 @@ function mkifigures_func($atts)
     } else {
         $height = $a['img_height'];
     }
+
+
+    // parse text to hightlight numbers
+    preg_match_all('!\d+[\,%\.stndrdth]*\d*!', $text, $matches);
+    foreach ($matches[0] as $numb) {
+        $text = str_replace($numb, "<strong>$numb</strong>", $text);
+    }
+    global $mkifigures_counter;
+    if (!isset($mkifigures_counter)) {
+        $mkifigures_counter = 0;
+    }
+    $mkifigures_counter++;
+    // optimise layout
+    $optimise = '';
+    if ($mkifigures_counter % 3 == 0) {
+        // Print each 3 boxes
+        $optimise = "<div class=\"clearfix ipadv\"></div>";
+    }
+    if ($mkifigures_counter % 4 == 0) {
+        // Print each 3 boxes
+        $optimise = "<div class=\"clearfix desktop\"></div>";
+    }
     // if a ref is defined it is a button
-    if ($href) {
-        // todo parse icon from $href
-        $url_host = parse_url($href, PHP_URL_HOST);
-        $base_url_host = parse_url(get_site_url(), PHP_URL_HOST);
-        $urlName = basename($href);
-        if($url_host == $base_url_host || empty($url_host))
-        {
-            // internal link ...
-            $iconClass = '';
-            // todo check if file
-        }
-        else {
-            // external link ...
-            $iconClass = 'ion-link';
-        }
-        // parse text to hightlight numbers
-        preg_match_all('!\d+[\,%\.]*\d*!', $text, $matches);
-        foreach($matches[0] as $numb){
-            $text = str_replace($numb, "<strong>$numb</strong>",$text);
-        }
+    if ($links) {
         return <<<HTML
-    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 mkifigure">
+    <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-10 col-xs-offset-1 mkifigure">
         <div class="align-middle figure">
             <img class="aligncenter size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
             <span class="strapline">$text</span>
         </div>
         <div class="sources align-middle">
-            <a href="$href" class="aligncenter" title="$urlName">
-                <i class="icon $iconClass"></i>
-            </a>
+            $links
         </div>
-    </div>
+    </div>$optimise
 HTML;
     } else {
         // if it has no link therefore it is a fact
         return <<<HTML
-    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+    <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-10 col-xs-offset-1 mkifigure">
         <div class="btn-mkinsight btn-nolink vcenter">
             <div class="align-middle">
                 <img class="aligncenter mkicons size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
                 <span class="strapline">$text</span>
             </div>
         </div>
-    </div>
+    </div>$optimise
 HTML;
     }
 }
 
 add_shortcode('mkifigures', 'mkifigures_func');
-
 
 
 require_once('mkio2/mkio2.php');
@@ -1403,10 +1441,10 @@ function my_custom_function($html)
     preg_match_all('/href="([^{]*)"/', $list, $urls);
     $listPreview = $list;
     $urls = $urls[1];
-    foreach($urls as $url){
+    foreach ($urls as $url) {
         $id = attachment_url_to_postid($url);
         $link = "/chart-generator?data=$id";
-        $listPreview = str_replace($url,$link, $listPreview);
+        $listPreview = str_replace($url, $link, $listPreview);
     }
 //    var_dump($urls);
     $new_html = "<div class=\"fileactions entry-meta-end\">$head$dropOpen$downloadButton<ul class='dropdown-menu'>$list</ul>$dropClose $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose</div>";
