@@ -396,19 +396,15 @@ function mkifigures_func($atts)
 //        var_dump($url["host"]);
         // complete url
         if ($url["host"]) {
-            // could be external
             $link = $href;
-            //  parse icon from $href
-//            var_dump($link);
-//            var_dump(url_to_postid($link));
-            // internal link ...
+            // file
+            if($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html"){
+                $iconClass = 'ion-android-attach';
+            }else
+            // full link ...
             if (($url["host"] == "mkinsight.org" || $url["host"] == "localhost") || url_to_postid($link)) {
                 // if it is a file
-                if($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html"){
-                    $iconClass = 'ion-android-attach';
-                }else{
-                    $iconClass = 'ion-document';
-                }
+                 $iconClass = 'ion-document';
             } else {
                 // external link ...
                 $iconClass = 'ion-link';
