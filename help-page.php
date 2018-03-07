@@ -35,7 +35,7 @@
         <?php if (!post_password_required()) comments_template('', true); ?>
     <?php endwhile; endif; ?>
 
-    <h2 id="contact">Contact</h2>
+    <h2 id="contact"><?php _e("Contact","mki");?></h2>
     <p>
         If you didn't find an answer to your question or a solution to your problem above, please use to contact form
         below to describe what you are trying to do and why it does not work.
