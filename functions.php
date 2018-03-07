@@ -445,7 +445,7 @@ function mkifigures_func($atts)
 
 
     // parse text to hightlight numbers
-    preg_match_all('!\d+[\,\.]?\d*[%stndrdth]*\d*!', $text, $matches);
+    preg_match_all('![£]*\d+[\,\.]?\d*[%stndrdth]*\d*[kbnml]*!', $text, $matches);
     foreach ($matches[0] as $numb) {
         $text = str_replace($numb, "<strong>$numb</strong>", $text);
     }
