@@ -627,13 +627,14 @@ div#content {padding-top: 100px !important;}
 /* MEDIUM TABLETS AND MOBILE PHONES */
 @media (min-width: 768px) and (max-width: 991px)  {
 	nav {
-		height: 200px;
+		/*height: 100px;*/
 	}
 	nav ul#menu-mainmenu li {
 		margin-left: 5px;
+		display: inline-block;
 	}
 	nav .menu-item-type-search {
-		width: 100%;
+		width: auto;
 	}
 	nav .menu-item-type-search input#s {
 		width: 70%;
@@ -649,14 +650,14 @@ div#content {padding-top: 100px !important;}
 		margin-left: 5px;
 	}
 	body.navbar-expanded nav {
-		height: 250px;
+		height: 200px;
 	}
 	body.navbar-expanded nav .menu-item-type-search {
 		width: 100%;
 		text-align: center;
 	}
 	body.navbar-expanded nav .menu-item-type-search input#s {
-		width: 80%;
+		width: 70%;
 	}
 	body.navbar-expanded #content {
 		margin-top: 150px;
