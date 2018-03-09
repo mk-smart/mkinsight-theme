@@ -73,6 +73,7 @@
    }
 }
       ?>
+   console.log(configchart);
    ccharts.push(configchart);
    getChartData(configchart);
    </script>

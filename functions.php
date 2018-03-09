@@ -496,6 +496,10 @@ require_once('mkio2/mkio2.php');
 // shortcode to include the chart interface
 function mkicharts_func($atts)
 {
+    //todo fix or remove from the db
+    return '';
+
+
     ob_start();
     include('mkio2/datapage.php');
     $out1 = ob_get_contents();
@@ -508,6 +512,10 @@ add_shortcode('mkicharts', 'mkicharts_func');
 // shortcode to include 1 chart
 function mkichart_func($atts)
 {
+    //todo fix or remove from the db
+    return '';
+
+
     $a = shortcode_atts(array(
         'type' => 'place',
         'dim' => 'demographics:population-2011',

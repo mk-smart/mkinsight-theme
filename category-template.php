@@ -182,7 +182,6 @@ $category__and = @$_GET['term_id'];
                                 </ul>
                             </div>
                             <?php
-
                                     $filesPreview = array_filter($files,function ($file){
                                         switch($file->post_mime_type){
                                             case 'application/vnd.ms-excel': return true;
