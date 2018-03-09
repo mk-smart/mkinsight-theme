@@ -4,19 +4,21 @@
         <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
             <form id="advanced-search-form" class="" role="search" method="get" action="<?php print home_url(); ?>">
                 <h1 class="entry-title form-group" id="search-title">
-                    <span for="s"><?php _e("Results:","mki"); ?></span>
+                    <span for="s"><?php _e("Results:", "mki"); ?></span>
                     <input type="text" class="form-control" value="<?php print @$_GET['s']; ?>" name="s" id="s"
                            placeholder="keywords">
                 </h1>
                 <div id="advanced-filter-wrapper">
                     <div class="collapse" id="advanced-filters">
                         <div class="form-group">
-                            <label style="display:inline-block"><?php _e("Tags:","mki"); ?></label>
-                            <input id="tag-input" type="text" value="<?php echo str_replace("-"," ",@$_GET['tag']); ?>" data-role="tagsinput" name="tag" />
+                            <label style="display:inline-block"><?php _e("Tags:", "mki"); ?></label>
+                            <input id="tag-input" type="text"
+                                   value="<?php echo str_replace("-", " ", @$_GET['tag']); ?>" data-role="tagsinput"
+                                   name="tag"/>
                         </div>
                         <!-- YEAR RANGE -->
                         <div class="form-group">
-                            <label style="display:inline-block"><?php _e("About years:","mki"); ?></label>
+                            <label style="display:inline-block"><?php _e("About years:", "mki"); ?></label>
                             <span>
                                 <?php _e("from", "mki"); ?>
                                 <select class="min year" id="minYear" name="ymin">
@@ -28,7 +30,7 @@
                                         <option value="<?php print $cslug; ?>" <?php print $checked; ?> ><?php print $category->name; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <?php _e("to","mki"); ?>
+                                <?php _e("to", "mki"); ?>
                                 <select class="max year" id="maxYear" name="ymax">
                                     <option> ---</option>
                                     <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
@@ -41,7 +43,18 @@
                             </span>
                         </div>
                         <div class="form-group">
-                            <label><?php _e("Categories:","mki"); ?></label>
+                            <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>
+                            <label class="radio-inline" style="font-weight: 500;">
+                                <input type="radio" value="DESC" name="order" <?php echo @$_GET['order'] != 'ASC' ? 'checked': ''; ?> />
+                                <?php _e("Newer to Older", "mki"); ?>
+                            </label>
+                            <label class="radio-inline"" style="font-weight: 500;">
+                            <input type="radio" value="ASC" name="order" <?php echo @$_GET['order'] == 'ASC' ? 'checked': ''; ?> />
+                            <?php _e("Older to Newer", "mki"); ?>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label><?php _e("Categories:", "mki"); ?></label>
                             <ul class="checkboxes list-unstyled row">
                                 <?php
                                 // generate list of categories
@@ -61,12 +74,12 @@
                         </div>
                         <div class="form-group" style="text-align:right;">
                             <input style="display: inline-block;width: auto;" type="submit" id="searchsubmit"
-                                   value="<?php _e("Apply Filters","mki"); ?>">
+                                   value="<?php _e("Apply Filters", "mki"); ?>">
                         </div>
                     </div>
                     <a id="advance-search-toggler" class="collapsed" data-toggle="collapse" href="#advanced-filters"
                        role="button" aria-expanded="false" aria-controls="advanced-filters"><i class="icon"></i>
-                        <?php _e("Advanced Search","mki"); ?>
+                        <?php _e("Advanced Search", "mki"); ?>
                     </a>
                 </div>
             </form>
@@ -113,7 +126,7 @@
                     ?>
                     <?php if (isset($_GET['category'])) {
                         $trms = get_terms(array('slug' => $_GET['category'], 'fields' => 'names'));
-                        echo 'Categories: ', implode(', ', array_unique($trms) ), '<br/>';
+                        echo 'Categories: ', implode(', ', array_unique($trms)), '<br/>';
                     } ?>
                     <?php if (isset($_GET['years'])) {
 //							$trms = get_terms(array('taxonomy'=>'years','slug'=>$_GET['years'],'fields'=>'names'));
@@ -218,8 +231,8 @@
                             $posttags = get_the_tags();
                             if ($posttags) {
                                 foreach ($posttags as $tag) {
-                                    $tags = explode("," , @$_GET['tag']);
-                                    $check = ( !in_array(str_replace(" ", "-",$tag->name), $tags) );
+                                    $tags = explode(",", @$_GET['tag']);
+                                    $check = (!in_array(str_replace(" ", "-", $tag->name), $tags));
                                     $tSlug = '\'' . trim($tag->name) . '\'';
                                     if ($check) {
                                         echo "<button onclick=\"setTag($tSlug)\">+ $tag->name</button>";
@@ -244,17 +257,17 @@
         </div>
         <?php //get_template_part( 'nav', 'below' ); ?>
     <?php else : ?>
-    <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 results">
-        <article id="post-0" class="post no-results not-found">
-            <header class="header">
-                <h2 class="entry-title"><?php _e('Nothing Found', 'blankslate'); ?></h2>
-            </header>
-            <section class="entry-content">
-                <p><?php _e('Sorry, nothing matched your search. Please try again.', 'blankslate'); ?></p>
-                <?php //get_search_form(); ?>
-            </section>
-        </article>
-    </div>
+        <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 results">
+            <article id="post-0" class="post no-results not-found">
+                <header class="header">
+                    <h2 class="entry-title"><?php _e('Nothing Found', 'blankslate'); ?></h2>
+                </header>
+                <section class="entry-content">
+                    <p><?php _e('Sorry, nothing matched your search. Please try again.', 'blankslate'); ?></p>
+                    <?php //get_search_form(); ?>
+                </section>
+            </article>
+        </div>
     <?php endif; ?>
 </section>
 </div>
@@ -276,7 +289,7 @@
 
     // add category filter
     function setCat(cat) {
-        if(cat) {
+        if (cat) {
             // unckeck checkbox
             $('#check-' + cat).prop('checked', true);
             // submit form
@@ -288,7 +301,7 @@
     function setTag(tag) {
         if (tag) {
             // $('#s').val(tag);
-            $("#tag-input").tagsinput("add",tag);
+            $("#tag-input").tagsinput("add", tag);
             $('#advanced-search-form').submit();
 
         }
@@ -296,7 +309,7 @@
 
     // uncheck the category and submit the form
     function unsetCat(cat) {
-        if(cat) {
+        if (cat) {
             // unckeck checkbox
             $('#check-' + cat).prop('checked', false);
             // submit form
@@ -306,7 +319,7 @@
 
     // add tag to filter and apply
     function unsetTag(tag) {
-        $("#tag-input").tagsinput("remove",tag);
+        $("#tag-input").tagsinput("remove", tag);
         $('#advanced-search-form').submit();
     }
 </script>

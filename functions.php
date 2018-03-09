@@ -398,26 +398,26 @@ function mkifigures_func($atts)
         if ($url["host"]) {
             $link = $href;
             // file
-            if($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html"){
+            if ($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html") {
                 $iconClass = 'ion-android-attach';
-            }else
-            // full link ...
-            if (($url["host"] == "mkinsight.org" || $url["host"] == "localhost") || url_to_postid($link)) {
-                // if it is a file
-                 $iconClass = 'ion-document';
-            } else {
-                // external link ...
-                $iconClass = 'ion-link';
-            }
+            } else
+                // full link ...
+                if (($url["host"] == "mkinsight.org" || $url["host"] == "localhost") || url_to_postid($link)) {
+                    // if it is a file
+                    $iconClass = 'ion-document';
+                } else {
+                    // external link ...
+                    $iconClass = 'ion-link';
+                }
         } else if ($a['link']) { // relative path
             // internal link
             // if it is a file
-            if($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html"){
+            if ($path_parts['extension'] && $path_parts['extension'] != "php" && $path_parts['extension'] != "html") {
                 $iconClass = 'ion-android-attach';
-            }else{
+            } else {
                 $iconClass = 'ion-document';
             }
-            $link = home_url() . '/' .$href;
+            $link = home_url() . '/' . $href;
         } else {
             $link = false;
         }
@@ -681,6 +681,7 @@ add_action('save_post', 'mki_update_year_from_tag');
 // Override query args to sort by years desc
 function mki_orderby_args()
 {
+    $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
     return array(
         'meta_query' => array(
             'relation' => 'OR',
@@ -694,7 +695,7 @@ function mki_orderby_args()
                 'compare' => 'EXISTS'
             )
         ),
-        'orderby' => array('meta_value_num' => 'DESC', 'date' => 'DESC')
+        'orderby' => array('meta_value_num' => $order, 'date' => $order )
     );
 }
 
