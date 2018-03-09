@@ -703,7 +703,7 @@ function mki_orderby_args()
                 'compare' => 'EXISTS'
             )
         ),
-        'orderby' => array('meta_value_num' => $order, 'date' => $order )
+        'orderby' => array('meta_value_num' => $order, 'date' => $order)
     );
 }
 
@@ -1424,6 +1424,7 @@ function childrenPages()
         }
     }
 }
+
 function endsWith($haystack, $needle)
 {
     $length = strlen($needle);
@@ -1431,6 +1432,7 @@ function endsWith($haystack, $needle)
     return $length === 0 ||
         (substr($haystack, -$length) === $needle);
 }
+
 function my_custom_function($html)
 { //Alter final html
     preg_match('~<h3>([^{]*)</h3>~i', $html, $h);
@@ -1446,22 +1448,34 @@ function my_custom_function($html)
 //    $listPreview = str_replace("", "", $list);
     preg_match_all('/href="([^{]*)"/', $list, $urls);
     $urls = $urls[1];
-    $previewes = array_filter($urls,function ($url){
+    $previewes = array_filter($urls, function ($url) {
         return endsWith($url, '.csv') || endsWith($url, '.xls');
     });
     foreach ($urls as $url) {
-        $id = attachment_url_to_postid($url);
-        $link = "/chart-generator?data=$id";
-        $listPreview = str_replace($url, $link, $listPreview);
+        $testPreview = endsWith($url, '.csv') || endsWith($url, '.xls');
+        if ($testPreview) {
+            $id = attachment_url_to_postid($url);
+            $link = "/chart-generator?data=$id";
+            $listPreview = str_replace($url, $link, $listPreview);
+        }else{
+            // fail the test: should be hidden
+            // hide item
+            $listPreview =  str_replace(
+            "><a href=\"$url\"",
+            " style=\"display:none;\"><a href=\"$url\"",
+            $listPreview);
+        }
     }
 //    var_dump($urls);
     $new_html = "<div class=\"fileactions entry-meta-end\">$head$dropOpen$downloadButton<ul class='dropdown-menu'>$list</ul>$dropClose";
     // things to be previewed
-    // todo fix chart
-    if(false && count($previewes) > 0){
-        $new_html = $new_html." $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose";
+    // fix chart
+    $id = get_the_ID();
+    $editor = current_user_can('edit_post', $id);
+    if ($editor && count($previewes) > 0) {
+        $new_html = $new_html . " $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose";
     }
-    $new_html = $new_html."</div>";
+    $new_html = $new_html . "</div>";
     echo $new_html;
 //    return $new_html;
     return "";
