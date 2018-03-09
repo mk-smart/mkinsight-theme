@@ -15,7 +15,6 @@
                 <?php the_content(); ?>
                 <hr>
                 <?php do { ?>
-
                 <?php /* BEGIN SELECT FILE */ ?>
                 <?php if (!@$_GET['data'] && !@$_GET['build-chart'] && !@$_GET['chart'] && !@$_GET['chart-editor']) : ?>
                     <section>
@@ -75,24 +74,24 @@
                 $excelReader = PHPExcel_IOFactory::createReaderForFile($file);
                 $excelReader->setReadDataOnly();
                 $excelObj = $excelReader->load($file);
-                $tmp = $excelObj->getActiveSheet()->toArray(null, true,true,true);
-                function objectToArray($data) {
-                    if (is_array($data) || is_object($data))
-                    {
+                $tmp = $excelObj->getActiveSheet()->toArray(null, true, true, true);
+                function objectToArray($data)
+                {
+                    if (is_array($data) || is_object($data)) {
                         $result = array();
-                        foreach ($data as $key => $value)
-                        {
-                            array_push($result,objectToArray($value));
+                        foreach ($data as $key => $value) {
+                            array_push($result, objectToArray($value));
                         }
                         return $result;
                     }
                     return $data;
                 }
+
                 if ($tmp) {
                     // $cr = index of row where data starts
                     // $cr - 1 = index of row of columns labels
                     // max($cr-1, 0) = to force columns index as positive integer
-                    $columns = objectToArray($tmp[max($cr,0)]);
+                    $columns = objectToArray($tmp[max($cr, 0)]);
 //                    var_dump($tmp);
 //                    var_dump($columns);
 
@@ -129,68 +128,113 @@
 
                 </script>
                 <section>
-                    <h2>Specify chart data</h2>
                     <h3><?php print $parent->post_title; ?></h3>
-                    <h4>Data file: <?php print $post->post_title; ?> <a href="<?php print $post->guid; ?>" title="Download file: <?php print $post->post_title; ?>"><i class="ion-android-download"></i></a></h4>
+                    <h4><?php _e("Data file: ", "mki"); ?><?php print $post->post_title; ?> <a
+                                href="<?php print $post->guid; ?>"
+                                title="Download file: <?php print $post->post_title; ?>"><i
+                                    class="ion-android-download"></i></a></h4>
+                    <section id="tooltips" class="row">
+                        <div class="col-lg-6  col-md-8 col-md-10 col-sm-12">
+                            <h4><?php _e("Tooltips", "mki"); ?></h4>
+                            <ul>
+                                <li>
+                                    <?php _e("Indicate whether the data starts at a specific row. Tip: the first row should
+                                        include columns names (see below preview).", "mki"); ?>
+                                </li>
+                                <li>
+                                    <?php _e("Select one column containing the entities and
+                                        one containing the values.", "mki"); ?>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
                     <section>
+                        <h3><?php _e("Preview", "mki"); ?></h3>
                         <form method="GET" class="form-horizontal">
-                            <div class="form-group"><p class="col-sm-12">
-                                    Indicate whether the data starts at a specific row. Tip: the first row should
-                                    include columns names (see below preview).</p></div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="cr">Data starts at row</label>
-                                <div class="col-sm-10">
-                                    <input size="5" class="" name="cr"
-                                           value="<?php print (is_numeric(@$_GET['cr'])) ? $_GET['cr'] : 0; ?>"/>
+                            <div class="row form-group">
+                                <div class="col-md-4">
+                                    <span role="label" for="cr" >
+                                        <?php _e("Data starts at row", "mki"); ?>
+                                        <input size="5" class="" name="cr"
+                                               value="<?php print (is_numeric(@$_GET['cr'])) ? $_GET['cr'] : 0; ?>"/>
+                                    </span>
+                                </div>
+                                <div class="col-md-8">
+                                    <button class="btn btn-default" type="submit" name="data"
+                                            value="<?php print $_GET['data']; ?>">
+                                        <i class="icon ion-checkmark-round"></i>
+                                        <?php _e("Update preview", "mki"); ?>
+                                    </button>
+                                    <a name="chart-editor" type="button" class="btn btn-danger"
+                                       href="/chart-generator/?data=<?php print $post->ID; ?>"
+                                       class="btn btn-default" type="submit">
+                                        <i class="icon ion-refresh"></i>
+                                        <?php _e("Reset Preview", "mki"); ?>
+                                    </a>
+                                    <button name="chart-editor" value="<?php print $post->ID; ?>"
+                                            class="btn btn-default btn-primary" type="submit">
+                                        <i class="icon ion-pie-graph"></i>
+                                        <?php _e("Generate chart", "mki"); ?>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="form-group"><p class="col-sm-12">Select one column containing the entities and
-                                    one containing the values.</p></div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="cv">Entities from column:</label>
-                                <div class="col-sm-10">
-                                    <select class="selectpicker show-tick " name="ce"
-                                            onChange="$('#mki_use_entity_example').html($(this).find(':selected').data('examples'));">
-                                        <?php foreach ($columns as $cix => $col): ?>
-                                            <option <?php print ($cix == @$_GET['ce']) ? 'SELECTED' : ''; ?>
-                                                    value="<?php print $cix; ?>"
-                                                    data-subtext="<?php print $examples[$cix][0]; ?>"
-                                                    data-examples="E.g.: <?php print implode(', ', $examples[$cix]); ?>"><?php print $col; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                            <div class="row">
+                                <div class="col-md-1"></div>
+                                <div class="form-group col-md-4">
+                                    <label class="" for="cv">
+                                        <?php _e("X-Axis:", "mki"); ?>
+                                    </label>
+                                    <div class="">
+                                        <select class="selectpicker show-tick " name="ce"
+                                                onChange="$('#mki_use_entity_example').html($(this).find(':selected').data('examples'));">
+                                            <?php foreach ($columns as $cix => $col): ?>
+                                                <option <?php print ($cix == @$_GET['ce']) ? 'SELECTED' : ''; ?>
+                                                        value="<?php print $cix; ?>"
+                                                        data-subtext="<?php print $examples[$cix][0]; ?>"
+                                                        data-examples="E.g.: <?php print implode(', ', $examples[$cix]); ?>"><?php print $col; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <small id="mki_use_entity_example">&nbsp;</small>
+                                    </div>
                                 </div>
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <small id="mki_use_entity_example">&nbsp;</small>
+                                <div class="form-group col-md-4">
+                                    <label class="" for="cv">
+                                        <?php //_e("Values from column:","mki");?>
+                                        <?php _e("Y-Axis:", "mki"); ?>
+                                    </label>
+                                    <div class="">
+                                        <select class="selectpicker show-tick " name="cv"
+                                                onChange="$('#mki_use_value_example').html($(this).find(':selected').data('examples'));">
+                                            <?php foreach ($columns as $cix => $col): ?>
+                                                <option <?php print ($cix == @$_GET['cv']) ? 'SELECTED' : ''; ?>
+                                                        value="<?php print $cix; ?>"
+                                                        data-subtext="<?php print $examples[$cix][0]; ?>"
+                                                        data-examples="E.g.: <?php print implode(', ', $examples[$cix]); ?>"><?php print $col; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <small id="mki_use_value_example">&nbsp;</small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="cv">Values from column:</label>
-                                <div class="col-sm-10">
-                                    <select class="selectpicker show-tick " name="cv"
-                                            onChange="$('#mki_use_value_example').html($(this).find(':selected').data('examples'));">
-                                        <?php foreach ($columns as $cix => $col): ?>
-                                            <option <?php print ($cix == @$_GET['cv']) ? 'SELECTED' : ''; ?>
-                                                    value="<?php print $cix; ?>"
-                                                    data-subtext="<?php print $examples[$cix][0]; ?>"
-                                                    data-examples="E.g.: <?php print implode(', ', $examples[$cix]); ?>"><?php print $col; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <small id="mki_use_value_example">&nbsp;</small>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="vt">Value Type</label>
-                                <div class="col-sm-10">
-                                    <select class="selectpicker show-tick " name="vt">
-                                        <option <?php print ('number' == @$_GET['vt']) ? 'SELECTED' : ''; ?>
-                                                value="number">Number
-                                        </option>
-                                        <option <?php print ('string' == @$_GET['vt']) ? 'SELECTED' : ''; ?>
-                                                value="string">String
-                                        </option>
-                                    </select>
+                                <div class="form-group col-md-3">
+                                    <label class="" for="vt">
+                                        <?php _e("Value Type", "mki"); ?>
+                                    </label>
+                                    <div class="">
+                                        <select class="selectpicker show-tick " name="vt">
+                                            <option <?php print ('number' == @$_GET['vt']) ? 'SELECTED' : ''; ?>
+                                                    value="number">
+                                                <?php _e("Number", "mki"); ?>
+                                            </option>
+                                            <option <?php print ('string' == @$_GET['vt']) ? 'SELECTED' : ''; ?>
+                                                    value="string">
+                                                <?php _e("String", "mki"); ?>
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <!-- div class="form-group">
@@ -203,24 +247,10 @@
           </select>
         </div>
       </div -->
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button class="btn btn-default" type="submit" name="data"
-                                            value="<?php print $_GET['data']; ?>">Preview data
-                                    </button>
-                                    <button name="chart-editor" value="<?php print $post->ID; ?>"
-                                            class="btn btn-default" type="submit">Edit chart
-                                    </button>
-                                    <a name="chart-editor" type="button" class="btn btn-danger" href="/chart-generator/?data=<?php print $post->ID; ?>"
-                                            class="btn btn-default" type="submit">
-                                        Reset
-                                    </a>
-                                </div>
-                            </div>
+
                         </form>
-                        <h3>Preview</h3>
-                        <div style="color: #000; border: 1px solid #AAA; padding:0px" id="mki_data_div">Loading table
-                            ...
+                        <div style="color: #000; border: 1px solid #AAA; padding:0px" id="mki_data_div">
+                            <?php _e("Loading table...", "mki"); ?>
                         </div>
                     </section>
                     <?php endif; ?>

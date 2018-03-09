@@ -154,8 +154,24 @@ $category__and = @$_GET['term_id'];
                             ?></td>
                         <td><?php the_date(); ?></td>
                         <td class="fileactions">
-                            <div class="dropdown" style="display: block;">
-                                <button class="btn btn-primary dropdown-toggle btn-block" type="button"
+                            <?php
+                            // list of files
+                            $files = get_attached_media('', $query->post->ID);
+                            // list of files csv like
+                            $filesPreview = array_filter($files,function ($file){
+                                switch($file->post_mime_type){
+                                    case 'application/vnd.ms-excel': return true;
+                                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': return true;
+                                    default:
+                                        return false;
+                                }
+                            });
+
+                            // todo disabling chart feature
+                            $filesPreview = [];
+                            ?>
+                            <div class="dropdown" style="">
+                                <button class="btn btn-primary dropdown-toggle <?php echo (count($filesPreview) > 0) ?'': 'btn-block';?>" type="button"
                                         id="menudownload-<?php print $file->ID; ?>"
                                         data-toggle="dropdown">
                                     <?php _e('Download', 'mki'); ?>
@@ -163,7 +179,7 @@ $category__and = @$_GET['term_id'];
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <?php
-                                    $files = get_attached_media('', $query->post->ID);
+
                                     foreach ($files as $fid => $file):
                                         ?>
 
@@ -182,15 +198,7 @@ $category__and = @$_GET['term_id'];
                                 </ul>
                             </div>
                             <?php
-                                    $filesPreview = array_filter($files,function ($file){
-                                        switch($file->post_mime_type){
-                                            case 'application/vnd.ms-excel': return true;
-                                            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': return true;
-                                            default:
-                                                return false;
-                                        }
-                                    });
-                                    if( count($filesPreview) > 0):
+                                if( count($filesPreview) > 0):
                             ?>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
@@ -368,7 +376,6 @@ $category__and = @$_GET['term_id'];
                 } else {
                     searchParams.set("ymax", year);
                 }
-
                 window.location.search = searchParams.toString();
             }
         });
