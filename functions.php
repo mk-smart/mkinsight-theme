@@ -716,11 +716,6 @@ function mki_advanced_search_query($query)
 {
 
     if ($query->is_search()) {
-
-        // tag search (not working)
-        // if (isset($_GET['years']) && is_array($_GET['years'])) {
-        // 	$query->set('tag_slug__or', $_GET['years']);
-        // }
         // If ymin and ymax
         if (isset($_GET['ymin']) || isset($_GET['ymax'])) {
             $years = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
@@ -728,13 +723,12 @@ function mki_advanced_search_query($query)
             foreach ($years as $yid => $year) {
                 if (isset($_GET['ymin']) && $_GET['ymin'] > $year->slug) {
                     // Ignore
-                } else
-                    if (isset($_GET['ymax']) && $_GET['ymax'] < $year->slug) {
-                        // Ignore
-                    } else {
-                        // Use!
-                        array_push($use_years, $year->slug);
-                    }
+                } else if (isset($_GET['ymax']) && $_GET['ymax'] < $year->slug) {
+                    // Ignore
+                } else {
+                    // Use!
+                    array_push($use_years, $year->slug);
+                }
             }
             if (!empty($use_years)) {
 //                var_dump($use_years);
@@ -746,6 +740,7 @@ function mki_advanced_search_query($query)
         if (isset($_GET['category']) && is_array($_GET['category'])) {
             $query->set('category_name', implode(',', $_GET['category']));
         }
+        // tag search
         if (isset($_GET['tag'])) {
             $tags = explode(",", $_GET['tag']);
             $tagString = implode('+', $tags);
