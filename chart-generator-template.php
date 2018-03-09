@@ -6,7 +6,9 @@
     <section role="main">
         <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
             <header class="header">
-                <h1 class="entry-title">Chart Generator</h1>
+                <h1 class="entry-title">
+                    <?php _e("Data Preview","mki"); ?>
+                </h1>
             </header>
             <section class="entry-content">
                 <?php if (has_post_thumbnail()) {
@@ -18,9 +20,11 @@
                 <?php /* BEGIN SELECT FILE */ ?>
                 <?php if (!@$_GET['data'] && !@$_GET['build-chart'] && !@$_GET['chart'] && !@$_GET['chart-editor']) : ?>
                     <section>
-                        <h2>Select data file</h2>
+                        <h2>
+                            <?php _e("Select data file","mki");?>
+                        </h2>
                         <select class="selectpicker show-tick" style="color: #000;" id="mki_select_data">
-                            <option> -- select a data file --</option>
+                            <option><?php _e("-- select a data file --","mki");?></option>
                             <?php $last_parent = 0; ?>
                             <?php foreach (mki_data_files() as $data_file): ?>
                             <?php if ($data_file->post_parent != $last_parent): ?>
@@ -45,7 +49,7 @@
                                 <?php endforeach; ?>
                         </select>
                         <button class="btn btn-default" style="color: #000;" type="button" onClick="mki_goto_table()">
-                            Start
+                            <?php _e("Start", "mki"); ?>
                         </button>
                     </section>
                 <?php endif; ?>
@@ -128,59 +132,41 @@
 
                 </script>
                 <section>
+                    <div style="margin-bottom:60px;">
                     <h3><?php print $parent->post_title; ?></h3>
                     <h4><?php _e("Data file: ", "mki"); ?><?php print $post->post_title; ?> <a
                                 href="<?php print $post->guid; ?>"
                                 title="Download file: <?php print $post->post_title; ?>"><i
                                     class="ion-android-download"></i></a></h4>
-                    <section id="tooltips" class="row">
-                        <div class="col-lg-6  col-md-8 col-md-10 col-sm-12">
-                            <h4><?php _e("Tooltips", "mki"); ?></h4>
-                            <ul>
-                                <li>
-                                    <?php _e("Indicate whether the data starts at a specific row. Tip: the first row should
-                                        include columns names (see below preview).", "mki"); ?>
-                                </li>
-                                <li>
-                                    <?php _e("Select one column containing the entities and
-                                        one containing the values.", "mki"); ?>
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
+                    </div>
                     <section>
-                        <h3><?php _e("Preview", "mki"); ?></h3>
-                        <form method="GET" class="form-horizontal">
-                            <div class="row form-group">
-                                <div class="col-md-4">
-                                    <span role="label" for="cr" >
-                                        <?php _e("Data starts at row", "mki"); ?>
-                                        <input size="5" class="" name="cr"
-                                               value="<?php print (is_numeric(@$_GET['cr'])) ? $_GET['cr'] : 0; ?>"/>
-                                    </span>
-                                </div>
-                                <div class="col-md-8">
-                                    <button class="btn btn-default" type="submit" name="data"
-                                            value="<?php print $_GET['data']; ?>">
-                                        <i class="icon ion-checkmark-round"></i>
-                                        <?php _e("Update preview", "mki"); ?>
-                                    </button>
-                                    <a name="chart-editor" type="button" class="btn btn-danger"
-                                       href="/chart-generator/?data=<?php print $post->ID; ?>"
-                                       class="btn btn-default" type="submit">
-                                        <i class="icon ion-refresh"></i>
-                                        <?php _e("Reset Preview", "mki"); ?>
-                                    </a>
-                                    <button name="chart-editor" value="<?php print $post->ID; ?>"
-                                            class="btn btn-default btn-primary" type="submit">
-                                        <i class="icon ion-pie-graph"></i>
-                                        <?php _e("Generate chart", "mki"); ?>
-                                    </button>
+                        <?php if(current_user_can( 'edit_post', $parent->ID ) ):  ?>
+                            <h2><?php _e("Chart Generator", "mki"); ?></h2>
+                            <div id="tooltips" class="row">
+                                <div class="col-lg-6  col-md-8 col-md-10 col-sm-12">
+                                    <h4><?php _e("Tooltips", "mki"); ?></h4>
+                                    <ul>
+                                        <li>
+                                            <?php _e("Indicate whether the data starts at a specific row. Tip: the first row should
+                                        include columns names (see below preview).", "mki"); ?>
+                                        </li>
+                                        <li>
+                                            <?php _e("Select one column containing the entities and
+                                        one containing the values.", "mki"); ?>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-1"></div>
-                                <div class="form-group col-md-4">
+                        <form method="GET" class="form-horizontal" id="chart-generator-form">
+                            <div class="form-group row">
+                                <div class="col-md-2">
+                                    <label for="cr">
+                                        <?php _e("Starts at row:", "mki"); ?>
+                                    </label>
+                                    <input size="8" class="" name="cr"
+                                           value="<?php print (is_numeric(@$_GET['cr'])) ? $_GET['cr'] : 0; ?>"/>
+                                </div>
+                                <div class="col-md-3">
                                     <label class="" for="cv">
                                         <?php _e("X-Axis:", "mki"); ?>
                                     </label>
@@ -199,7 +185,7 @@
                                         <small id="mki_use_entity_example">&nbsp;</small>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="col-md-3">
                                     <label class="" for="cv">
                                         <?php //_e("Values from column:","mki");?>
                                         <?php _e("Y-Axis:", "mki"); ?>
@@ -219,7 +205,7 @@
                                         <small id="mki_use_value_example">&nbsp;</small>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="col-md-3">
                                     <label class="" for="vt">
                                         <?php _e("Value Type", "mki"); ?>
                                     </label>
@@ -247,8 +233,26 @@
           </select>
         </div>
       </div -->
-
+                            <div class="form-group row" style="text-align: right;    padding-right: 15px;">
+                                <button class="btn btn-default" type="submit" name="data"
+                                        value="<?php print $_GET['data']; ?>">
+                                    <i class="icon ion-checkmark-round"></i>
+                                    <?php _e("Update preview", "mki"); ?>
+                                </button>
+                                <a name="chart-editor" type="button" class="btn btn-danger"
+                                   href="/chart-generator/?data=<?php print $post->ID; ?>"
+                                   class="btn btn-default" type="submit">
+                                    <i class="icon ion-refresh"></i>
+                                    <?php _e("Reset Preview", "mki"); ?>
+                                </a>
+                                <button name="chart-editor" value="<?php print $post->ID; ?>"
+                                        class="btn btn-default btn-primary" type="submit">
+                                    <i class="icon ion-pie-graph"></i>
+                                    <?php _e("Generate chart", "mki"); ?>
+                                </button>
+                            </div>
                         </form>
+                        <?php endif; ?>
                         <div style="color: #000; border: 1px solid #AAA; padding:0px" id="mki_data_div">
                             <?php _e("Loading table...", "mki"); ?>
                         </div>

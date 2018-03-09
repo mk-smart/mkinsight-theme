@@ -589,6 +589,11 @@ a.mki_subtheme {
 
 div#content {padding-top: 100px !important;}
 
+
+/* chart generator */
+#chart-generator-form .col-lg-3, #chart-generator-form .col-md-3, #chart-generator-form .col-sm-4 {
+	margin-bottom: 0px;
+}
 /* TAG CLOUD */
 #tagcloud {
   padding: 50px;
@@ -905,8 +910,8 @@ button.badge-category {margin-bottom:4px; padding: 2px 5px 2px 7px}
 #highlightedCategories .box {flex: 1 1 auto;margin:0px 8px 4px 0px;}
 #highlightedCategories .box:last-child {margin:0px 0px 4px 0px;}
 #highlightedCategories .box .selected {background-color: #e6e6e6; border-color: #adadad;}
-#highlightedCategories .box img {max-height: 40px;}
-#highlightedCategories {}
+#highlightedCategories .box img {max-height: 40px;min-height: 40px;}
+
 
 
 

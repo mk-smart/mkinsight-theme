@@ -37,7 +37,7 @@ $category__and = @$_GET['term_id'];
                 $cslug = $category->slug;
                 $cname = $category->name;
                 $cid = $category->term_id;
-                $img_url = get_template_directory_uri() . '/assets/img/icons/' . $cslug . '.png';
+                $img_url = get_template_directory_uri() . '/assets/img/svg/' . $cslug . '.svg';
                 ?>
                 <div class="box">
                     <?php if (in_array($cid, $category__and)) { ?>
@@ -168,7 +168,10 @@ $category__and = @$_GET['term_id'];
                             });
 
                             // todo disabling chart feature
-                            $filesPreview = [];
+                            $chart = false;
+                            if(current_user_can( 'edit_post', $query->post->ID ) ){
+                                $chart = true;
+                            }
                             ?>
                             <div class="dropdown" style="">
                                 <button class="btn btn-primary dropdown-toggle <?php echo (count($filesPreview) > 0) ?'': 'btn-block';?>" type="button"
@@ -198,13 +201,13 @@ $category__and = @$_GET['term_id'];
                                 </ul>
                             </div>
                             <?php
-                                if( count($filesPreview) > 0):
+                                if($chart && count($filesPreview) > 0):
                             ?>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                         id="menucharts-<?php print $file->ID; ?>"
                                         data-toggle="dropdown">
-                                    <?php _e('Charts', 'mki'); ?>
+                                    <?php echo $chart ? __('Charts', 'mki') : __('Preview', 'mki'); ?>
                                     <span class="bs-caret"><span class="caret"></span></span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu"
