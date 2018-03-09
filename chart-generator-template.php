@@ -92,7 +92,9 @@
                     // $cr = index of row where data starts
                     // $cr - 1 = index of row of columns labels
                     // max($cr-1, 0) = to force columns index as positive integer
-                    $columns = objectToArray($tmp[max($cr-1,0)]);
+                    $columns = objectToArray($tmp[max($cr,0)]);
+//                    var_dump($tmp);
+//                    var_dump($columns);
 
                 } else {
                     mki_error('A problem occurred while reading the data file.');

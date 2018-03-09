@@ -191,7 +191,7 @@ $category__and = @$_GET['term_id'];
                                                 return false;
                                         }
                                     });
-                                    if(false && count($filesPreview) > 0):
+                                    if( count($filesPreview) > 0):
                             ?>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
