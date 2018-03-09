@@ -1421,7 +1421,13 @@ function childrenPages()
         }
     }
 }
+function endsWith($haystack, $needle)
+{
+    $length = strlen($needle);
 
+    return $length === 0 ||
+        (substr($haystack, -$length) === $needle);
+}
 function my_custom_function($html)
 { //Alter final html
     preg_match('~<h3>([^{]*)</h3>~i', $html, $h);
@@ -1429,21 +1435,30 @@ function my_custom_function($html)
     $dropOpen = "<div class=\"dropdown\" >";
     $dropClose = "</div>";
     $downloadButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Download<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
-    $chartsButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Preview<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
+    $chartsButton = "<button class=\"btn btn-primary dropdown-toggle\" type=\"button\" id=\"menudownload-2062\" data-toggle=\"dropdown\" aria-expanded=\"true\">Charts<span class=\"bs-caret\"><span class=\"caret\"></span></span></button>";
     // get list
     preg_match('~<ul class="post-attachments">([^{]*)</ul>~i', $html, $match);
     $list = ($match[1]);
+    $listPreview = $list;
 //    $listPreview = str_replace("", "", $list);
     preg_match_all('/href="([^{]*)"/', $list, $urls);
-    $listPreview = $list;
     $urls = $urls[1];
+    $previewes = array_filter($urls,function ($url){
+        return endsWith($url, '.csv') || endsWith($url, '.xls');
+    });
     foreach ($urls as $url) {
         $id = attachment_url_to_postid($url);
         $link = "/chart-generator?data=$id";
         $listPreview = str_replace($url, $link, $listPreview);
     }
 //    var_dump($urls);
-    $new_html = "<div class=\"fileactions entry-meta-end\">$head$dropOpen$downloadButton<ul class='dropdown-menu'>$list</ul>$dropClose $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose</div>";
+    $new_html = "<div class=\"fileactions entry-meta-end\">$head$dropOpen$downloadButton<ul class='dropdown-menu'>$list</ul>$dropClose";
+    // things to be previewed
+    // todo fix chart
+    if(false && count($previewes) > 0){
+        $new_html = $new_html." $dropOpen$chartsButton<ul class='dropdown-menu'>$listPreview</ul>$dropClose";
+    }
+    $new_html = $new_html."</div>";
     echo $new_html;
 //    return $new_html;
     return "";

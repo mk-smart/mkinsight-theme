@@ -981,8 +981,9 @@ table.dataTable.no-footer{border:none !important;}
 	position: relative;
 	background-color: #00bcf1;
 	padding-right: 26px;
+	text-align: left;
 }
-.fileactions .dropdown button .bs-caret {background-color: #198BAF; position: absolute; top:0px; right: 0px; height: 32px; width: 20px;}
+.fileactions .dropdown button .bs-caret {background-color: #198BAF; position: absolute; top:0px; right: 0px; height: 32px; width: 20px;text-align: center;}
 .fileactions .dropdown button .bs-caret .caret { position: relative; top:5px; }
 .fileactions .dropdown-menu>li>a {display: inline-block;}
 .fileactions .dropdown-menu li.post-attachment {padding: 3px 20px;    background-position: 1px center; list-style: none;}

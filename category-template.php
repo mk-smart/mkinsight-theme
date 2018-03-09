@@ -154,8 +154,8 @@ $category__and = @$_GET['term_id'];
                             ?></td>
                         <td><?php the_date(); ?></td>
                         <td class="fileactions">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button"
+                            <div class="dropdown" style="display: block;">
+                                <button class="btn btn-primary dropdown-toggle btn-block" type="button"
                                         id="menudownload-<?php print $file->ID; ?>"
                                         data-toggle="dropdown">
                                     <?php _e('Download', 'mki'); ?>
@@ -172,20 +172,7 @@ $category__and = @$_GET['term_id'];
                                                title="Download file: <?php print $file->post_title; ?>"
                                                id="file-<?php print $file->ID; ?>">
                                                 <?php print $file->post_title; ?>
-                                                <?php
-                                                /*
-                                                 * MIMEtypes
-                                                 * - application/vnd.ms-excel > XLS
-                                                 * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
-                                                 */
-                                                echo '[';
-                                                if ($file->post_mime_type == "application/vnd.ms-excel") {
-                                                    print "Excel";
-                                                } else {
-                                                    print "CSV";
-                                                }
-                                                echo ']';
-                                                ?>
+                                                <?php echo "[$file->post_mime_type]"; ?>
                                             </a>
                                         </li>
 
@@ -194,6 +181,18 @@ $category__and = @$_GET['term_id'];
                                     ?>
                                 </ul>
                             </div>
+                            <?php
+
+                                    $filesPreview = array_filter($files,function ($file){
+                                        switch($file->post_mime_type){
+                                            case 'application/vnd.ms-excel': return true;
+                                            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': return true;
+                                            default:
+                                                return false;
+                                        }
+                                    });
+                                    if(false && count($filesPreview) > 0):
+                            ?>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button"
                                         id="menucharts-<?php print $file->ID; ?>"
@@ -204,8 +203,7 @@ $category__and = @$_GET['term_id'];
                                 <ul class="dropdown-menu dropdown-menu-right" role="menu"
                                     aria-labelledby="menucharts-<?php print $file->ID; ?>">
                                     <?php
-                                    $files = get_attached_media('', $query->post->ID);
-                                    foreach ($files  as $fid => $file):  ?>
+                                    foreach ($filesPreview  as $fid => $file):  ?>
                                         <li role="presentation">
                                             <a title="Chart generator: <?php print $file->post_title; ?>"
                                                role="menuitem"
@@ -233,6 +231,7 @@ $category__and = @$_GET['term_id'];
                                     ?>
                                 </ul>
                             </div>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php
