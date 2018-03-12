@@ -202,7 +202,7 @@ p{font-size:14px;font-size:1.4rem;}
 # navigation
 #
 --------------------------------------------------*/
-nav{background:#00bcf1;color:#fff;padding:0;margin:0;top:0;left:0;z-index:9999;width:100%;-webkit-box-shadow:0px 3px 5px rgba(100, 100, 100, 0.49);-moz-box-shadow:0px 3px 5px rgba(100, 100, 100, 0.49);box-shadow:0px 3px 5px rgba(100, 100, 100, 0.49);height:85px;}
+nav{background:#00bcf1;color:#fff;padding:0;margin:0;top:0;left:0;z-index:9999;width:100%;-webkit-box-shadow:0px 3px 5px rgba(100, 100, 100, 0.49);-moz-box-shadow:0px 3px 5px rgba(100, 100, 100, 0.49);box-shadow:0px 3px 5px rgba(100, 100, 100, 0.49);height:auto;max-height:85px;}
 nav a{border:none;}
 nav a:focus{outline:none;}
 .navbar{border-radius:0;margin-bottom:0;}
@@ -271,11 +271,11 @@ nav .mki-icon img{margin-top:-2px;}
 .post-edit-link{display:block;background:#f4f4f4;padding:5px 0;text-align:center;border:1px solid #e6e6e6;}
 .post-edit-link:hover{background:#e6e6e6;}
 /*--------------------------------------------------*/
-#content footer nav{background:#fff;margin:60px 0 20px 0;border:none;box-shadow:none;padding:0;}
+#content footer nav{background:#fff;margin:130px 0 0px 0;border:none;box-shadow:none;padding:0;}
 /*--------------------------------------------------*/
 #content #nav-above .nav-previous,#content #nav-above .nav-next{margin-bottom:30px;}
 #content #nav-below .nav-previous,#content #nav-below .nav-next{margin-bottom:20px;}
-#content #nav-above .nav-previous a,#content #nav-above .nav-next a,#content #nav-below .nav-previous a,#content #nav-below .nav-next a{background:#616365;color:#fff;border:none;padding:10px;font-size:14px;font-size:1.4rem;margin:10px 0;}
+#content #nav-above .nav-previous a,#content #nav-above .nav-next a,#content #nav-below .nav-previous a,#content #nav-below .nav-next a{border:none;padding:10px;font-size:14px;font-size:1.4rem;margin:10px 0;}
 #content #nav-above .nav-previous,#content #nav-below .nav-previous{float:left;}
 #content #nav-above .nav-next,#content #nav-below .nav-next{float:right;}
 /*--------------------------------------------------*/
