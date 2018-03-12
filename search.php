@@ -1,4 +1,4 @@
-<?php get_header(); ?>
+<?php get_header();  global $post; ?>
 <section role="main">
     <header class="header">
         <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
@@ -141,7 +141,14 @@
                 <?php //get_template_part( 'entry' ); ?>
                 <div>
                     <h3>
-                        <a href="<?php the_permalink(); ?>">
+                        <?php
+                            $permalink = get_the_permalink();
+                            // if attachment switch permalink
+                            if(get_post_type() == 'attachment'){
+                             $permalink = wp_get_attachment_url(get_the_ID());
+                            }
+                        ?>
+                        <a href="<?php echo $permalink; ?>">
                             <?php
                             /* add icon to title
                              * folder: img/infographics/
@@ -172,24 +179,32 @@
                                 return false;
                             });
 
+
                             switch ($cat) {
                                 case 'report':
-                                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/infographics/pie-chart3.png">';
+                                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/pie-chart3.svg">';
                                     break;
                                 case 'data':
-                                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/infographics/data-green.png">';
+                                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/data-green.svg">';
                                     break;
                                 default:
                                     if (get_post_type() == 'idea') {
-                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/infographics/light-bulb-green.png">';
+                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/light-bulb-green.svg">';
                                     } else {
-                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/infographics/document.png">';
+                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/document.svg">';
                                     }
                             }
                             ?>
-                            <?php the_title(); ?>
+                            <?php
+                                 the_title();
+                            ?>
                         </a>
                     </h3>
+                    <?php
+                        if($attachmentDownload){
+                            echo  "<h4>".__("Attachment found: ","mki")." $attachmentDownload";
+                        }
+                    ?>
                     <section class="entry-meta">
                         <?php if (get_the_terms(get_the_ID(), 'years')) : ?>
                             <span class="entry-date">
@@ -206,12 +221,16 @@
                             <?php the_time(get_option('date_format')); ?>
                         </span>
                     </section>
+                    <?php
+                        $postcats = get_the_category();
+                        $posttags = get_the_tags();
+                        if($posttags || $postcats):
+                    ?>
                     <footer class="entry-footer">
+                        <?php if($postcats){?>
                         <div class="cat-links">
                             <?php _e('Categories: ', 'mki'); ?>
                             <?php
-                            $postcats = get_the_category();
-                            if ($postcats) {
                                 foreach ($postcats as $cat) {
                                     $checked = in_array($cat->slug, $checkedCats);
                                     $cSlug = '\'' . trim($cat->slug) . '\'';
@@ -222,14 +241,14 @@
                                     }
 
                                 }
-                            }
                             ?>
                         </div>
+                        <?php } ?>
+                        <?php if($posttags){ ?>
                         <div class="tag-links">
                             <?php _e('Tags: ', 'mki'); ?>
                             <?php
-                            $posttags = get_the_tags();
-                            if ($posttags) {
+
                                 foreach ($posttags as $tag) {
                                     $tags = explode(",", @$_GET['tag']);
                                     $check = (!in_array(str_replace(" ", "-", $tag->name), $tags));
@@ -240,15 +259,16 @@
                                         echo "<button class='unset' onclick=\"unsetTag($tSlug)\">- $tag->name</button>";
                                     }
                                 }
-                            }
                             ?>
                         </div>
+                        <?php } ?>
                         <?php if (comments_open()) {
                             echo '<span class="meta-sep">|</span> <span class="comments-link">
 <a href="' . get_comments_link() . '">' . sprintf(__('Comments', 'mki')) . '</a>
 </span>';
                         } ?>
                     </footer>
+                    <?php endif; ?>
                 </div>
             <?php endwhile; ?>
             <div class="results_pagination">

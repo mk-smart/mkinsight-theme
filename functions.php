@@ -1482,3 +1482,18 @@ function my_custom_function($html)
 }
 
 add_filter('wpatt_list_html', 'my_custom_function');
+
+
+
+// add attachmemts to search results
+
+function attachment_search( $query ) {
+    if ( $query->is_search ) {
+        $query->set( 'post_type', array( 'post', 'attachment' ) );
+        $query->set( 'post_status', array( 'publish', 'inherit' ) );
+    }
+
+    return $query;
+}
+
+add_filter( 'pre_get_posts', 'attachment_search' );
