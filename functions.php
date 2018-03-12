@@ -723,6 +723,9 @@ add_action('pre_get_posts', 'mki_search_filter_years');
 function mki_advanced_search_query($query)
 {
 
+    //
+
+
     if ($query->is_search()) {
 
         $yearQuery = array('relation' => 'OR');
@@ -760,7 +763,7 @@ function mki_advanced_search_query($query)
                 ));
             }
         }
-        $query->set('tax_query', $yearQuery);
+        $query->set('tax_query', array('relation'=>'AND',$yearQuery) );
         //
 
 

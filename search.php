@@ -6,7 +6,7 @@
                 <h1 class="entry-title form-group" id="search-title">
                     <span for="s"><?php _e("Results:", "mki"); ?></span>
                     <input type="text" class="form-control" value="<?php print @$_GET['s']; ?>" name="s" id="s"
-                           placeholder="keywords">
+                           placeholder="">
                 </h1>
                 <div id="advanced-filter-wrapper">
                     <div class="collapse" id="advanced-filters">
@@ -43,7 +43,7 @@
                             </span>
                             <span>
                                 <input type="checkbox" name="timeless" <?php echo  $_GET['timeless'] ? 'checked': ''; ?> />
-                                <?php _e("Include timeless results") ?>
+                                <?php _e("Include results with no time stamp") ?>
                             </span>
                         </div>
                         <div class="form-group">
@@ -215,8 +215,12 @@
                                 <?php
                                 echo 'About ';
                                 $years = get_the_terms(get_the_ID(), 'years');
-                                $year = $years[0]->name;
-                                echo "<a href=\"#\" onclick=\"setYear($year)\">$year</a>";
+                                $yList = array();
+                                foreach($years as $year){
+                                    $yearName = $year->name;
+                                    array_push($yList, "<a href=\"#\" onclick=\"setYear($yearName)\">$yearName</a>");
+                                }
+                                echo implode(", ",$yList);
                                 ?>
                             </span>
                             <span class="meta-sep"> | </span>

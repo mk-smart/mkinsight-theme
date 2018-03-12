@@ -549,11 +549,14 @@ a.mki_subtheme {
 	padding: 8px 16px;
 	border-radius: 2px;
 }
+#advanced-filter-wrapper input[type=checkbox], #advanced-filter-wrapper input[type=radio]{
+	min-height: auto;
+}
 #content .advanced-search h1#search-title {
 	display: flex;
 }
 #content .advanced-search h1#search-title input#s{
-	margin: 10px 0 0 10px;
+	margin: 4px 0 0 10px;
 	flex: 1 1 auto;
 	vertical-align: text-bottom;
 	width: auto;
@@ -810,13 +813,13 @@ div.results {
 	opacity:0.75;
  }
 .tag-links button, .tag-links a, #content .bootstrap-tagsinput .tag{
-	background-color: #f68822;
+	background-color: #37b34a;
 }
 .cat-links button, .cat-links a {
 	background-color: #209ec8;
 }
 .cat-links button.unset, .tag-links button.unset {
-	background-color: #999;
+	background-color: #f68822;
 }
 #content .bootstrap-tagsinput { width: 100%; display: flex; }
 #content .bootstrap-tagsinput input { background-color: white; flex:1 1 auto; display: initial; border:none; margin: 0px 0px 0px 8px; height: 1.3em; line-height: 1.3em;min-height: initial; }

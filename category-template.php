@@ -128,7 +128,7 @@ $category__and = @$_GET['term_id'];
         <div id="timeless" style="background-color: #e6e6e6;padding: 10px;">
             <input id="timelesscheck" type="checkbox"
                    name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
-            <span style="color:black;font-weight: bold;"><?php _e("Include timeless results") ?></span>
+            <span style="color:black;font-weight: bold;"><?php _e("Include results with no time stamp") ?></span>
         </div>
         <table id="categoryDataTable">
             <thead>
