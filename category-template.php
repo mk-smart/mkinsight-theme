@@ -18,52 +18,54 @@ $category__and = @$_GET['term_id'];
         </h1>
         <?php if ('' != category_description()) echo apply_filters('archive_meta', '<div class="archive-meta">' . category_description() . '</div>'); ?>
         <?php // list of highlighted categories ?>
-        <div class="ipad desktop"><div  id="highlightedCategories"  style="display: flex;">
-            <?php
-            $categories = get_categories(array('taxonomy' => 'category', 'order' => 'ASC'));
+        <div class="ipad desktop">
+            <div id="highlightedCategories" style="display: flex;">
+                <?php
+                $categories = get_categories(array('taxonomy' => 'category', 'order' => 'ASC'));
 
-            //todo get by slug
+                //todo get by slug
 
-            function catFilter($val)
-            {
-                $highlights = ["data", "report", "health-and-social-care", "education-and-skills", "environment", "economy-and-business", "population", "housing"];
-                return (in_array($val->category_nicename, $highlights));
-            }
+                function catFilter($val)
+                {
+                    $highlights = ["data", "report", "health-and-social-care", "education-and-skills", "environment", "economy-and-business", "population", "housing"];
+                    return (in_array($val->category_nicename, $highlights));
+                }
 
-            $highlightCats = array_filter($categories, "catFilter");
-            //            var_dump($highlightCats);
-            // generate list of categories
-            foreach ($highlightCats as $category) {
-                $cslug = $category->slug;
-                $cname = $category->name;
-                $cid = $category->term_id;
-                $img_url = get_template_directory_uri() . '/assets/img/svg/' . $cslug . '.svg';
-                ?>
-                <div class="box">
-                    <?php if (in_array($cid, $category__and)) { ?>
-                        <a href="#" class="btn btn-default vcenter selected"
-                           onclick="removeCat(<?php echo $cid; ?>)">
-                            <div class="align-middle">
-                                <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
-                                     alt="<?php print $cname; ?>">
-                                <span class="strapline"><?php print $cname; ?></span>
-                            </div>
-                        </a>
+                $highlightCats = array_filter($categories, "catFilter");
+                //            var_dump($highlightCats);
+                // generate list of categories
 
-                        <?php
-                    } else { ?>
-                        <a href="#" class="btn btn-default vcenter"
-                           onclick="addCat(<?php echo $cid; ?>)">
-                            <div class="align-middle">
-                                <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
-                                     alt="<?php print $cname; ?>">
-                                <span class="strapline"><?php print $cname; ?></span>
-                            </div>
-                        </a>
-                        <?php
-                    } ?>
-                </div>
-            <?php } ?>
+                foreach ($highlightCats as $category) {
+                    $cslug = $category->slug;
+                    $cname = $category->name;
+                    $cid = $category->term_id;
+                    $img_url = get_template_directory_uri() . '/assets/img/svg/' . $cslug . '.svg';
+                    ?>
+                    <div class="box">
+                        <?php if (in_array($cid, $category__and)) { ?>
+                            <a href="#" class="btn btn-default vcenter selected"
+                               onclick="removeCat(<?php echo $cid; ?>)">
+                                <div class="align-middle">
+                                    <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
+                                         alt="<?php print $cname; ?>">
+                                    <span class="strapline"><?php print $cname; ?></span>
+                                </div>
+                            </a>
+
+                            <?php
+                        } else { ?>
+                            <a href="#" class="btn btn-default vcenter"
+                               onclick="addCat(<?php echo $cid; ?>)">
+                                <div class="align-middle">
+                                    <img class="aligncenter mkicons size-full" src="<?php echo $img_url; ?>"
+                                         alt="<?php print $cname; ?>">
+                                    <span class="strapline"><?php print $cname; ?></span>
+                                </div>
+                            </a>
+                            <?php
+                        } ?>
+                    </div>
+                <?php } ?>
             </div>
         </div>
     </header>
@@ -75,19 +77,29 @@ $category__and = @$_GET['term_id'];
 
     <?php
     // manage search terms
-    $query = new WP_Query(array('category__and' => $category__and, 'nopaging' => TRUE));
+    //    $query = new WP_Query(array('category__and' => $category__and, 'nopaging' => TRUE));
+    $query = new WP_Query(array('nopaging' => TRUE));
     if ($category__and == null) {
         $category__and = array();
     }
     ?>
-    <form style="clear:both;overflow:visible;width: fit-content;" action="<?php print get_category_link($term->term_id); ?>">
+    <form style="clear:both;overflow:visible;width: fit-content;"
+          action="<?php print get_category_link($term->term_id); ?>">
+        <?php
+            // todo manage categories
+        // print hidden field checkbox
+//            var_dump($categories);
+//            foreach ($categories as $cat){
+//                echo "<input class='categories' name=\"category-$cat->slug\" type=\"hidden\" value=\"$cat->term_id\" >";
+//            }
+        ?>
         <!--        https://datatables.net/manual/options -->
         <!-- add event trigger at select -->
         <div id="yearDataFilter">
             <div class="years">
                 <label>From
                     <select class="min year selectpicker" id="minYear" name="ymin">
-                        <option> ---</option>
+                        <option>---</option>
                         <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'ASC'));
                         foreach ($categories as $category):
                             $cslug = $category->slug;
@@ -97,7 +109,7 @@ $category__and = @$_GET['term_id'];
                     </select>
                     to
                     <select class="max year selectpicker" id="maxYear" name="ymax">
-                        <option> ---</option>
+                        <option>---</option>
                         <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
                         foreach ($categories as $category):
                             $cslug = $category->slug;
@@ -106,11 +118,17 @@ $category__and = @$_GET['term_id'];
                         <?php endforeach; ?>
                     </select>
                 </label>
+
             </div>
             <div class="textfilter">
                 <input id="textfilter" type="text" name="s"/>
                 <i class="icon ion-search"></i>
             </div>
+        </div>
+        <div id="timeless" style="background-color: #e6e6e6;padding: 10px;">
+            <input id="timelesscheck" type="checkbox"
+                   name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
+            <span style="color:black;font-weight: bold;"><?php _e("Include timeless results") ?></span>
         </div>
         <table id="categoryDataTable">
             <thead>
@@ -149,7 +167,7 @@ $category__and = @$_GET['term_id'];
                             for ($i = 0; $i < sizeof($years); $i++) {
                                 $year = $years[$i]->name;
                                 if ($i > 0) echo ', ';
-                                echo '<a href="#" class="year-filter" onclick="setDate(' . $year . ')">' . $year . '</a>';
+                                echo '<a value="' . $year . '" href="#" class="year-filter" onclick="setDate(' . $year . ')">' . $year . '</a>';
                             }
                             ?></td>
                         <td><?php the_date(); ?></td>
@@ -158,10 +176,12 @@ $category__and = @$_GET['term_id'];
                             // list of files
                             $files = get_attached_media('', $query->post->ID);
                             // list of files csv like
-                            $filesPreview = array_filter($files,function ($file){
-                                switch($file->post_mime_type){
-                                    case 'application/vnd.ms-excel': return true;
-                                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': return true;
+                            $filesPreview = array_filter($files, function ($file) {
+                                switch ($file->post_mime_type) {
+                                    case 'application/vnd.ms-excel':
+                                        return true;
+                                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                                        return true;
                                     default:
                                         return false;
                                 }
@@ -169,12 +189,13 @@ $category__and = @$_GET['term_id'];
 
                             // todo disabling chart feature
                             $chart = false;
-                            if(current_user_can( 'edit_post', $query->post->ID ) ){
+                            if (current_user_can('edit_post', $query->post->ID)) {
                                 $chart = true;
                             }
                             ?>
                             <div class="dropdown" style="">
-                                <button class="btn btn-primary dropdown-toggle <?php echo (count($filesPreview) > 0) ?'': 'btn-block';?>" type="button"
+                                <button class="btn btn-primary dropdown-toggle <?php echo (count($filesPreview) > 0) ? '' : 'btn-block'; ?>"
+                                        type="button"
                                         id="menudownload-<?php print $file->ID; ?>"
                                         data-toggle="dropdown">
                                     <?php _e('Download', 'mki'); ?>
@@ -201,46 +222,46 @@ $category__and = @$_GET['term_id'];
                                 </ul>
                             </div>
                             <?php
-                                if($chart && count($filesPreview) > 0):
-                            ?>
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button"
-                                        id="menucharts-<?php print $file->ID; ?>"
-                                        data-toggle="dropdown">
-                                    <?php echo $chart ? __('Charts', 'mki') : __('Preview', 'mki'); ?>
-                                    <span class="bs-caret"><span class="caret"></span></span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu"
-                                    aria-labelledby="menucharts-<?php print $file->ID; ?>">
-                                    <?php
-                                    foreach ($filesPreview  as $fid => $file):  ?>
-                                        <li role="presentation">
-                                            <a title="Chart generator: <?php print $file->post_title; ?>"
-                                               role="menuitem"
-                                               id="file-<?php print $file->ID; ?>"
-                                               href="/chart-generator/?data=<?php print $file->ID; ?>">
-                                                <?php print $file->post_title; ?>
-                                                <?php
-                                                /*
-                                                 * MIMEtypes
-                                                 * - application/vnd.ms-excel > XLS
-                                                 * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
-                                                 */
-                                                echo '[';
-                                                if ($file->post_mime_type == "application/vnd.ms-excel") {
-                                                    print "Excel";
-                                                } else {
-                                                    print "CSV";
-                                                }
-                                                echo ']';
-                                                ?>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    endforeach;
-                                    ?>
-                                </ul>
-                            </div>
+                            if ($chart && count($filesPreview) > 0):
+                                ?>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                            id="menucharts-<?php print $file->ID; ?>"
+                                            data-toggle="dropdown">
+                                        <?php echo $chart ? __('Charts', 'mki') : __('Preview', 'mki'); ?>
+                                        <span class="bs-caret"><span class="caret"></span></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"
+                                        aria-labelledby="menucharts-<?php print $file->ID; ?>">
+                                        <?php
+                                        foreach ($filesPreview as $fid => $file): ?>
+                                            <li role="presentation">
+                                                <a title="Chart generator: <?php print $file->post_title; ?>"
+                                                   role="menuitem"
+                                                   id="file-<?php print $file->ID; ?>"
+                                                   href="/chart-generator/?data=<?php print $file->ID; ?>">
+                                                    <?php print $file->post_title; ?>
+                                                    <?php
+                                                    /*
+                                                     * MIMEtypes
+                                                     * - application/vnd.ms-excel > XLS
+                                                     * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
+                                                     */
+                                                    echo '[';
+                                                    if ($file->post_mime_type == "application/vnd.ms-excel") {
+                                                        print "Excel";
+                                                    } else {
+                                                        print "CSV";
+                                                    }
+                                                    echo ']';
+                                                    ?>
+                                                </a>
+                                            </li>
+                                        <?php
+                                        endforeach;
+                                        ?>
+                                    </ul>
+                                </div>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -286,29 +307,6 @@ $category__and = @$_GET['term_id'];
     function setDate(year) {
     };
 
-    function updateQueryStringParameter(uri, key, value) {
-        var re = new RegExp("([?&])" + key + "=.*?(&|#|$)", "i");
-        if (value === undefined) {
-            if (uri.match(re)) {
-                return uri.replace(re, '$1$2');
-            } else {
-                return uri;
-            }
-        } else {
-            if (uri.match(re)) {
-                return uri.replace(re, '$1' + key + "=" + value + '$2');
-            } else {
-                var hash = '';
-                if (uri.indexOf('#') !== -1) {
-                    hash = uri.replace(/.*#/, '#');
-                    uri = uri.replace(/#.*/, '');
-                }
-                var separator = uri.indexOf('?') !== -1 ? "&" : "?";
-                return uri + separator + key + "=" + value + hash;
-            }
-        }
-    }
-
     $(document).ready(function () {
         var table = $('#categoryDataTable').DataTable({
             searching: true,
@@ -332,68 +330,48 @@ $category__and = @$_GET['term_id'];
             function (settings, data, dataIndex) {
                 var min = parseInt($('#minYear').val(), 10);
                 var max = parseInt($('#maxYear').val(), 10);
-                var year = parseFloat(data[2]) || 0; // use data for the age column
-                // console.log('check filter', data, min, max);
-                if ((isNaN(min) && isNaN(max)) ||
-                    (isNaN(min) && year <= max) ||
-                    (min <= year && isNaN(max)) ||
-                    (min <= year && year <= max)) {
-                    return true;
+
+                // split years
+                var years = data[2].split(', ');
+
+                // var year = parseFloat(data[2]) || 0; // use data for the age column
+                // console.log('check filter', year, min, max);
+                for(var i = 0; i < years.length; i++) {
+                    var year = parseInt(years[i].trim());
+                    if ((isNaN(min) && isNaN(max)) ||
+                        (isNaN(min) && year <= max) ||
+                        (min <= year && isNaN(max)) ||
+                        (min <= year && year <= max)) {
+                        return true;
+                    }
+                };
+                // include timeless
+                if($('#timelesscheck').is(':checked')){
+                    console.log((years.length === 0 || (years.length ===1 && !parseInt(years[0] ) ) ));
+                    if(years.length === 0 || (years.length ===1 && !parseInt(years[0] ) ) ){return true;}
                 }
+
+                // todo add category filter
+
                 return false;
             }
         );
 
-        // init value management
-        if ($('#minYear').val()) {
-            table.draw();
-        }
-        if ($('#maxYear').val()) {
-            table.draw();
-        }
+        // on change trigger search
+        $('#minYear').change(function () {table.draw();});
+        $('#maxYear').change(function () {table.draw();});
+        $('#timelesscheck').change(function () {table.draw();});
 
-        // date interval selection event handlers
-        $('#minYear').change(function () {
-            if ('URLSearchParams' in window) {
-                var year = $('#minYear').val();
-
-                var searchParams = new URLSearchParams(window.location.search);
-
-                if (!parseInt(year)) {
-                    searchParams.delete("ymin");
-                } else {
-                    searchParams.set("ymin", year);
-                }
-
-                window.location.search = searchParams.toString();
-            }
-        })
-        ;$('#maxYear').change(function () {
-            if ('URLSearchParams' in window) {
-                var year = $('#maxYear').val()
-
-                var searchParams = new URLSearchParams(window.location.search);
-
-                if (!parseInt(year)) {
-                    searchParams.delete("ymax");
-                } else {
-                    searchParams.set("ymax", year);
-                }
-                window.location.search = searchParams.toString();
-            }
-        });
 
         // year link click handler
         // sets both dates
+        // search table
         setDate = function (year) {
-            if ('URLSearchParams' in window) {
-                var searchParams = new URLSearchParams(window.location.search);
-                searchParams.set("ymin", year);
-                searchParams.set("ymax", year);
-                window.location.search = searchParams.toString();
-            }
+            $(".selectpicker").selectpicker('val',year);
+            table.draw();
         }
 
 
-    });
+    })
+    ;
 </script>

@@ -41,6 +41,10 @@
                                     <?php endforeach; ?>
                                 </select>
                             </span>
+                            <span>
+                                <input type="checkbox" name="timeless" <?php echo  $_GET['timeless'] ? 'checked': ''; ?> />
+                                <?php _e("Include timeless results") ?>
+                            </span>
                         </div>
                         <div class="form-group">
                             <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>

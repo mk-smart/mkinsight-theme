@@ -724,6 +724,17 @@ function mki_advanced_search_query($query)
 {
 
     if ($query->is_search()) {
+
+        $yearQuery = array('relation' => 'OR');
+        // manage timeless results
+        if (isset($_GET['timeless']) && $_GET['timeless'] == 'on') {
+            // todo include results without year category
+            $timeless = array(
+                'taxonomy' => 'years',
+                'operator' => 'NOT EXISTS'
+            );
+            array_push($yearQuery, $timeless);
+        }
         // If ymin and ymax
         if (isset($_GET['ymin']) || isset($_GET['ymax'])) {
             $years = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
@@ -740,9 +751,18 @@ function mki_advanced_search_query($query)
             }
             if (!empty($use_years)) {
 //                var_dump($use_years);
-                $query->set('years', $use_years);
+//                $query->set('years', $use_years);
+                array_push($yearQuery, array(
+                    'taxonomy' => 'years',
+                    'operator' => 'IN',
+                    'field' => 'slug',
+                    'terms' => $use_years
+                ));
             }
         }
+        $query->set('tax_query', $yearQuery);
+        //
+
 
         // category search
         if (isset($_GET['category']) && is_array($_GET['category'])) {
@@ -1457,13 +1477,13 @@ function my_custom_function($html)
             $id = attachment_url_to_postid($url);
             $link = "/chart-generator?data=$id";
             $listPreview = str_replace($url, $link, $listPreview);
-        }else{
+        } else {
             // fail the test: should be hidden
             // hide item
-            $listPreview =  str_replace(
-            "><a href=\"$url\"",
-            " style=\"display:none;\"><a href=\"$url\"",
-            $listPreview);
+            $listPreview = str_replace(
+                "><a href=\"$url\"",
+                " style=\"display:none;\"><a href=\"$url\"",
+                $listPreview);
         }
     }
 //    var_dump($urls);
@@ -1484,16 +1504,16 @@ function my_custom_function($html)
 add_filter('wpatt_list_html', 'my_custom_function');
 
 
-
 // add attachmemts to search results
 
-function attachment_search( $query ) {
-    if ( $query->is_search ) {
-        $query->set( 'post_type', array( 'post', 'attachment' ) );
-        $query->set( 'post_status', array( 'publish', 'inherit' ) );
+function attachment_search($query)
+{
+    if ($query->is_search) {
+        $query->set('post_type', array('post', 'attachment'));
+        $query->set('post_status', array('publish', 'inherit'));
     }
 
     return $query;
 }
 
-add_filter( 'pre_get_posts', 'attachment_search' );
+add_filter('pre_get_posts', 'attachment_search');
