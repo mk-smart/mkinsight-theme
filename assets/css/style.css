@@ -818,7 +818,7 @@ div.results {
 .cat-links button, .cat-links a {
 	background-color: #209ec8;
 }
-.cat-links button.unset, .tag-links button.unset {
+.cat-links button.unset, .tag-links button.unset, .bootstrap-tagsinput .tag {
 	background-color: #f68822;
 }
 #content .bootstrap-tagsinput { width: 100%; display: flex; }
