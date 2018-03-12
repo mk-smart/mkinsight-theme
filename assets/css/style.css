@@ -812,13 +812,13 @@ div.results {
 .cat-links button:hover, .tag-links button:hover, .cat-links a:hover, .tag-links a:hover {
 	opacity:0.75;
  }
-.tag-links button, .tag-links a, #content .bootstrap-tagsinput .tag{
+.tag-links button, .tag-links a{
 	background-color: #37b34a;
 }
 .cat-links button, .cat-links a {
 	background-color: #209ec8;
 }
-.cat-links button.unset, .tag-links button.unset, .bootstrap-tagsinput .tag {
+.cat-links button.unset, .tag-links button.unset, #content .bootstrap-tagsinput .tag {
 	background-color: #f68822;
 }
 #content .bootstrap-tagsinput { width: 100%; display: flex; }
