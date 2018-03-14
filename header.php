@@ -34,16 +34,18 @@
 
     <!-- MDA -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript"
-            src="<?php echo get_template_directory_uri(); ?>/mkio2/canvas/canvasjs.min.js"></script>
+    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/mkio2/canvas/canvasjs.min.js"></script>
+    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap-tagsinput.js"></script>
+    <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/typeahead.bundle.js"></script>
     <!-- //code.jquery.com/jquery-1.11.3.min.js -->
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 
-    <script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
+<!--    <script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>-->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"/>
+<!--    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"/>-->
+    <link href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap-tagsinput.css" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>

@@ -1,4 +1,5 @@
-<?php get_header();  global $post; ?>
+<?php get_header();
+global $post; ?>
 <section role="main">
     <header class="header">
         <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
@@ -12,7 +13,7 @@
                     <div class="collapse" id="advanced-filters">
                         <div class="form-group">
                             <label style="display:inline-block"><?php _e("Tags:", "mki"); ?></label>
-                            <input id="tag-input" type="text"
+                            <input id="tag-input" type="text" class=""
                                    value="<?php echo str_replace("-", " ", @$_GET['tag']); ?>" data-role="tagsinput"
                                    name="tag"/>
                         </div>
@@ -42,18 +43,21 @@
                                 </select>
                             </span>
                             <span>
-                                <input type="checkbox" name="timeless" <?php echo  $_GET['timeless'] ? 'checked': ''; ?> />
+                                <input type="checkbox"
+                                       name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
                                 <?php _e("Include results with no time stamp") ?>
                             </span>
                         </div>
                         <div class="form-group">
                             <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>
                             <label class="radio-inline" style="font-weight: 500;">
-                                <input type="radio" value="DESC" name="order" <?php echo @$_GET['order'] != 'ASC' ? 'checked': ''; ?> />
+                                <input type="radio" value="DESC"
+                                       name="order" <?php echo @$_GET['order'] != 'ASC' ? 'checked' : ''; ?> />
                                 <?php _e("Newer to Older", "mki"); ?>
                             </label>
                             <label class="radio-inline"" style="font-weight: 500;">
-                            <input type="radio" value="ASC" name="order" <?php echo @$_GET['order'] == 'ASC' ? 'checked': ''; ?> />
+                            <input type="radio" value="ASC"
+                                   name="order" <?php echo @$_GET['order'] == 'ASC' ? 'checked' : ''; ?> />
                             <?php _e("Older to Newer", "mki"); ?>
                             </label>
                         </div>
@@ -146,11 +150,11 @@
                 <div>
                     <h3>
                         <?php
-                            $permalink = get_the_permalink();
-                            // if attachment switch permalink
-                            if(get_post_type() == 'attachment'){
-                             $permalink = wp_get_attachment_url(get_the_ID());
-                            }
+                        $permalink = get_the_permalink();
+                        // if attachment switch permalink
+                        if (get_post_type() == 'attachment') {
+                            $permalink = wp_get_attachment_url(get_the_ID());
+                        }
                         ?>
                         <a href="<?php echo $permalink; ?>">
                             <?php
@@ -200,14 +204,14 @@
                             }
                             ?>
                             <?php
-                                 the_title();
+                            the_title();
                             ?>
                         </a>
                     </h3>
                     <?php
-                        if($attachmentDownload){
-                            echo  "<h4>".__("Attachment found: ","mki")." $attachmentDownload";
-                        }
+                    if ($attachmentDownload) {
+                        echo "<h4>" . __("Attachment found: ", "mki") . " $attachmentDownload";
+                    }
                     ?>
                     <section class="entry-meta">
                         <?php if (get_the_terms(get_the_ID(), 'years')) : ?>
@@ -216,11 +220,11 @@
                                 echo 'About ';
                                 $years = get_the_terms(get_the_ID(), 'years');
                                 $yList = array();
-                                foreach($years as $year){
+                                foreach ($years as $year) {
                                     $yearName = $year->name;
                                     array_push($yList, "<a href=\"#\" onclick=\"setYear($yearName)\">$yearName</a>");
                                 }
-                                echo implode(", ",$yList);
+                                echo implode(", ", $yList);
                                 ?>
                             </span>
                             <span class="meta-sep"> | </span>
@@ -230,52 +234,52 @@
                         </span>
                     </section>
                     <?php
-                        $postcats = get_the_category();
-                        $posttags = get_the_tags();
-                        if($posttags || $postcats):
-                    ?>
-                    <footer class="entry-footer">
-                        <?php if($postcats){?>
-                        <div class="cat-links">
-                            <?php _e('Categories: ', 'mki'); ?>
-                            <?php
-                                foreach ($postcats as $cat) {
-                                    $checked = in_array($cat->slug, $checkedCats);
-                                    $cSlug = '\'' . trim($cat->slug) . '\'';
-                                    if ($checked) {
-                                        echo "<button class='unset' onclick=\"unsetCat($cSlug)\">- $cat->name</button>";
-                                    } else {
-                                        echo "<button onclick=\"setCat($cSlug)\">+ $cat->name</button>";
-                                    }
+                    $postcats = get_the_category();
+                    $posttags = get_the_tags();
+                    if ($posttags || $postcats):
+                        ?>
+                        <footer class="entry-footer">
+                            <?php if ($postcats) { ?>
+                                <div class="cat-links">
+                                    <?php _e('Categories: ', 'mki'); ?>
+                                    <?php
+                                    foreach ($postcats as $cat) {
+                                        $checked = in_array($cat->slug, $checkedCats);
+                                        $cSlug = '\'' . trim($cat->slug) . '\'';
+                                        if ($checked) {
+                                            echo "<button class='unset' onclick=\"unsetCat($cSlug)\">- $cat->name</button>";
+                                        } else {
+                                            echo "<button onclick=\"setCat($cSlug)\">+ $cat->name</button>";
+                                        }
 
-                                }
-                            ?>
-                        </div>
-                        <?php } ?>
-                        <?php if($posttags){ ?>
-                        <div class="tag-links">
-                            <?php _e('Tags: ', 'mki'); ?>
-                            <?php
-
-                                foreach ($posttags as $tag) {
-                                    $tags = explode(",", @$_GET['tag']);
-                                    $check = (!in_array(str_replace(" ", "-", $tag->name), $tags));
-                                    $tSlug = '\'' . trim($tag->name) . '\'';
-                                    if ($check) {
-                                        echo "<button onclick=\"setTag($tSlug)\">+ $tag->name</button>";
-                                    } else {
-                                        echo "<button class='unset' onclick=\"unsetTag($tSlug)\">- $tag->name</button>";
                                     }
-                                }
-                            ?>
-                        </div>
-                        <?php } ?>
-                        <?php if (comments_open()) {
-                            echo '<span class="meta-sep">|</span> <span class="comments-link">
+                                    ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($posttags) { ?>
+                                <div class="tag-links">
+                                    <?php _e('Tags: ', 'mki'); ?>
+                                    <?php
+
+                                    foreach ($posttags as $tag) {
+                                        $tags = explode(",", @$_GET['tag']);
+                                        $check = (!in_array(str_replace(" ", "-", $tag->name), $tags));
+                                        $tSlug = '\'' . trim($tag->name) . '\'';
+                                        if ($check) {
+                                            echo "<button onclick=\"setTag($tSlug)\">+ $tag->name</button>";
+                                        } else {
+                                            echo "<button class='unset' onclick=\"unsetTag($tSlug)\">- $tag->name</button>";
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            <?php } ?>
+                            <?php if (comments_open()) {
+                                echo '<span class="meta-sep">|</span> <span class="comments-link">
 <a href="' . get_comments_link() . '">' . sprintf(__('Comments', 'mki')) . '</a>
 </span>';
-                        } ?>
-                    </footer>
+                            } ?>
+                        </footer>
                     <?php endif; ?>
                 </div>
             <?php endwhile; ?>
@@ -302,8 +306,31 @@
 </div>
 </div>
 </div>
+
 <script type="text/javascript">
-    // general approach
+    <?php
+    // list of tags
+    $tags = implode(',', array_map(function ($term) {
+        return "\"$term->name\"";
+    }, get_tags()));
+    //var_dump($tags);
+    ?>
+    // autocomplete
+    $('#tag-input').tagsinput({
+        typeahead: {
+            source: <?php echo "[$tags]"; ?>,
+            // afterSelect: function () {
+            //     $('#tag-input').tagsinput('input').val('');
+            // },
+            confirmKeys: null
+        }
+    });
+    $('.typeahead').on('change', function(e) {
+        e.preventDefault();
+        return false;
+    });
+
+        // general approach
     // set search params and reload
 
     // apply time filter and reload

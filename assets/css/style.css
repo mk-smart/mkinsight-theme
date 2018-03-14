@@ -825,6 +825,10 @@ div.results {
 #content .bootstrap-tagsinput input { background-color: white; flex:1 1 auto; display: initial; border:none; margin: 0px 0px 0px 8px; height: 1.3em; line-height: 1.3em;min-height: initial; }
 #content .bootstrap-tagsinput .tag { font-size: 14px;}
 
+ul.typeahead, ul.typeahead li {margin: 0px;padding: 0px;}
+ul.typeahead li {list-style: none;}
+
+
 div.results_pagination{
 	margin:20px 0px;
 	text-align: center;
