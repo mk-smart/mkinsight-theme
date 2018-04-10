@@ -4,18 +4,7 @@
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <header class="header">
                     <!-- 	<?php edit_post_link(); ?> -->
-                    <?php if (is_front_page()) : ?>
-                        <h1 class="home centered">
-                            <?php
-                            /* add icon to title
-                             * folder: img/infographics/
-                             * page: document.png
-                            */
-                            ?>
-                            <?php //echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/document.png">'; ?>
-                            <?php the_title(); ?>
-                        </h1>
-                    <?php else: ?>
+                    <?php if (!is_front_page()) : ?>
                         <?php custom_breadcrumbs(); ?>
                         <?php
                         if (strcmp(get_the_title(), "Charts") !== 0) { ?>
