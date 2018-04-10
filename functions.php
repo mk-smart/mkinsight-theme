@@ -365,7 +365,49 @@ HTML;
 
 add_shortcode('mkiicon', 'mkiicon_func');
 
+function getIcon($icon, $text, $height){
+    $availableIcons = ["group-quarter","two-n-two-group","population","mixed-group", "3quarter-group", "age-groups", "ethnic-minority", "group-blue", "group-couples","group-half","group-one-faded","group-two-faded","group","group2"];
+    // so far we manage population only
+    if(!in_array($icon, $availableIcons) ){
+        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $icon . '.svg';
+        return "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+    }
+    // manage population icons
+    $img_url = get_template_directory_uri() . '/assets/img/generator/';
+    // parsing text
+    preg_match_all('![£]*\d+[\,\.]?\d*[%stndrdth]*\d*[kbnml]*!', $text, $matches);
+    foreach ($matches[0] as $numb) {
+        $icon_height = 30;
+        $box_width = 120;
+        $topmargin = round(($height - 60)/2);
+        // includes %
+        if(strpos($numb, '%') != false){
+            // remove % and parse to int
+            $tmp = intval(str_replace('%',"", $numb));
+            // ratio to 1/10 and floor
+            $ratio = floor($tmp/10 );
+            $newIcon = "<div style=\"width: ${box_width}px;height: ${height}px\" class=\"aligncenter size-full\"><div style=\"padding-top:${topmargin}px\">";
 
+            // printing empty icons
+            // 10 - ratio
+            $img = $img_url."person-blue-transparent.svg";
+            $c = 10 - $ratio;
+            for($i = 0; $i < $c; $i++){
+                $newIcon = $newIcon."<img class=\"icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
+            }
+            // printing full icons
+            // ratio
+            $img = $img_url."person-green.svg";
+            for($i = 0; $i < $ratio; $i++){
+                $newIcon = $newIcon."<img class=\"size-full icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
+            }
+
+            return $newIcon."</div></div>";
+        }
+    }
+    $img_url = get_template_directory_uri() . '/assets/img/svg/' . $icon . '.svg';
+    return "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+}
 // shortcode for icons in infographics
 function mkifigures_func($atts)
 {
@@ -376,14 +418,7 @@ function mkifigures_func($atts)
         'link' => '',
         'img_height' => ''
     ), $atts);
-    if (strpos($a['icon'], 'http://') === 0 ||
-        strpos($a['icon'], 'https://') === 0 ||
-        strpos($a['icon'], '//') === 0) {
-        $img_url = $a['icon'];
-    } else {
-        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $a['icon'] . '.svg';
-//        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
-    }
+
 
     // management of multiple links
     $hrefs = explode(",", $a['link']);
@@ -425,9 +460,10 @@ function mkifigures_func($atts)
         $links = $links . "<a href =\"$link\" class=\"aligncenter\" title=\"$urlName\"><i class=\"icon $iconClass\"></i></a>";
     }
 
-
     // text management
     $text = $a['text'];
+
+    // icon management
     $height = 90;
     if (strlen($text) > 30) {
         $height = 90;
@@ -438,6 +474,21 @@ function mkifigures_func($atts)
     if ($a['img_height']) {
         $height = min($height, $a['img_height']);
     }
+
+    if (strpos($a['icon'], 'http://') === 0 ||
+        strpos($a['icon'], 'https://') === 0 ||
+        strpos($a['icon'], '//') === 0) {
+        $img_url = $a['icon'];
+        $icon = "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+    } else {
+        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $a['icon'] . '.svg';
+//        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
+        $icon = "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+        $icon = getIcon($a['icon'], $text, $height);
+    }
+
+
+
 
 
     // parse text to hightlight numbers
@@ -465,7 +516,8 @@ function mkifigures_func($atts)
         return <<<HTML
     <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-10 col-xs-offset-1 mkifigure">
         <div class="align-middle figure">
-            <img class="aligncenter size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
+            <!--<img class="aligncenter size-full" src="$img_url" alt="$text" style="height:${height}px;"/>-->
+            $icon
             <span class="strapline">$text</span>
         </div>
         <div class="sources align-middle">

@@ -811,7 +811,7 @@ nav .mki-icon img {
 
 #content {
     background: #fff;
-    padding: 60px 0 40px 0;
+    padding: 76px 0 40px 0;
 }
 
 #content h1 {
@@ -819,8 +819,8 @@ nav .mki-icon img {
     font-weight: 400;
     margin-left: 0px;
     margin-right: 0px;
-    margin-bottom: 10px;
-    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-top: 30px;
     color: #616365;
 }
 
@@ -929,6 +929,10 @@ nav .mki-icon img {
 #content .mkicons {
     opacity: 1;
     margin-bottom: 12px;
+}
+
+.icon-generator{
+    vertical-align: middle;
 }
 
 /* width:40% !important; ED did */
