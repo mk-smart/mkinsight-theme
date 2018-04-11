@@ -31,6 +31,9 @@
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.easing.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/inline-tweet.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.mobile.custom.min.js"></script>
+<!--   jQuery UI-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- MDA -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -65,7 +68,6 @@
     <script src="//cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 
 </head>
-
 <body id="page-top" data-spy="scroll">
 <!-- Navigation -->
 <nav class="navbar navbar-default" role="navigation">
@@ -113,15 +115,39 @@
     </div>
 </nav>
 <!-- header front page -->
+<?php
+// header of the search page
+if (is_search()):
+    ?>
+    <div id="searchpage-header" class="page-header">
+        <div class="desktop ipad">
+            <h1 style="text-align: center;">
+                <?php
+                _e("Download, Filter, Sort or datasources by Text, Tags or Year", "mki");
+                ?>
+            </h1>
+        </div>
+        <div id="searchbox">
+            <form name="search">
+                <input type="<?php if(@$_GET['s']){ echo 'text';}else{ echo 'hidden';} ?>" name="s" value="<?php echo @$_GET['s']; ?>"/>
+                <input type="<?php if(!@$_GET['s']){ echo 'text';}else{ echo 'hidden';} ?>" name="tag" value="<?php echo str_replace("-", " ", @$_GET['tag']);?>"/>
+                <div id="text-switch" class="switch"><button type="reset" class="btn <?php if(@$_GET['s']){ echo 'active';} ?>"><?php _e("Text","mki");?></button></div>
+                <div id="tag-switch" class="switch"><button type="reset" class="btn <?php if(!@$_GET['s']){ echo 'active';} ?>"><?php _e("Tags","mki");?></button></div>
+                <button type="submit" class="btn"><i class="icon ion-search"></i></button>
+            </form>
+        </div>
+    </div>
+<?php
+endif;
+?>
 <?php if (is_front_page()): ?>
-    <div id="frontpage-header">
+    <div id="frontpage-header" class="page-header">
         <h1 class="home centered desktop ipad">
             <?php _e("Quick access to information about Milton Keynes", "mki"); ?>
         </h1>
         <div class="desktop ipad">
             <p style="text-align: center;">
                 <?php
-                // todo add searchbar
                 _e("Built on the MK Data Hub, it aims to be a one-stop-shop for sharing documents, information and data, and provides tools for exploring these data both in their original form, and in convenient charts and maps.", "mki");
                 ?>
             </p>

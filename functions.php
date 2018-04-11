@@ -821,11 +821,31 @@ function mki_advanced_search_query($query)
 
         // category search
         if (isset($_GET['category']) && is_array($_GET['category'])) {
-            $query->set('category_name', implode(',', $_GET['category']));
+            $cats = array_filter(array_map('trim',explode(",", $_GET['catwgory'])), function($value) { return $value !== ''; });
+            $query->set('category_name', implode(',', $cats));
         }
-        // tag search
+        // tag and cats search
         if (isset($_GET['tag'])) {
-            $tags = explode(",", $_GET['tag']);
+            $tagsList = array_filter(array_map('trim',explode(",", $_GET['tag'])), function($value) { return $value !== ''; });
+//            var_dump($tags);
+
+            // extract categories from tags to be included in the search
+            $catList = get_categories();
+//            var_dump($catList);
+            $cats = array_filter($tagsList,function($c){
+                $catList = array_map(function($c){
+                    return $c->cat_name;
+                },get_categories());
+                return in_array($c,$catList);
+            });
+//            var_dump($cats);
+            $query->set('category_name', implode(',', $cats));
+
+            // remove tags which are not in the category list
+            $tags = array_filter($tagsList, function ($t) {
+                return !in_array($t, $cats);
+            });
+            // add tags
             $tagString = implode('+', $tags);
             $tagQuery = str_replace(" ", "-", $tagString);
 //            $query->set('tag', "Milton Keynes");

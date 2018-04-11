@@ -4,50 +4,8 @@ global $post; ?>
     <header class="header">
         <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
             <form id="advanced-search-form" class="" role="search" method="get" action="<?php print home_url(); ?>">
-                <h1 class="entry-title form-group" id="search-title">
-                    <span for="s"><?php _e("Results:", "mki"); ?></span>
-                    <input type="text" class="form-control" value="<?php print @$_GET['s']; ?>" name="s" id="s"
-                           placeholder="">
-                </h1>
                 <div id="advanced-filter-wrapper">
-                    <div class="collapse" id="advanced-filters">
-                        <div class="form-group">
-                            <label style="display:inline-block"><?php _e("Tags:", "mki"); ?></label>
-                            <input id="tag-input" type="text" class=""
-                                   value="<?php echo str_replace("-", " ", @$_GET['tag']); ?>" data-role="tagsinput"
-                                   name="tag"/>
-                        </div>
-                        <!-- YEAR RANGE -->
-                        <div class="form-group">
-                            <label style="display:inline-block"><?php _e("About years:", "mki"); ?></label>
-                            <span>
-                                <?php _e("from", "mki"); ?>
-                                <select class="min year" id="minYear" name="ymin">
-                                    <option> ---</option>
-                                    <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'ASC'));
-                                    foreach ($categories as $category):
-                                        $cslug = $category->slug;
-                                        $checked = ($cslug == $_GET['ymin']) ? 'selected="selected"' : ""; ?>
-                                        <option value="<?php print $cslug; ?>" <?php print $checked; ?> ><?php print $category->name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <?php _e("to", "mki"); ?>
-                                <select class="max year" id="maxYear" name="ymax">
-                                    <option> ---</option>
-                                    <?php $categories = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
-                                    foreach ($categories as $category):
-                                        $cslug = $category->slug;
-                                        $checked = ($cslug == $_GET['ymax']) ? 'selected="selected"' : ""; ?>
-                                        <option value="<?php print $cslug; ?>" <?php print $checked; ?> ><?php print $category->name; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </span>
-                            <span>
-                                <input type="checkbox"
-                                       name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
-                                <?php _e("Include results with no time stamp") ?>
-                            </span>
-                        </div>
+                    <div id="advanced-filters">
                         <div class="form-group">
                             <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>
                             <label class="radio-inline" style="font-weight: 500;">
@@ -61,38 +19,24 @@ global $post; ?>
                             <?php _e("Older to Newer", "mki"); ?>
                             </label>
                         </div>
-                        <div class="form-group">
-                            <label><?php _e("Categories:", "mki"); ?></label>
-                            <ul class="checkboxes list-unstyled row">
-                                <?php
-                                // generate list of categories
-                                $categories = get_categories();
-                                $checkedCats = [];
-                                foreach ($categories as $category) {
-                                    $cslug = $category->slug;
-                                    $cname = $category->name;
-                                    $checked = (@in_array($cslug, $_GET['category'])) ? 'checked="checked"' : "";
-                                    if ($checked != "") {
-                                        array_push($checkedCats, $cslug);
-                                    }
-                                    echo "<li class='checkbox col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-6'><input id='check-$cslug' type='checkbox' value='$cslug' $checked name='category[]' class='form-check-input'><label for='check-$cslug' class=\"form-check-label\">$cname</label></li>";
-                                }
-                                ?>
-                            </ul>
-                        </div>
-                        <div class="form-group" style="text-align:right;">
-                            <input style="display: inline-block;width: auto;" type="submit" id="searchsubmit"
-                                   value="<?php _e("Apply Filters", "mki"); ?>">
-                        </div>
                     </div>
-                    <a id="advance-search-toggler" class="collapsed" data-toggle="collapse" href="#advanced-filters"
-                       role="button" aria-expanded="false" aria-controls="advanced-filters"><i class="icon"></i>
-                        <?php _e("Advanced Search", "mki"); ?>
-                    </a>
+                </div>
+                <div id="slider-range">
+                    <div class="ui-slider-handle" id="year-from"><input name="ymin" value="<?php echo $_GET['ymin']; ?>"
+                                                                        type="hidden"></div>
+                    <div class="ui-slider-handle" id="year-to"><input name="ymax" value="<?php echo $_GET['ymax']; ?>"
+                                                                      type="hidden"></div>
+                </div>
+                <div class="form-group">
+                    <span>
+                        <input type="checkbox"
+                               name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
+                        <?php _e("Include results with no time stamp") ?>
+                    </span>
                 </div>
             </form>
-        </div>
 
+        </div>
     </header>
     <?php
     // Prepare query
@@ -236,6 +180,9 @@ global $post; ?>
                     <?php
                     $postcats = get_the_category();
                     $posttags = get_the_tags();
+                    $tags = array_filter(array_map('trim', explode(",", @$_GET['tag'])), function ($value) {
+                        return $value !== '';
+                    });
                     if ($posttags || $postcats):
                         ?>
                         <footer class="entry-footer">
@@ -244,12 +191,12 @@ global $post; ?>
                                     <?php _e('Categories: ', 'mki'); ?>
                                     <?php
                                     foreach ($postcats as $cat) {
-                                        $checked = in_array($cat->slug, $checkedCats);
+                                        $checked = (!in_array(str_replace(" ", "-", $cat->name), $tags));
                                         $cSlug = '\'' . trim($cat->slug) . '\'';
                                         if ($checked) {
-                                            echo "<button class='unset' onclick=\"unsetCat($cSlug)\">- $cat->name</button>";
+                                            echo "<button onclick=\"setCat($cSlug)\">$cat->name</button>";
                                         } else {
-                                            echo "<button onclick=\"setCat($cSlug)\">+ $cat->name</button>";
+                                            echo "<button class='unset' onclick=\"unsetCat($cSlug)\"><i class='icon ion-close-round'></i>$cat->name</button>";
                                         }
 
                                     }
@@ -262,13 +209,12 @@ global $post; ?>
                                     <?php
 
                                     foreach ($posttags as $tag) {
-                                        $tags = explode(",", @$_GET['tag']);
-                                        $check = (!in_array(str_replace(" ", "-", $tag->name), $tags));
+                                        $checked = (!in_array(str_replace(" ", "-", $tag->name), $tags));
                                         $tSlug = '\'' . trim($tag->name) . '\'';
-                                        if ($check) {
-                                            echo "<button onclick=\"setTag($tSlug)\">+ $tag->name</button>";
+                                        if ($checked) {
+                                            echo "<button onclick=\"setTag($tSlug)\">$tag->name</button>";
                                         } else {
-                                            echo "<button class='unset' onclick=\"unsetTag($tSlug)\">- $tag->name</button>";
+                                            echo "<button class='unset' onclick=\"unsetTag($tSlug)\"><i class='icon ion-close-round'></i>$tag->name</button>";
                                         }
                                     }
                                     ?>
@@ -308,6 +254,72 @@ global $post; ?>
 </div>
 
 <script type="text/javascript">
+
+
+    // timeline
+    <?php
+    $years = array_map(function ($y) {
+        return $y->name;
+    }, get_categories(array('taxonomy' => 'years', 'order' => 'ASC')));
+    //var_dump($years);
+    ?>
+    var years = <?php echo "[" . implode(",", $years) . "]"; ?>;
+    var ymin = <?php echo $_GET['ymin'] ? $_GET['ymin'] : $years[0]; ?>;
+    var ymax = <?php echo $_GET['ymax'] ? $_GET['ymax'] : end($years); ?>;
+    // console.log(years,ymin,ymax);
+    var handleFrom = $("#year-from");
+    var handleTo = $("#year-to");
+    $("#slider-range").slider({
+        range: true,
+        create: function (event, ui) {
+            console.log($(this).slider("values"));
+            var values = $(this).slider("values");
+            handleFrom.text(values[0]);
+            handleTo.text(values[1]);
+        },
+        min: years[0],
+        max: years[years.length - 1],
+        values: [ymin, ymax],
+        slide: function (event, ui) {
+            // console.log(ui.values);
+            handleFrom.text(ui.values[0]);
+            handleTo.text(ui.values[1]);
+            // $( "#year-range-from" ).val( ui.values[ 0 ]);
+            // $( "#year-range-to" ).val( ui.values[ 1 ] );
+        }
+    });
+    $("#year-range-from").val($("#slider-range").slider("values", 0));
+    $("#year-range-to").val($("#slider-range").slider("values", 1));
+    // end timeline
+
+
+    // text/tag switch management
+    $('#text-switch .btn').click(function () {
+        $(this).addClass('active');
+        $('#tag-switch .btn').removeClass('active');
+        $('#searchbox form input[name="s"]').attr('type', 'text');
+        $('#searchbox form input[name="tag"]').attr('type', 'hidden');
+    });
+    $('#tag-switch .btn').click(function () {
+        $(this).addClass('active');
+        $('#text-switch .btn').removeClass('active');
+        $('#searchbox form input[name="s"]').attr('type', 'hidden');
+        $('#searchbox form input[name="tag"]').attr('type', 'text');
+    });
+    console.log();
+    // tag text parser
+    // $('#searchbox form input[name="tag"]').keypress(setTagField);
+    //
+    // function setTagField() {
+    //     var tags = $('#searchbox form input[name="tag"]').val();
+    //     var aTags = tags.split(',').map(function (value) {
+    //         return value.trim();
+    //     });
+    //     console.log('hello', tags, aTags);
+    //
+    // }
+    // // init tag field
+    // setTagField()
     <?php
     // list of tags
     $tags = implode(',', array_map(function ($term) {
@@ -315,22 +327,60 @@ global $post; ?>
     }, get_tags()));
     //var_dump($tags);
     ?>
-    // autocomplete
-    $('#tag-input').tagsinput({
-        typeahead: {
-            source: <?php echo "[$tags]"; ?>,
-            // afterSelect: function () {
-            //     $('#tag-input').tagsinput('input').val('');
-            // },
-            confirmKeys: null
+    function split(val) {
+        return val.split(/,\s*/);
+    }
+
+    function extractLast(term) {
+        return split(term).pop();
+    }
+
+    var availableTags = <?php echo "[${tags}]"; ?>;
+    $('#searchbox form input[name="tag"]').on("keydown", function (event) {
+        // console.log(event.keyCode);
+        if (event.keyCode === $.ui.keyCode.TAB &&
+            $(this).autocomplete("instance").menu.active) {
+            event.preventDefault();
+        }
+    }).autocomplete({
+        minLength: 0,
+        source: function (request, response) {
+            // delegate back to autocomplete, but extract the last term
+            response($.ui.autocomplete.filter(
+                availableTags, extractLast(request.term)));
+        },
+        focus: function () {
+            // prevent value inserted on focus
+            return false;
+        },
+        select: function (event, ui) {
+            var terms = split(this.value);
+            // remove the current input
+            terms.pop();
+            // add the selected item
+            terms.push(ui.item.value);
+            // add placeholder to get the comma-and-space at the end
+            terms.push("");
+            this.value = terms.join(", ");
+            return false;
         }
     });
-    $('.typeahead').on('change', function(e) {
-        e.preventDefault();
-        return false;
-    });
+    //// autocomplete
+    //$('#tag-input').tagsinput({
+    //    typeahead: {
+    //        source: <?php //echo "[$tags]"; ?>//,
+    //        // afterSelect: function () {
+    //        //     $('#tag-input').tagsinput('input').val('');
+    //        // },
+    //        confirmKeys: null
+    //    }
+    //});
+    // $('.typeahead').on('change', function (e) {
+    //     e.preventDefault();
+    //     return false;
+    // });
 
-        // general approach
+    // general approach
     // set search params and reload
 
     // apply time filter and reload
