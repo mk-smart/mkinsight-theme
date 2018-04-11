@@ -697,105 +697,7 @@ nav .mki-icon img {
     padding-right: 0;
 }
 
-/*------------------------------------------------
-#
-# frontpage header
-#
---------------------------------------------------*/
 
-#frontpage-header {
-    margin: 76px 0px 0px;
-    background-color: #209ec8;
-    padding: 20px;
-    box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.35);
-    -webkit-box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.35);
-    -moz-box-shadow: 0px 1px 5px rgba(100, 100, 100, 0.35);
-    position: relative;
-    z-index: 1;
-    width: 100%;
-}
-
-#frontpage-header h1, #frontpage-header p {
-    color: white;
-}
-
-#frontpage-header h1 {
-    font-size: 2em;
-    font-weight: normal;
-}
-
-#frontpage-header p {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-#frontpage-header #searchbox {
-    text-align: center;
-    width: calc(100% - 40px);
-    margin-top: 20px;
-}
-
-#frontpage-header #searchbox form {
-    margin: 0 auto;
-    display: flex;
-    max-width: 400px;
-    width: 100%;
-}
-
-#frontpage-header #searchbox form input:focus {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: #00bcf1;
-    outline-offset: -2px;
-}
-
-#frontpage-header #searchbox form input {
-    height: 34px;
-    min-height: 34px;
-    border: none;
-    vertical-align: top;
-    background-color: white;
-    flex: 1 0 100%;
-}
-
-#frontpage-header #searchbox form button {
-    background-color: gray;
-    color: white;
-    border: none;
-    height: 34px;
-    font-size: 1.3em;
-}
-
-/* MEDIUM TABLETS AND MOBILE PHONES */
-@media (min-width: 992px) and (max-width: 1200px) {
-    #frontpage-header {
-        /*background-color:green;*/
-    }
-}
-
-/* MEDIUM TABLETS AND MOBILE PHONES */
-@media (min-width: 768px) and (max-width: 991px) {
-    #frontpage-header {
-        margin-top: 60px;
-        /*background-color:yellow;*/
-    }
-}
-
-/* SMALL TABLETS AND MOBILE PHONES */
-@media (min-width: 444px) and (max-width: 767px) {
-    #frontpage-header {
-        margin-top: 60px;
-        /*background-color:red;*/
-    }
-}
-
-/* SMALL TABLETS AND MOBILE PHONES */
-@media (max-width: 443px) {
-    #frontpage-header {
-        margin-top: 60px;
-        /*background-color:red;*/
-    }
-}
 
 /*------------------------------------------------
 #
@@ -836,7 +738,7 @@ nav .mki-icon img {
     margin-top: 20px;
 }
 
-.page-header #searchbox form {
+.page-header #searchbox {
     margin: 0 auto;
     display: flex;
     max-width: 400px;
@@ -845,14 +747,14 @@ nav .mki-icon img {
     align-items: stretch;
 }
 
-.page-header #searchbox form input:focus {
+.page-header #searchbox input:focus {
     outline-style: solid;
     outline-width: 2px;
     outline-color: #00bcf1;
     outline-offset: -2px;
 }
 
-.page-header #searchbox form input {
+.page-header #searchbox input {
     height: 34px;
     min-height: 34px;
     border: none;
@@ -861,7 +763,7 @@ nav .mki-icon img {
     flex: 1 0;
 }
 
-.page-header #searchbox form button {
+.page-header #searchbox button {
     background-color: gray;
     color: white;
     border: none;
@@ -1866,34 +1768,7 @@ a.mki_subtheme {
     min-height: auto;
 }
 
-#content .advanced-search h1#search-title {
-    display: flex;
-}
 
-#content .advanced-search h1#search-title input#s {
-    margin: 4px 0 0 10px;
-    flex: 1 1 auto;
-    vertical-align: text-bottom;
-    width: auto;
-    border: 1px solid #999;
-    border-radius: 0px;
-    background-color: white;
-    min-height: auto;
-    padding: 2px 2px 0px 6px;
-}
-
-#advanced-filter-wrapper a#advance-search-toggler {
-    text-align: center;
-    display: block;
-}
-
-#advanced-filter-wrapper a#advance-search-toggler.collapsed i.icon:before {
-    content: "+";
-}
-
-#advanced-filter-wrapper a#advance-search-toggler i.icon:before {
-    content: "-";
-}
 
 /** ED **/
 
@@ -2151,6 +2026,14 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     color: #337ab7;
 }
 
+
+
+/* advanced search form */
+.advanced-search {
+    background-color: white;
+    padding: 12px;
+    margin-top: 20px;
+}
 
 /* timeline */
 #slider-range.ui-widget.ui-widget-content{

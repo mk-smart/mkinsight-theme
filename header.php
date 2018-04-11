@@ -31,7 +31,7 @@
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.easing.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/inline-tweet.min.js"></script>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.mobile.custom.min.js"></script>
-<!--   jQuery UI-->
+    <!--   jQuery UI-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -119,24 +119,69 @@
 // header of the search page
 if (is_search()):
     ?>
-    <div id="searchpage-header" class="page-header">
-        <div class="desktop ipad">
-            <h1 style="text-align: center;">
-                <?php
-                _e("Download, Filter, Sort or datasources by Text, Tags or Year", "mki");
-                ?>
-            </h1>
-        </div>
-        <div id="searchbox">
-            <form name="search">
-                <input type="<?php if(@$_GET['s']){ echo 'text';}else{ echo 'hidden';} ?>" name="s" value="<?php echo @$_GET['s']; ?>"/>
-                <input type="<?php if(!@$_GET['s']){ echo 'text';}else{ echo 'hidden';} ?>" name="tag" value="<?php echo str_replace("-", " ", @$_GET['tag']);?>"/>
-                <div id="text-switch" class="switch"><button type="reset" class="btn <?php if(@$_GET['s']){ echo 'active';} ?>"><?php _e("Text","mki");?></button></div>
-                <div id="tag-switch" class="switch"><button type="reset" class="btn <?php if(!@$_GET['s']){ echo 'active';} ?>"><?php _e("Tags","mki");?></button></div>
+    <form name="search" id="advanced-search-form" class="" role="search" method="get"
+          action="<?php print home_url(); ?>">
+        <div id="searchpage-header" class="page-header">
+            <div class="desktop ipad">
+                <h1 style="text-align: center;">
+                    <?php
+                    _e("Download, Filter, Sort or datasources by Text, Tags or Year", "mki");
+                    ?>
+                </h1>
+            </div>
+            <div id="searchbox">
+
+                <input type="<?php if (@$_GET['s']) {
+                    echo 'text';
+                } else {
+                    echo 'hidden';
+                } ?>" name="s" value="<?php echo @$_GET['s']; ?>"/>
+                <input type="<?php if (!@$_GET['s']) {
+                    echo 'text';
+                } else {
+                    echo 'hidden';
+                } ?>" name="tag" value="<?php echo str_replace("-", " ", @$_GET['tag']); ?>"/>
+                <div id="text-switch" class="switch">
+                    <button type="reset" class="btn <?php if (@$_GET['s']) {
+                        echo 'active';
+                    } ?>"><?php _e("Text", "mki"); ?></button>
+                </div>
+                <div id="tag-switch" class="switch">
+                    <button type="reset" class="btn <?php if (!@$_GET['s']) {
+                        echo 'active';
+                    } ?>"><?php _e("Tags", "mki"); ?></button>
+                </div>
                 <button type="submit" class="btn"><i class="icon ion-search"></i></button>
-            </form>
+
+            </div>
         </div>
-    </div>
+        <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
+            <div id="slider-range">
+                <div class="ui-slider-handle" id="year-from"></div>
+                <div class="ui-slider-handle" id="year-to"></div>
+            </div>
+            <input name="ymin" value="<?php echo $_GET['ymin']; ?>" type="hidden">
+            <input name="ymax" value="<?php echo $_GET['ymax']; ?>" type="hidden">
+            <div class="form-group">
+                <span><?php _e("Time stamped") ?></span>
+                <input type="checkbox" name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
+            </div>
+
+            <div class="form-group">
+                <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>
+                <label class="radio-inline" style="font-weight: 500;">
+                    <input type="radio" value="DESC"
+                           name="order" <?php echo @$_GET['order'] != 'ASC' ? 'checked' : ''; ?> />
+                    <?php _e("Newer to Older", "mki"); ?>
+                </label>
+                <label class="radio-inline"" style="font-weight: 500;">
+                <input type="radio" value="ASC"
+                       name="order" <?php echo @$_GET['order'] == 'ASC' ? 'checked' : ''; ?> />
+                <?php _e("Older to Newer", "mki"); ?>
+                </label>
+            </div>
+        </div>
+    </form>
 <?php
 endif;
 ?>

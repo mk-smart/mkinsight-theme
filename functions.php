@@ -821,7 +821,7 @@ function mki_advanced_search_query($query)
 
         // category search
         if (isset($_GET['category']) && is_array($_GET['category'])) {
-            $cats = array_filter(array_map('trim',explode(",", $_GET['catwgory'])), function($value) { return $value !== ''; });
+            $cats = array_filter(array_map('trim',explode(",", $_GET['category'])), function($value) { return $value !== ''; });
             $query->set('category_name', implode(',', $cats));
         }
         // tag and cats search

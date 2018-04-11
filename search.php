@@ -1,43 +1,43 @@
 <?php get_header();
 global $post; ?>
 <section role="main">
-    <header class="header">
-        <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
-            <form id="advanced-search-form" class="" role="search" method="get" action="<?php print home_url(); ?>">
-                <div id="advanced-filter-wrapper">
-                    <div id="advanced-filters">
-                        <div class="form-group">
-                            <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>
-                            <label class="radio-inline" style="font-weight: 500;">
-                                <input type="radio" value="DESC"
-                                       name="order" <?php echo @$_GET['order'] != 'ASC' ? 'checked' : ''; ?> />
-                                <?php _e("Newer to Older", "mki"); ?>
-                            </label>
-                            <label class="radio-inline"" style="font-weight: 500;">
-                            <input type="radio" value="ASC"
-                                   name="order" <?php echo @$_GET['order'] == 'ASC' ? 'checked' : ''; ?> />
-                            <?php _e("Older to Newer", "mki"); ?>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div id="slider-range">
-                    <div class="ui-slider-handle" id="year-from"><input name="ymin" value="<?php echo $_GET['ymin']; ?>"
-                                                                        type="hidden"></div>
-                    <div class="ui-slider-handle" id="year-to"><input name="ymax" value="<?php echo $_GET['ymax']; ?>"
-                                                                      type="hidden"></div>
-                </div>
-                <div class="form-group">
-                    <span>
-                        <input type="checkbox"
-                               name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
-                        <?php _e("Include results with no time stamp") ?>
-                    </span>
-                </div>
-            </form>
-
-        </div>
-    </header>
+<!--    <header class="header">-->
+<!--        <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">-->
+<!--            <form id="advanced-search-form" class="" role="search" method="get" action="--><?php //print home_url(); ?><!--">-->
+<!--                <div id="advanced-filter-wrapper">-->
+<!--                    <div id="advanced-filters">-->
+<!--                        <div class="form-group">-->
+<!--                            <label style="display: inline-block;">--><?php //_e("Sorting by: ", "mki"); ?><!--</label>-->
+<!--                            <label class="radio-inline" style="font-weight: 500;">-->
+<!--                                <input type="radio" value="DESC"-->
+<!--                                       name="order" --><?php //echo @$_GET['order'] != 'ASC' ? 'checked' : ''; ?><!-- />-->
+<!--                                --><?php //_e("Newer to Older", "mki"); ?>
+<!--                            </label>-->
+<!--                            <label class="radio-inline"" style="font-weight: 500;">-->
+<!--                            <input type="radio" value="ASC"-->
+<!--                                   name="order" --><?php //echo @$_GET['order'] == 'ASC' ? 'checked' : ''; ?><!-- />-->
+<!--                            --><?php //_e("Older to Newer", "mki"); ?>
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div id="slider-range">-->
+<!--                    <div class="ui-slider-handle" id="year-from"></div>-->
+<!--                    <div class="ui-slider-handle" id="year-to"></div>-->
+<!--                </div>-->
+<!--                <input name="ymin" value="--><?php //echo $_GET['ymin']; ?><!--" type="hidden">-->
+<!--                <input name="ymax" value="--><?php //echo $_GET['ymax']; ?><!--" type="hidden">-->
+<!--                <div class="form-group">-->
+<!--                    <span>-->
+<!--                        <input type="checkbox"-->
+<!--                               name="timeless" --><?php //echo $_GET['timeless'] ? 'checked' : ''; ?><!-- />-->
+<!--                        --><?php //_e("Include results with no time stamp") ?>
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </form>-->
+<!---->
+<!--        </div>-->
+<!--    </header>-->
     <?php
     // Prepare query
     global $wp_query;
@@ -254,8 +254,6 @@ global $post; ?>
 </div>
 
 <script type="text/javascript">
-
-
     // timeline
     <?php
     $years = array_map(function ($y) {
@@ -272,7 +270,7 @@ global $post; ?>
     $("#slider-range").slider({
         range: true,
         create: function (event, ui) {
-            console.log($(this).slider("values"));
+            // console.log($(this).slider("values"));
             var values = $(this).slider("values");
             handleFrom.text(values[0]);
             handleTo.text(values[1]);
@@ -281,11 +279,17 @@ global $post; ?>
         max: years[years.length - 1],
         values: [ymin, ymax],
         slide: function (event, ui) {
-            // console.log(ui.values);
+            console.log(ui.values);
             handleFrom.text(ui.values[0]);
+            $('#advanced-search-form input[name="ymin"]').val(ui.values[0]);
             handleTo.text(ui.values[1]);
+            $('#advanced-search-form input[name="ymax"]').val(ui.values[1]);
             // $( "#year-range-from" ).val( ui.values[ 0 ]);
             // $( "#year-range-to" ).val( ui.values[ 1 ] );
+        },
+        stop:function (event, ui) {
+            // update page
+            $('#advanced-search-form').submit();
         }
     });
     $("#year-range-from").val($("#slider-range").slider("values", 0));
@@ -306,36 +310,23 @@ global $post; ?>
         $('#searchbox form input[name="s"]').attr('type', 'hidden');
         $('#searchbox form input[name="tag"]').attr('type', 'text');
     });
-    console.log();
-    // tag text parser
-    // $('#searchbox form input[name="tag"]').keypress(setTagField);
-    //
-    // function setTagField() {
-    //     var tags = $('#searchbox form input[name="tag"]').val();
-    //     var aTags = tags.split(',').map(function (value) {
-    //         return value.trim();
-    //     });
-    //     console.log('hello', tags, aTags);
-    //
-    // }
-    // // init tag field
-    // setTagField()
+    // end text/tag switch management
+
+    // autocomplete
     <?php
+    //list of categories
+    $cats = array_map(function ($c) {
+        return "\"$c->cat_name\"";
+    }, get_categories());
     // list of tags
-    $tags = implode(',', array_map(function ($term) {
+    $tags = array_map(function ($term) {
         return "\"$term->name\"";
-    }, get_tags()));
-    //var_dump($tags);
+    }, get_tags());
+    $listAutocomplete = array_merge($cats, $tags);
+    $terms = implode(',', $listAutocomplete);
+    // var_dump($terms);
     ?>
-    function split(val) {
-        return val.split(/,\s*/);
-    }
-
-    function extractLast(term) {
-        return split(term).pop();
-    }
-
-    var availableTags = <?php echo "[${tags}]"; ?>;
+    var availableTags = <?php echo "[${terms}]"; ?>;
     $('#searchbox form input[name="tag"]').on("keydown", function (event) {
         // console.log(event.keyCode);
         if (event.keyCode === $.ui.keyCode.TAB &&
@@ -365,20 +356,17 @@ global $post; ?>
             return false;
         }
     });
-    //// autocomplete
-    //$('#tag-input').tagsinput({
-    //    typeahead: {
-    //        source: <?php //echo "[$tags]"; ?>//,
-    //        // afterSelect: function () {
-    //        //     $('#tag-input').tagsinput('input').val('');
-    //        // },
-    //        confirmKeys: null
-    //    }
-    //});
-    // $('.typeahead').on('change', function (e) {
-    //     e.preventDefault();
-    //     return false;
-    // });
+    function split(val) {
+        return val.split(/,\s*/);
+    }
+
+    function extractLast(term) {
+        return split(term).pop();
+    }
+    // end autocomplete
+
+
+
 
     // general approach
     // set search params and reload
