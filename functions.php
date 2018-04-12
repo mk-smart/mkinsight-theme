@@ -365,10 +365,11 @@ HTML;
 
 add_shortcode('mkiicon', 'mkiicon_func');
 
-function getIcon($icon, $text, $height){
-    $availableIcons = ["group-quarter","two-n-two-group","population","mixed-group", "3quarter-group", "age-groups", "ethnic-minority", "group-blue", "group-couples","group-half","group-one-faded","group-two-faded","group","group2"];
+function getIcon($icon, $text, $height)
+{
+    $availableIcons = ["group-quarter", "two-n-two-group", "population", "mixed-group", "3quarter-group", "age-groups", "ethnic-minority", "group-blue", "group-couples", "group-half", "group-one-faded", "group-two-faded", "group", "group2"];
     // so far we manage population only
-    if(!in_array($icon, $availableIcons) ){
+    if (!in_array($icon, $availableIcons)) {
         $img_url = get_template_directory_uri() . '/assets/img/svg/' . $icon . '.svg';
         return "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
     }
@@ -379,35 +380,36 @@ function getIcon($icon, $text, $height){
     foreach ($matches[0] as $numb) {
         $icon_height = 30;
         $box_width = 120;
-        $topmargin = round(($height - 60)/2);
+        $topmargin = round(($height - 60) / 2);
         // includes %
-        if(strpos($numb, '%') != false){
+        if (strpos($numb, '%') != false) {
             // remove % and parse to int
-            $tmp = intval(str_replace('%',"", $numb));
+            $tmp = intval(str_replace('%', "", $numb));
             // ratio to 1/10 and floor
-            $ratio = floor($tmp/10 );
+            $ratio = floor($tmp / 10);
             $newIcon = "<div style=\"width: ${box_width}px;height: ${height}px\" class=\"aligncenter size-full\"><div style=\"padding-top:${topmargin}px\">";
 
             // printing empty icons
             // 10 - ratio
-            $img = $img_url."person-blue-transparent.svg";
+            $img = $img_url . "person-blue-transparent.svg";
             $c = 10 - $ratio;
-            for($i = 0; $i < $c; $i++){
-                $newIcon = $newIcon."<img class=\"icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
+            for ($i = 0; $i < $c; $i++) {
+                $newIcon = $newIcon . "<img class=\"icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
             }
             // printing full icons
             // ratio
-            $img = $img_url."person-blue.svg";
-            for($i = 0; $i < $ratio; $i++){
-                $newIcon = $newIcon."<img class=\"size-full icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
+            $img = $img_url . "person-blue.svg";
+            for ($i = 0; $i < $ratio; $i++) {
+                $newIcon = $newIcon . "<img class=\"size-full icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
             }
 
-            return $newIcon."</div></div>";
+            return $newIcon . "</div></div>";
         }
     }
     $img_url = get_template_directory_uri() . '/assets/img/svg/' . $icon . '.svg';
     return "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
 }
+
 // shortcode for icons in infographics
 function mkifigures_func($atts)
 {
@@ -486,9 +488,6 @@ function mkifigures_func($atts)
         $icon = "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
         $icon = getIcon($a['icon'], $text, $height);
     }
-
-
-
 
 
     // parse text to hightlight numbers
@@ -738,58 +737,12 @@ function mki_update_year_from_tag($post_id)
 
 add_action('save_post', 'mki_update_year_from_tag');
 
-// Override query args to sort by years desc
-function mki_orderby_args()
-{
-    $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
-    return array(
-        'meta_query' => array(
-            'relation' => 'OR',
-            'years_not' => array(
-                'key' => 'years',
-                'compare' => 'NOT EXISTS'
-            ),
-            'years' => array(
-                'key' => 'years',
-                'type' => 'NUMERIC',
-                'compare' => 'EXISTS'
-            )
-        ),
-        'orderby' => array('meta_value_num' => $order, 'date' => $order)
-    );
-}
-
-function mki_search_filter_years($query)
-{
-    if (!is_admin()) {
-        foreach (mki_orderby_args() as $key => $val) {
-            $query->set($key, $val);
-        }
-    }
-    return $query;
-}
-
-add_action('pre_get_posts', 'mki_search_filter_years');
 
 // Advanced Search
 function mki_advanced_search_query($query)
 {
-
-    //
-
-
     if ($query->is_search()) {
 
-        $yearQuery = array('relation' => 'OR');
-        // manage timeless results
-        if (isset($_GET['timeless']) && $_GET['timeless'] == 'on') {
-            // todo include results without year category
-            $timeless = array(
-                'taxonomy' => 'years',
-                'operator' => 'NOT EXISTS'
-            );
-            array_push($yearQuery, $timeless);
-        }
         // If ymin and ymax
         if (isset($_GET['ymin']) || isset($_GET['ymax'])) {
             $years = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
@@ -807,57 +760,148 @@ function mki_advanced_search_query($query)
             if (!empty($use_years)) {
 //                var_dump($use_years);
 //                $query->set('years', $use_years);
-                array_push($yearQuery, array(
+                $yearQuery = array(
                     'taxonomy' => 'years',
                     'operator' => 'IN',
                     'field' => 'slug',
                     'terms' => $use_years
-                ));
+                );
             }
         }
-        $query->set('tax_query', array('relation'=>'AND',$yearQuery) );
+//        echo 'is stamped set?'.isset($_GET['stamped']);
+        // manage timeless results
+        if (!isset($_GET['stamped']) || isset($_GET['stamped']) != 'on' ) {
+            // exclude results without year category
+            $timeless = array(
+                'taxonomy' => 'years',
+                'operator' => 'NOT EXISTS'
+            );
+
+            if(isset($yearQuery)){
+                $yearQuery = array('relation' => 'OR',
+                    $yearQuery,
+                    $timeless
+                    );
+            }
+        }
+//        var_dump($yearQuery);
+//        $query->set('tax_query', array('relation'=>'AND',$yearQuery) );
         //
 
 
         // category search
-        if (isset($_GET['category']) && is_array($_GET['category'])) {
-            $cats = array_filter(array_map('trim',explode(",", $_GET['category'])), function($value) { return $value !== ''; });
-            $query->set('category_name', implode(',', $cats));
-        }
+//        if (isset($_GET['category']) && is_array($_GET['category'])) {
+//            $cats = array_filter(array_map('trim',explode(",", $_GET['category'])), function($value) { return $value !== ''; });
+//            $query->set('category_name', implode(',', $cats));
+//        }
         // tag and cats search
-        if (isset($_GET['tag'])) {
-            $tagsList = array_filter(array_map('trim',explode(",", $_GET['tag'])), function($value) { return $value !== ''; });
+        if (isset($_GET['tags'])) {
+            $tagsList = array_filter(array_map('trim', explode(",", $_GET['tags'])), function ($value) {
+                return $value !== '';
+            });
 //            var_dump($tags);
 
             // extract categories from tags to be included in the search
-            $catList = get_categories();
+//            $catList = get_categories();
 //            var_dump($catList);
-            $cats = array_filter($tagsList,function($c){
-                $catList = array_map(function($c){
+            $catNames = array_filter($tagsList, function ($c) {
+                $catList = array_map(function ($c) {
                     return $c->cat_name;
-                },get_categories());
-                return in_array($c,$catList);
+                }, get_categories());
+                return in_array($c, $catList);
             });
-//            var_dump($cats);
-            $query->set('category_name', implode(',', $cats));
-
+            $cats = array_map(function ($c) {
+                return get_cat_ID($c);
+            }, $catNames);
+            if(!empty($cats)) {
+                $catQuery = array(
+                    'taxonomy' => 'category',
+                    'field' => 'term_id',
+                    'terms' => $cats,
+                    'operator' => 'AND'
+                );
+            }
+//            if($cats != '') {
+//                $query->set('category__and', implose(",",$cats) );
+//            }
             // remove tags which are not in the category list
-            $tags = array_filter($tagsList, function ($t) {
-                return !in_array($t, $cats);
-            });
-            // add tags
-            $tagString = implode('+', $tags);
-            $tagQuery = str_replace(" ", "-", $tagString);
+            $tags = array_map(function ($t){
+                $tag = str_replace(" ", "-", strtolower($t));
+                    return $tag;
+            },array_diff($tagsList, $catNames));
+            if(!empty($tags)) {
+                $tagQuery = array(
+                    'taxonomy' => 'category',
+                    'field' => 'slug',
+                    'terms' => $tags,
+                    'operator' => 'AND'
+                );
+            }
 //            $query->set('tag', "Milton Keynes");
-            $query->set('tag', $tagQuery);
-//            $query->set('tag',$tagQuery);
+//            if($tagQuery != '') {
+//                $query->set('tag', $tagQuery);
+//            }
         }
+
+        // combining all queries in a nested structure
+        // don't judge me... it is WordPress fault
+        $taxQuery = array('relation'=>'AND');
+        if(isset($yearQuery)){
+            array_push($taxQuery,$yearQuery);
+        }
+        if(isset($catQuery)){
+            array_push($taxQuery, $catQuery);
+        }
+        if(isset($tagQuery)){
+            array_push($taxQuery,$tagQuery);
+        }
+//        var_dump($taxQuery);
+        if(isset($taxQuery)) {
+            $query->set('tax_query', $taxQuery);
+        }
+
+
+        // todo extend sorting by year, tags, categories
+        // get param or default
+//        $ordering = explode(",",isset($_GET['orderby']) ? $_GET['orderby'] : 'title,year,keywords,files');
+//    var_dump($ordering);
+//        $orderBy = array_reduce( $ordering, function ($res, $field){
+////        echo $field.'>'.$_GET[$field].' ';
+//            if($field == 'keywords'){
+//                // todo add tags, categories sorting
+//                return $res;
+//            }
+//            if($field == 'year'){
+//                $res['meta_value'] = $_GET[$field] ? $_GET[$field] : 'DESC';
+//            }else {
+//                $res[$field] = $_GET[$field] ? $_GET[$field] : 'ASC';
+//            }
+//            return $res;
+//        }, array() );
+//        $query->set(
+//                'tax_query' , array(
+//                'taxonomy'=>'years',
+//                'field'=>'slug'
+//                )
+//        );
+//        $query->set('orderby',$orderBy);
+        $query->set('orderby', array(
+            'title' => @$_GET['title'] ? @$_GET['title'] : 'ASC',
+            'date' => 'DESC',
+        ));
+
         return $query;
     }
 
 }
 
 add_action('pre_get_posts', 'mki_advanced_search_query', 1000);
+function mki_advanced_query($query)
+{
+
+}
+
+//add_action('pre_get_posts', 'mki_advanced_query', 1000);
 
 // DATA CHARTS
 require_once('PHPExcel/Classes/PHPExcel.php');
@@ -1591,5 +1635,5 @@ function attachment_search($query)
     return $query;
 }
 
-add_filter('pre_get_posts', 'attachment_search');
+//add_filter('pre_get_posts', 'attachment_search');
 

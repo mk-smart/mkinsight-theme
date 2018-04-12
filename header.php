@@ -34,7 +34,9 @@
     <!--   jQuery UI-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+    <!-- Bootstrap toggle-->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- MDA -->
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript"
@@ -119,7 +121,7 @@
 // header of the search page
 if (is_search()):
     ?>
-    <form name="search" id="advanced-search-form" class="" role="search" method="get"
+    <form name="search" id="advanced-search-form" class="content" role="search" method="get"
           action="<?php print home_url(); ?>">
         <div id="searchpage-header" class="page-header">
             <div class="desktop ipad">
@@ -131,54 +133,74 @@ if (is_search()):
             </div>
             <div id="searchbox">
 
-                <input type="<?php if (@$_GET['s']) {
-                    echo 'text';
-                } else {
-                    echo 'hidden';
-                } ?>" name="s" value="<?php echo @$_GET['s']; ?>"/>
-                <input type="<?php if (!@$_GET['s']) {
-                    echo 'text';
-                } else {
-                    echo 'hidden';
-                } ?>" name="tag" value="<?php echo str_replace("-", " ", @$_GET['tag']); ?>"/>
+                <input type="<?php echo @$_GET['s'] || !@$_GET['tags'] ? 'text' : 'hidden'; ?>" name="s" value="<?php echo @$_GET['s']; ?>"/>
+                <input type="<?php echo !@$_GET['s'] && @$_GET['tags'] ? 'text' : 'hidden'; ?>" name="tags" value="<?php echo str_replace("-", " ", @$_GET['tags']); ?>"/>
                 <div id="text-switch" class="switch">
-                    <button type="reset" class="btn <?php if (@$_GET['s']) {
-                        echo 'active';
-                    } ?>"><?php _e("Text", "mki"); ?></button>
+                    <button type="reset" class="btn <?php echo @$_GET['s'] || !@$_GET['tags'] ? 'active' : ''; ?>"><?php _e("Text", "mki"); ?></button>
                 </div>
                 <div id="tag-switch" class="switch">
-                    <button type="reset" class="btn <?php if (!@$_GET['s']) {
-                        echo 'active';
-                    } ?>"><?php _e("Tags", "mki"); ?></button>
+                    <button type="reset" class="btn <?php echo !@$_GET['s'] && @$_GET['tags'] ? 'active' : ''; ?>"><?php _e("Tags", "mki"); ?></button>
                 </div>
                 <button type="submit" class="btn"><i class="icon ion-search"></i></button>
 
             </div>
         </div>
-        <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">
-            <div id="slider-range">
-                <div class="ui-slider-handle" id="year-from"></div>
-                <div class="ui-slider-handle" id="year-to"></div>
+        <div class="container advanced-search">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div id="timeline">
+                        <div id="slider-range">
+                            <div class="ui-slider-handle" id="year-from"></div>
+                            <div class="ui-slider-handle" id="year-to"></div>
+                        </div>
+                    </div>
+                    <input name="ymin" value="<?php echo $_GET['ymin']; ?>" type="hidden">
+                    <input name="ymax" value="<?php echo $_GET['ymax']; ?>" type="hidden">
+                    <div id="timestamp">
+                        <span class="stamp-label"><?php _e("Time Stamped") ?></span>
+                        <!--                <input type="checkbox" name="timeless" -->
+                        <?php //echo $_GET['timeless'] ? 'checked' : '';
+                        ?><!-- />-->
+                        <input type="checkbox" name="stamped" <?php echo $_GET['stamped'] ? 'checked' : ''; ?>
+                               data-toggle="toggle" data-off="Optional" data-on="Only" data-size="mini" data-style="ios"
+                               data-offstyle="default" data-onstyle="primary">
+                    </div>
+                </div>
             </div>
-            <input name="ymin" value="<?php echo $_GET['ymin']; ?>" type="hidden">
-            <input name="ymax" value="<?php echo $_GET['ymax']; ?>" type="hidden">
-            <div class="form-group">
-                <span><?php _e("Time stamped") ?></span>
-                <input type="checkbox" name="timeless" <?php echo $_GET['timeless'] ? 'checked' : ''; ?> />
-            </div>
-
-            <div class="form-group">
-                <label style="display: inline-block;"><?php _e("Sorting by: ", "mki"); ?></label>
-                <label class="radio-inline" style="font-weight: 500;">
-                    <input type="radio" value="DESC"
-                           name="order" <?php echo @$_GET['order'] != 'ASC' ? 'checked' : ''; ?> />
-                    <?php _e("Newer to Older", "mki"); ?>
-                </label>
-                <label class="radio-inline"" style="font-weight: 500;">
-                <input type="radio" value="ASC"
-                       name="order" <?php echo @$_GET['order'] == 'ASC' ? 'checked' : ''; ?> />
-                <?php _e("Older to Newer", "mki"); ?>
-                </label>
+            <div class="row ipad desktop" id="sorting">
+                <input type="hidden" name="orderby" value="<?php echo @$_GET['orderby']? @$_GET['orderby'] : 'title,year,keywords,files'; ?>" >
+                <div class="col-lg-4">
+                    <button class="btn btn-group-xs btn-link btn-sort" sorting="title" type="reset">
+                        <?php _e("Title", "mki"); ?>
+                        <i class="icon <?php echo @$_GET['title'] == 'DESC' ? 'ion-ios-arrow-thin-up' : 'ion-ios-arrow-thin-down'; ?>"></i>
+                        <input type="hidden" name="title"
+                               value="<?php echo @$_GET['title'] ? @$_GET['title'] : 'ASC'; ?>"/>
+                    </button>
+                </div>
+                <div class="col-lg-2">
+<!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="year" type="reset">-->
+                        <label><?php _e("About", "mki"); ?></label>
+<!--                        <i class="icon --><?php //echo @$_GET['year'] == 'ASC' ? 'ion-ios-arrow-thin-down' : 'ion-ios-arrow-thin-up'; ?><!--"></i>-->
+                        <input type="hidden" name="year"
+                               value="<?php echo @$_GET['year'] ? @$_GET['year']: 'DESC'; ?>"/>
+<!--                    </button>-->
+                </div>
+                <div class="col-lg-4">
+<!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="keywords" type="reset">-->
+                        <label><?php _e("Tags", "mki"); ?></label>
+<!--                        <i class="icon --><?php //echo @$_GET['keywords'] == 'ASC' ? 'ion-ios-arrow-thin-up' : 'ion-ios-arrow-thin-down'; ?><!--"></i>-->
+                        <input type="hidden" name="keywords"
+                               value="<?php echo @$_GET['keywords'] ? @$_GET['keywords'] : 'ASC'; ?>"/>
+<!--                    </button>-->
+                </div>
+                <div class="col-lg-2">
+<!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="files" type="reset">-->
+                        <label><?php _e("Files", "mki"); ?></label>
+<!--                        <i class="icon --><?php //echo @$_GET['files'] == 'ASC' ? 'ion-ios-arrow-thin-up' : 'ion-ios-arrow-thin-down'; ?><!--"></i>-->
+                        <input type="hidden" name="files"
+                               value="<?php echo @$_GET['files'] ? @$_GET['keywords'] : 'ASC'; ?>"/>
+<!--                    </button>-->
+                </div>
             </div>
         </div>
     </form>
@@ -207,7 +229,7 @@ endif;
 <?php endif; ?>
 <!-- end header front page-->
 <!-- content -->
-<div id="content">
+<div id="content" class="<?php echo is_search() ? 'no-margin':''; ?>">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 <?php echo is_search() ? 'table-box':''; ?>">

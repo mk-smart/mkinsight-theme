@@ -1,165 +1,80 @@
-<?php get_header();
-global $post; ?>
+<?php
+global $post;
+// Prepare query
+global $wp_query;
+$total = $wp_query->found_posts;
+?>
+<?php get_header(); ?>
 <section role="main">
-<!--    <header class="header">-->
-<!--        <div class="col-xl-offset-2 col-xl-8 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 advanced-search">-->
-<!--            <form id="advanced-search-form" class="" role="search" method="get" action="--><?php //print home_url(); ?><!--">-->
-<!--                <div id="advanced-filter-wrapper">-->
-<!--                    <div id="advanced-filters">-->
-<!--                        <div class="form-group">-->
-<!--                            <label style="display: inline-block;">--><?php //_e("Sorting by: ", "mki"); ?><!--</label>-->
-<!--                            <label class="radio-inline" style="font-weight: 500;">-->
-<!--                                <input type="radio" value="DESC"-->
-<!--                                       name="order" --><?php //echo @$_GET['order'] != 'ASC' ? 'checked' : ''; ?><!-- />-->
-<!--                                --><?php //_e("Newer to Older", "mki"); ?>
-<!--                            </label>-->
-<!--                            <label class="radio-inline"" style="font-weight: 500;">-->
-<!--                            <input type="radio" value="ASC"-->
-<!--                                   name="order" --><?php //echo @$_GET['order'] == 'ASC' ? 'checked' : ''; ?><!-- />-->
-<!--                            --><?php //_e("Older to Newer", "mki"); ?>
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div id="slider-range">-->
-<!--                    <div class="ui-slider-handle" id="year-from"></div>-->
-<!--                    <div class="ui-slider-handle" id="year-to"></div>-->
-<!--                </div>-->
-<!--                <input name="ymin" value="--><?php //echo $_GET['ymin']; ?><!--" type="hidden">-->
-<!--                <input name="ymax" value="--><?php //echo $_GET['ymax']; ?><!--" type="hidden">-->
-<!--                <div class="form-group">-->
-<!--                    <span>-->
-<!--                        <input type="checkbox"-->
-<!--                               name="timeless" --><?php //echo $_GET['timeless'] ? 'checked' : ''; ?><!-- />-->
-<!--                        --><?php //_e("Include results with no time stamp") ?>
-<!--                    </span>-->
-<!--                </div>-->
-<!--            </form>-->
-<!---->
-<!--        </div>-->
-<!--    </header>-->
-    <?php
-    // Prepare query
-    global $wp_query;
-    $total = $wp_query->found_posts;
-    $paginationArgs = array();
-    $keyword_search_type = 'all';
-    $search_query_text = get_search_query();
-    // If no results, try changing query terms in OR
-    if ($total == 0) {
-        $keyword_search_type = 'any';
-        $query_vars = $wp_query->query_vars;
-        // Collect post ids
-        $post_ids = array();
-        foreach ($query_vars['search_terms'] as $key => $keyword) {
-            # get posts with only this term
-            $result = new WP_Query(array('s' => $keyword, 'fields' => 'ids'));
-            $post_ids = array_merge($post_ids, $result->posts);
-        }
-        // If any result
-        if (!empty($post_ids)) {
-            // Override $wp_query
-            $wp_query = new WP_Query(array('post__in' => $post_ids));
-            $total = $wp_query->found_posts;
-        }
-    }
-    ?>
+    <label class="counter"><?php echo $total, ' entries', ($total > 1) ? 's' : ''; ?></label>
     <?php if (have_posts()) : ?>
-        <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 results">
-            <header class="header">
-                <h2 class="entry-title"><?php echo $total, ' item', ($total > 1) ? 's' : '', '.'; ?></h2>
-                <p><?php if (isset($_GET['s']) && $_GET['s'] != '') {
-                        // Change the message if query rewritten to 'any'
-                        if ($keyword_search_type == 'any') {
-                            echo '<small><i>We could not find any result including all the search terms. The list below includes pages that contain any of them.</i></small><br/>';
-                        }
-                        echo 'Keywords: ', $search_query_text, '<br/>';
-                    }
-                    ?>
-                    <?php if (isset($_GET['category'])) {
-                        $trms = get_terms(array('slug' => $_GET['category'], 'fields' => 'names'));
-                        echo 'Categories: ', implode(', ', array_unique($trms)), '<br/>';
-                    } ?>
-                    <?php if (isset($_GET['years'])) {
-//							$trms = get_terms(array('taxonomy'=>'years','slug'=>$_GET['years'],'fields'=>'names'));
-                        echo 'About years: ', implode(', ', $_GET['years']), '<br/>';
-                    } ?>
-                </p>
-            </header>
-            <div class="results_pagination">
-                <?php //echo paginate_links($paginationArgs); ?>
-            </div>
+        <div class="results">
             <?php while (have_posts()) : the_post(); ?>
-                <?php //get_template_part( 'entry' ); ?>
-                <div>
-                    <h3>
-                        <?php
-                        $permalink = get_the_permalink();
-                        // if attachment switch permalink
-                        if (get_post_type() == 'attachment') {
-                            $permalink = wp_get_attachment_url(get_the_ID());
-                        }
-                        ?>
-                        <a href="<?php echo $permalink; ?>">
+                <div class="row">
+                    <div class="col-lg-4 col">
+                        <h3>
                             <?php
-                            /* add icon to title
-                             * folder: img/infographics/
-                             * report: pie-chart3.png
-                             * data: data-green.png
-                             * page: document.png
-                            */
-                            // get post categories and filters for data or report
-                            $cat = array_reduce(get_the_category(), function ($carry, $cat) {
-                                // if category found
-                                if ($carry) {
-                                    return $carry;
-                                }
-                                // search for category
-                                if ($cat->slug === 'data') {
-                                    return 'data';
-                                }
-                                if ($cat->slug === 'report') {
-                                    return 'report';
-                                }
-                                if ($cat->slug === 'news') {
-                                    return 'news';
-                                }
-                                if ($cat->slug === 'essential') {
-                                    return 'essential';
-                                }
-                                // default false
-                                return false;
-                            });
-
-
-                            switch ($cat) {
-                                case 'report':
-                                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/pie-chart3.svg">';
-                                    break;
-                                case 'data':
-                                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/data-green.svg">';
-                                    break;
-                                default:
-                                    if (get_post_type() == 'idea') {
-                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/light-bulb-green.svg">';
-                                    } else {
-                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/document.svg">';
-                                    }
+                            $permalink = get_the_permalink();
+                            // if attachment switch permalink
+                            if (get_post_type() == 'attachment') {
+                                $permalink = wp_get_attachment_url(get_the_ID());
                             }
                             ?>
-                            <?php
-                            the_title();
-                            ?>
-                        </a>
-                    </h3>
-                    <?php
-                    if ($attachmentDownload) {
-                        echo "<h4>" . __("Attachment found: ", "mki") . " $attachmentDownload";
-                    }
-                    ?>
-                    <section class="entry-meta">
+                            <a href="<?php echo $permalink; ?>">
+                                <?php
+                                /* add icon to title
+                                 * folder: img/infographics/
+                                 * report: pie-chart3.png
+                                 * data: data-green.png
+                                 * page: document.png
+                                */
+                                // get post categories and filters for data or report
+                                $cat = array_reduce(get_the_category(), function ($carry, $cat) {
+                                    // if category found
+                                    if ($carry) {
+                                        return $carry;
+                                    }
+                                    // search for category
+                                    if ($cat->slug === 'data') {
+                                        return 'data';
+                                    }
+                                    if ($cat->slug === 'report') {
+                                        return 'report';
+                                    }
+                                    if ($cat->slug === 'news') {
+                                        return 'news';
+                                    }
+                                    if ($cat->slug === 'essential') {
+                                        return 'essential';
+                                    }
+                                    // default false
+                                    return false;
+                                });
+
+                                switch ($cat) {
+                                    case 'report':
+                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/pie-chart3.svg">';
+                                        break;
+                                    case 'data':
+                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/data-green.svg">';
+                                        break;
+                                    default:
+                                        if (get_post_type() == 'idea') {
+                                            echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/light-bulb-green.svg">';
+                                        } else {
+                                            echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/document.svg">';
+                                        }
+                                }
+                                ?>
+                                <?php
+                                the_title();
+                                ?>
+                            </a>
+                        </h3>
+                    </div>
+                    <div class="col-lg-2 col">
                         <?php if (get_the_terms(get_the_ID(), 'years')) : ?>
-                            <span class="entry-date">
+                            <div class="entry-date">
                                 <?php
                                 echo 'About ';
                                 $years = get_the_terms(get_the_ID(), 'years');
@@ -170,63 +85,70 @@ global $post; ?>
                                 }
                                 echo implode(", ", $yList);
                                 ?>
-                            </span>
-                            <span class="meta-sep"> | </span>
+                            </div>
+                        <?php else: ?>
+                            <div class="entry-date">
+                                <?php the_time(get_option('date_format')); ?>
+                            </div>
                         <?php endif; ?>
-                        <span class="entry-date">
-                            <?php the_time(get_option('date_format')); ?>
-                        </span>
-                    </section>
-                    <?php
-                    $postcats = get_the_category();
-                    $posttags = get_the_tags();
-                    $tags = array_filter(array_map('trim', explode(",", @$_GET['tag'])), function ($value) {
-                        return $value !== '';
-                    });
-                    if ($posttags || $postcats):
-                        ?>
-                        <footer class="entry-footer">
+                    </div>
+                    <div class="col-lg-4 col">
+                        <?php
+                        $postcats = get_the_category();
+                        $posttags = get_the_tags();
+                        $tags = array_filter(array_map('trim', explode(",", @$_GET['tags'])), function ($value) {
+                            return $value !== '';
+                        });
+                        if ($posttags || $postcats):
+                            ?>
                             <?php if ($postcats) { ?>
-                                <div class="cat-links">
-                                    <?php _e('Categories: ', 'mki'); ?>
-                                    <?php
-                                    foreach ($postcats as $cat) {
-                                        $checked = (!in_array(str_replace(" ", "-", $cat->name), $tags));
-                                        $cSlug = '\'' . trim($cat->slug) . '\'';
-                                        if ($checked) {
-                                            echo "<button onclick=\"setCat($cSlug)\">$cat->name</button>";
-                                        } else {
-                                            echo "<button class='unset' onclick=\"unsetCat($cSlug)\"><i class='icon ion-close-round'></i>$cat->name</button>";
-                                        }
-
+                            <div class="cat-links">
+                                <?php _e('Categories: ', 'mki'); ?>
+                                <?php
+                                foreach ($postcats as $cat) {
+                                    $checked = (!in_array($cat->name, $tags));
+                                    $cSlug = '\'' . trim($cat->slug) . '\'';
+                                    if ($checked) {
+                                        echo "<button onclick=\"setCat($cSlug)\">$cat->name</button>";
+                                    } else {
+                                        echo "<button class='unset' onclick=\"unsetCat($cSlug)\"><i class='icon ion-close-round'></i>$cat->name</button>";
                                     }
-                                    ?>
-                                </div>
-                            <?php } ?>
+
+                                }
+                                ?>
+                            </div>
+                        <?php } ?>
                             <?php if ($posttags) { ?>
-                                <div class="tag-links">
-                                    <?php _e('Tags: ', 'mki'); ?>
-                                    <?php
+                            <div class="tag-links">
+                                <?php _e('Tags: ', 'mki'); ?>
+                                <?php
 
-                                    foreach ($posttags as $tag) {
-                                        $checked = (!in_array(str_replace(" ", "-", $tag->name), $tags));
-                                        $tSlug = '\'' . trim($tag->name) . '\'';
-                                        if ($checked) {
-                                            echo "<button onclick=\"setTag($tSlug)\">$tag->name</button>";
-                                        } else {
-                                            echo "<button class='unset' onclick=\"unsetTag($tSlug)\"><i class='icon ion-close-round'></i>$tag->name</button>";
-                                        }
+                                foreach ($posttags as $tag) {
+                                    $checked = (!in_array(str_replace(" ", "-", $tag->name), $tags));
+                                    $tSlug = '\'' . trim($tag->name) . '\'';
+                                    if ($checked) {
+                                        echo "<button onclick=\"setTag($tSlug)\">$tag->name</button>";
+                                    } else {
+                                        echo "<button class='unset' onclick=\"unsetTag($tSlug)\"><i class='icon ion-close-round'></i>$tag->name</button>";
                                     }
-                                    ?>
-                                </div>
-                            <?php } ?>
+                                }
+                                ?>
+                            </div>
+                        <?php } ?>
                             <?php if (comments_open()) {
-                                echo '<span class="meta-sep">|</span> <span class="comments-link">
+                            echo '<span class="meta-sep">|</span> <span class="comments-link">
 <a href="' . get_comments_link() . '">' . sprintf(__('Comments', 'mki')) . '</a>
 </span>';
-                            } ?>
-                        </footer>
-                    <?php endif; ?>
+                        } ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-lg-2 col">
+                        <?php
+                        if ($attachmentDownload) {
+                            echo "<h4>" . __("Attachment found: ", "mki") . " $attachmentDownload";
+                        }
+                        ?>
+                    </div>
                 </div>
             <?php endwhile; ?>
             <div class="results_pagination">
@@ -279,7 +201,7 @@ global $post; ?>
         max: years[years.length - 1],
         values: [ymin, ymax],
         slide: function (event, ui) {
-            console.log(ui.values);
+            // console.log(ui.values);
             handleFrom.text(ui.values[0]);
             $('#advanced-search-form input[name="ymin"]').val(ui.values[0]);
             handleTo.text(ui.values[1]);
@@ -287,7 +209,7 @@ global $post; ?>
             // $( "#year-range-from" ).val( ui.values[ 0 ]);
             // $( "#year-range-to" ).val( ui.values[ 1 ] );
         },
-        stop:function (event, ui) {
+        stop: function (event, ui) {
             // update page
             $('#advanced-search-form').submit();
         }
@@ -297,18 +219,32 @@ global $post; ?>
     // end timeline
 
 
+    // timeless toggler
+    $('#timestamp input[name="stamped"]').change(function () {
+        console.log($(this).val());
+        setTimeout(function () {
+            $('#advanced-search-form').submit();
+        }, 500);
+    });
+    // end timeless toggler
+
+
     // text/tag switch management
     $('#text-switch .btn').click(function () {
+        // console.log('text');
         $(this).addClass('active');
         $('#tag-switch .btn').removeClass('active');
-        $('#searchbox form input[name="s"]').attr('type', 'text');
-        $('#searchbox form input[name="tag"]').attr('type', 'hidden');
+        $('#searchbox input[name="s"]').attr('type', 'text');
+        $('#searchbox input[name="tags"]').attr('type', 'hidden');
+        $('#searchbox input[name="tags"]').val('');
     });
     $('#tag-switch .btn').click(function () {
+        // console.log('tags');
         $(this).addClass('active');
         $('#text-switch .btn').removeClass('active');
-        $('#searchbox form input[name="s"]').attr('type', 'hidden');
-        $('#searchbox form input[name="tag"]').attr('type', 'text');
+        $('#searchbox input[name="s"]').attr('type', 'hidden');
+        $('#searchbox input[name="s"]').val('');
+        $('#searchbox input[name="tags"]').attr('type', 'text');
     });
     // end text/tag switch management
 
@@ -327,7 +263,7 @@ global $post; ?>
     // var_dump($terms);
     ?>
     var availableTags = <?php echo "[${terms}]"; ?>;
-    $('#searchbox form input[name="tag"]').on("keydown", function (event) {
+    $('#searchbox input[name="tags"]').on("keydown", function (event) {
         // console.log(event.keyCode);
         if (event.keyCode === $.ui.keyCode.TAB &&
             $(this).autocomplete("instance").menu.active) {
@@ -356,6 +292,7 @@ global $post; ?>
             return false;
         }
     });
+
     function split(val) {
         return val.split(/,\s*/);
     }
@@ -363,10 +300,34 @@ global $post; ?>
     function extractLast(term) {
         return split(term).pop();
     }
+
     // end autocomplete
 
 
+    // sorting
+    $('#sorting button').each(function () {
+        $(this).click(function () {
+            var field = $(this).attr('sorting');
+            var input = $(this).children('input');
+            var old = input.val();
+            // toggle value
+            var newVal = (old === 'ASC' ? 'DESC' : 'ASC');
+            console.log(field, old, newVal);
+            // set new value
+            input.val(newVal);
+            // scramble sort ordering
+            var oldOrder = $('#sorting').children('input[name="orderby"]').val().split(',');
+            var newOrder = [field].concat(oldOrder.filter(function (f) {
+                return f !== field;
+            }));
+            // set new sort ordering
+            $('#sorting').children('input[name="orderby"]').val(newOrder);
+            // update page
+            $('#advanced-search-form').submit();
+        });
+    });
 
+    // end sorting
 
     // general approach
     // set search params and reload

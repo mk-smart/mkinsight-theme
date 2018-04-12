@@ -730,6 +730,7 @@ nav .mki-icon img {
 .page-header p {
     max-width: 800px;
     margin: 0 auto;
+    margin-bottom: 12px;
 }
 
 .page-header #searchbox {
@@ -738,6 +739,10 @@ nav .mki-icon img {
     margin-top: 20px;
 }
 
+.page-header #searchbox form {
+    width: 100%;
+    display: flex;
+}
 .page-header #searchbox {
     margin: 0 auto;
     display: flex;
@@ -816,7 +821,7 @@ nav .mki-icon img {
 /* MEDIUM TABLETS AND MOBILE PHONES */
 @media (min-width: 768px) and (max-width: 991px) {
     .page-header {
-        margin-top: 60px;
+        /*margin-top: 60px;*/
         /*background-color:yellow;*/
     }
 }
@@ -824,7 +829,7 @@ nav .mki-icon img {
 /* SMALL TABLETS AND MOBILE PHONES */
 @media (min-width: 444px) and (max-width: 767px) {
     .page-header {
-        margin-top: 60px;
+        /*margin-top: 60px;*/
         /*background-color:red;*/
     }
 }
@@ -832,7 +837,7 @@ nav .mki-icon img {
 /* SMALL TABLETS AND MOBILE PHONES */
 @media (max-width: 443px) {
     .page-header {
-        margin-top: 60px;
+        /*margin-top: 60px;*/
         /*background-color:red;*/
     }
 }
@@ -2031,11 +2036,14 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 /* advanced search form */
 .advanced-search {
     background-color: white;
-    padding: 12px;
     margin-top: 20px;
 }
 
 /* timeline */
+#timeline{
+    width: 85%;
+    margin: 0px auto 20px;
+}
 #slider-range.ui-widget.ui-widget-content{
     border-color: #d9d9d9;
     background-color:  #fff;
@@ -2054,58 +2062,65 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     background-color: #209ec8;
     color: white;
     border-color:#fafafa;
+    margin-left: -1.5em;
+}
+/* time stampped data toggler */
+#timestamp {
+    text-align: right;
+    margin-bottom: 12px;
+}
+#timestamp .stamp-label {vertical-align: bottom;}
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+.toggle.ios .toggle-handle { border-radius: 20px; }
+.toggle-on.btn-primary {
+    background-color: #209ec8;
+}
+.toggle.btn-primary {
+    border-color: #337ab7;
+}
+/* search result header */
+#sorting {
+    background-color: #209ec8;
+    color: white;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.35);
+    position: relative;
+    z-index: 1;
+}
+#sorting .btn.btn-link, #sorting label{
+    font-weight: normal;
+    color: white;
+}
+#sorting label{
+    margin-top: 7px;
 }
 
-/* advanced search and results */
-.advanced-search {
-    padding-left: 0px;
+/* table like results*/
+.table-box {
+    /*box-shadow: 0px 0px 5px rgba(0,0,0,0.35);*/
+}
+#content.no-margin {
+    padding-top: 0px !important;
+}
+.results {
+
+}
+.results .row:nth-child(odd){
+    background-color: #fafafa;
+}
+.results .row {
+    padding: 10px 0px;
+}
+.results .row .col{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 
-.advanced-search form #s,
-.advanced-search form input[type=submit] {
-    width: 100%;
-}
-
-.advanced-search form label {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-right: 6px;
-}
-
-.advanced-search ul.checkboxes li {
-    margin-bottom: initial;
-}
-
-.advanced-search ul.checkboxes li.checkbox {
-    margin-top: initial;
-    margin-left: 40px;
-}
-
-.advanced-search ul.checkboxes li.checkbox input {
-    top: 8px;
-    margin: 0px;
-    padding: 0px;
-    left: -8px;
-    min-height: auto;
-}
-
-.advanced-search ul.checkboxes li.checkbox label {
-    font-weight: 500;
-    padding-left: 6px;
-}
-
-/*.advanced-search select {background-color: white;border:1px solid #ccc; border-radius: 4px;}*/
-/*.advanced-search select:after {content:''}*/
-
-div.results {
-    padding: 0px;
-}
 
 .cat-links, .tag-links {
     line-height: 2em;
 }
 
-#content .bootstrap-tagsinput .tag,
 .cat-links button, .tag-links button, .cat-links a, .tag-links a {
     color: white;
     padding: 2px 6px;
@@ -2125,6 +2140,7 @@ div.results {
 .tag-links button, .tag-links a, #content .bootstrap-tagsinput .tag {
     background-color: rgba(55, 179, 74, 0.15);
     color: #2a983a;
+    display: inline-block;
 }
 
 .cat-links button, .cat-links a {
@@ -2140,36 +2156,9 @@ div.results {
 .cat-links button.unset, .tag-links button.unset, .bootstrap-tagsinput .tag {
     background-color: #f68822;
     color: white;
+    display: inline-block;
 }
 
-#content .bootstrap-tagsinput {
-    width: 100%;
-    display: flex;
-}
-
-#content .bootstrap-tagsinput input {
-    background-color: white;
-    flex: 1 1 auto;
-    display: initial;
-    border: none;
-    margin: 0px 0px 0px 8px;
-    height: 1.3em;
-    line-height: 1.3em;
-    min-height: initial;
-}
-
-#content .bootstrap-tagsinput .tag {
-    font-size: 14px;
-}
-
-ul.typeahead, ul.typeahead li {
-    margin: 0px;
-    padding: 0px;
-}
-
-ul.typeahead li {
-    list-style: none;
-}
 
 div.results_pagination {
     margin: 20px 0px;
