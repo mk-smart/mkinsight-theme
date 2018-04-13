@@ -16,7 +16,7 @@ $total = $wp_query->found_posts;
                             $permalink = get_the_permalink();
                             // if attachment switch permalink
                            ?>
-                            <a href="<?php echo $permalink; ?>">
+                            <a href="<?php echo $permalink; ?>" target="_blank">
                                 <?php
                                 /* add icon to title
                                  * folder: img/infographics/
@@ -326,14 +326,14 @@ $total = $wp_query->found_posts;
         $('#tag-switch .btn').removeClass('active');
         $('#searchbox input[name="s"]').attr('type', 'text');
         $('#searchbox input[name="tags"]').attr('type', 'hidden');
-        $('#searchbox input[name="tags"]').val('');
+        // $('#searchbox input[name="tags"]').val('');
     });
     $('#tag-switch .btn').click(function () {
         // console.log('tags');
         $(this).addClass('active');
         $('#text-switch .btn').removeClass('active');
         $('#searchbox input[name="s"]').attr('type', 'hidden');
-        $('#searchbox input[name="s"]').val('');
+        // $('#searchbox input[name="s"]').val('');
         $('#searchbox input[name="tags"]').attr('type', 'text');
     });
     // end text/tag switch management

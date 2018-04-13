@@ -811,12 +811,14 @@ function mki_advanced_search_query($query)
                 return in_array($c, $catList);
             });
             $cats = array_map(function ($c) {
-                return get_cat_ID($c);
+                return str_replace(" ","-",strtolower($c));
+//                return get_cat_ID($c);
             }, $catNames);
             if(!empty($cats)) {
                 $catQuery = array(
                     'taxonomy' => 'category',
-                    'field' => 'term_id',
+                    'field' => 'slug',
+//                    'field' => 'term_id',
                     'terms' => $cats,
                     'operator' => 'AND'
                 );
