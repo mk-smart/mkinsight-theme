@@ -6,20 +6,16 @@ $total = $wp_query->found_posts;
 ?>
 <?php get_header(); ?>
 <section role="main">
-    <label class="counter"><?php echo $total, ' entries', ($total > 1) ? 's' : ''; ?></label>
     <?php if (have_posts()) : ?>
         <div class="results">
             <?php while (have_posts()) : the_post(); ?>
                 <div class="row">
-                    <div class="col-lg-4 col">
-                        <h3>
+                    <div class="col-lg-4 col-md-4 col">
+                        <h3 class="entry-title">
                             <?php
                             $permalink = get_the_permalink();
                             // if attachment switch permalink
-                            if (get_post_type() == 'attachment') {
-                                $permalink = wp_get_attachment_url(get_the_ID());
-                            }
-                            ?>
+                           ?>
                             <a href="<?php echo $permalink; ?>">
                                 <?php
                                 /* add icon to title
@@ -67,21 +63,36 @@ $total = $wp_query->found_posts;
                                 }
                                 ?>
                                 <?php
-                                the_title();
+                                $title = get_the_title();
+                                $s = @$_GET['s'];
+                                if( isset($s) ){
+//                                    echo 'found '.$s.' '.strpos($title, $s)." ".strlen($s).' || ';
+
+                                    $pos = strpos(strtolower($title), $s);
+                                    if($pos){
+                                        $label = substr($title, $pos, strlen($s));
+                                        $title = substr_replace($title, "<u>$label</u>", $pos, strlen($s));
+                                    }
+                                }
+                                echo $title;
                                 ?>
                             </a>
                         </h3>
                     </div>
-                    <div class="col-lg-2 col">
+                    <div class="col-lg-2 col-md-2 col">
                         <?php if (get_the_terms(get_the_ID(), 'years')) : ?>
                             <div class="entry-date">
                                 <?php
-                                echo 'About ';
+                                // todo year range
+                                $ymin = intval(@$_GET['ymin']);
+                                $ymax = intval(@$_GET['ymax']);
+//                                echo 'About ';
                                 $years = get_the_terms(get_the_ID(), 'years');
                                 $yList = array();
                                 foreach ($years as $year) {
                                     $yearName = $year->name;
-                                    array_push($yList, "<a href=\"#\" onclick=\"setYear($yearName)\">$yearName</a>");
+                                    $class = intval($yearName) && intval($yearName) <= $ymax && intval($yearName) >= $ymin ? 'selected': '';
+                                    array_push($yList, "<a href=\"#\" class=\"${class}\" onclick=\"setYear($yearName)\">$yearName</a>");
                                 }
                                 echo implode(", ", $yList);
                                 ?>
@@ -92,7 +103,7 @@ $total = $wp_query->found_posts;
                             </div>
                         <?php endif; ?>
                     </div>
-                    <div class="col-lg-4 col">
+                    <div class="col-lg-4 col-md-4 col">
                         <?php
                         $postcats = get_the_category();
                         $posttags = get_the_tags();
@@ -103,11 +114,11 @@ $total = $wp_query->found_posts;
                             ?>
                             <?php if ($postcats) { ?>
                             <div class="cat-links">
-                                <?php _e('Categories: ', 'mki'); ?>
+                                <!--                                --><?php //_e('Categories: ', 'mki'); ?>
                                 <?php
                                 foreach ($postcats as $cat) {
                                     $checked = (!in_array($cat->name, $tags));
-                                    $cSlug = '\'' . trim($cat->slug) . '\'';
+                                    $cSlug = '\'' . trim($cat->name) . '\'';
                                     if ($checked) {
                                         echo "<button onclick=\"setCat($cSlug)\">$cat->name</button>";
                                     } else {
@@ -120,7 +131,7 @@ $total = $wp_query->found_posts;
                         <?php } ?>
                             <?php if ($posttags) { ?>
                             <div class="tag-links">
-                                <?php _e('Tags: ', 'mki'); ?>
+                                <!--                                --><?php //_e('Tags: ', 'mki'); ?>
                                 <?php
 
                                 foreach ($posttags as $tag) {
@@ -135,19 +146,99 @@ $total = $wp_query->found_posts;
                                 ?>
                             </div>
                         <?php } ?>
-                            <?php if (comments_open()) {
-                            echo '<span class="meta-sep">|</span> <span class="comments-link">
-<a href="' . get_comments_link() . '">' . sprintf(__('Comments', 'mki')) . '</a>
-</span>';
-                        } ?>
                         <?php endif; ?>
                     </div>
-                    <div class="col-lg-2 col">
-                        <?php
-                        if ($attachmentDownload) {
-                            echo "<h4>" . __("Attachment found: ", "mki") . " $attachmentDownload";
-                        }
-                        ?>
+                    <div class="col-lg-2 col-md-2 col fileactions">
+                            <?php
+                            // list of files
+                            $files = get_attached_media('', $query->post->ID);
+                            // list of files csv like
+                            $filesPreview = array_filter($files, function ($file) {
+                                switch ($file->post_mime_type) {
+                                    case 'application/vnd.ms-excel':
+                                        return true;
+                                    case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                                        return true;
+                                    default:
+                                        return false;
+                                }
+                            });
+                            // disabling chart feature if user is not editor
+                            $chart = false;
+                            if (current_user_can('edit_post', $query->post->ID)) {
+                                $chart = true;
+                            }
+                            ?>
+                            <div class="dropdown" style="">
+                                <button class="btn btn-primary dropdown-toggle <?php echo (count($filesPreview) > 0) ? '' : 'btn-block'; ?>"
+                                        type="button"
+                                        id="menudownload-<?php print $file->ID; ?>"
+                                        data-toggle="dropdown">
+                                    <?php _e('Download', 'mki'); ?>
+                                    <span class="bs-caret"><span class="caret"></span></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <?php
+
+                                    foreach ($files as $fid => $file):
+                                        ?>
+
+                                        <li role="presentation">
+                                            <a href="<?php print $file->guid; ?>"
+                                               title="Download file: <?php print $file->post_title; ?>"
+                                               id="file-<?php print $file->ID; ?>">
+                                                <?php print $file->post_title; ?>
+                                                <?php echo "[$file->post_mime_type]"; ?>
+                                            </a>
+                                        </li>
+
+                                    <?php
+                                    endforeach;
+                                    ?>
+                                </ul>
+                            </div>
+                            <?php
+                            if ($chart && count($filesPreview) > 0):
+                                ?>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary dropdown-toggle" type="button"
+                                            id="menucharts-<?php print $file->ID; ?>"
+                                            data-toggle="dropdown">
+                                        <?php echo $chart ? __('Charts', 'mki') : __('Preview', 'mki'); ?>
+                                        <span class="bs-caret"><span class="caret"></span></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"
+                                        aria-labelledby="menucharts-<?php print $file->ID; ?>">
+                                        <?php
+                                        foreach ($filesPreview as $fid => $file): ?>
+                                            <li role="presentation">
+                                                <a title="Chart generator: <?php print $file->post_title; ?>"
+                                                   role="menuitem"
+                                                   id="file-<?php print $file->ID; ?>"
+                                                   href="/chart-generator/?data=<?php print $file->ID; ?>">
+                                                    <?php print $file->post_title; ?>
+                                                    <?php
+                                                    /*
+                                                     * MIMEtypes
+                                                     * - application/vnd.ms-excel > XLS
+                                                     * - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet > CSV
+                                                     */
+                                                    echo '[';
+                                                    if ($file->post_mime_type == "application/vnd.ms-excel") {
+                                                        print "Excel";
+                                                    } else {
+                                                        print "CSV";
+                                                    }
+                                                    echo ']';
+                                                    ?>
+                                                </a>
+                                            </li>
+                                        <?php
+                                        endforeach;
+                                        ?>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
                     </div>
                 </div>
             <?php endwhile; ?>
@@ -174,7 +265,6 @@ $total = $wp_query->found_posts;
 </div>
 </div>
 </div>
-
 <script type="text/javascript">
     // timeline
     <?php
@@ -329,14 +419,33 @@ $total = $wp_query->found_posts;
 
     // end sorting
 
+
+    // counter results
+    <?php
+    $counterLabel = $total.' entr';
+    $counterLabel = $counterLabel.(($total > 1) ? 'ies' : 'y');
+    $counterLabel = $counterLabel . __(" of ", "mki");
+    $count_posts = wp_count_posts();
+    $counterLabel = $counterLabel.$count_posts->publish;
+    $counterLabel = $counterLabel.__(" in total", "mki");
+//    echo $counterLabel;
+
+    ?>
+    var counterLabel = "<?php echo $counterLabel; ?>";
+
+        $('#timestamp').prepend("<label class='counter'>"+counterLabel+"</label>");
+
+    // end counter results
+
+
     // general approach
     // set search params and reload
 
     // apply time filter and reload
     function setYear(year) {
         if (year) {
-            $('#minYear').val(year);
-            $('#maxYear').val(year);
+            $('input[name="ymin"]').val(year);
+            $('input[name="ymax"]').val(year);
             $('#advanced-search-form').submit();
         }
     }
@@ -344,8 +453,15 @@ $total = $wp_query->found_posts;
     // add category filter
     function setCat(cat) {
         if (cat) {
-            // unckeck checkbox
-            $('#check-' + cat).prop('checked', true);
+            var val = $('input[name="tags"]').val().split(',').map(function (value) { return value.trim() }).filter(function (value) { return value !== ""; });
+            // check for duplicates
+            if(val.indexOf(cat) < 0){
+                val.push(cat);
+            }
+            // console.log('check ',val);
+            // update value
+            var newVal = val.join(", ");
+            $('input[name="tags"]').val(newVal);
             // submit form
             $('#advanced-search-form').submit();
         }
@@ -354,8 +470,15 @@ $total = $wp_query->found_posts;
     // add tag to filter and apply
     function setTag(tag) {
         if (tag) {
-            // $('#s').val(tag);
-            $("#tag-input").tagsinput("add", tag);
+            var val = $('input[name="tags"]').val().split(',').map(function (value) { return value.trim() }).filter(function (value) { return value !== ""; });
+            // check for duplicates
+            if(val.indexOf(tag) < 0){
+                val.push(tag);
+            }
+            // update value
+            var newVal = val.join(", ");
+            $('input[name="tags"]').val(newVal);
+            // submit form
             $('#advanced-search-form').submit();
 
         }
@@ -364,8 +487,14 @@ $total = $wp_query->found_posts;
     // uncheck the category and submit the form
     function unsetCat(cat) {
         if (cat) {
-            // unckeck checkbox
-            $('#check-' + cat).prop('checked', false);
+            var val = $('input[name="tags"]').val().split(',').map(function (value) { return value.trim() }).filter(function (value) { return value !== ""; });
+            var index = val.indexOf(cat);
+            if (index > -1) {
+                val.splice(index, 1);
+            }
+            // update value
+            var newVal = val.join(", ");
+            $('input[name="tags"]').val(newVal);
             // submit form
             $('#advanced-search-form').submit();
         }
@@ -373,7 +502,15 @@ $total = $wp_query->found_posts;
 
     // add tag to filter and apply
     function unsetTag(tag) {
-        $("#tag-input").tagsinput("remove", tag);
+        var val = $('input[name="tags"]').val().split(',').map(function (value) { return value.trim() }).filter(function (value) { return value !== ""; });
+        var index = val.indexOf(tag);
+        if (index > -1) {
+            val.splice(index, 1);
+        }
+        // update value
+        var newVal = val.join(", ");
+        $('input[name="tags"]').val(newVal);
+        // submit form
         $('#advanced-search-form').submit();
     }
 </script>

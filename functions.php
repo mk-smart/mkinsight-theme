@@ -831,7 +831,7 @@ function mki_advanced_search_query($query)
             },array_diff($tagsList, $catNames));
             if(!empty($tags)) {
                 $tagQuery = array(
-                    'taxonomy' => 'category',
+                    'taxonomy' => 'post_tag',
                     'field' => 'slug',
                     'terms' => $tags,
                     'operator' => 'AND'
@@ -859,6 +859,9 @@ function mki_advanced_search_query($query)
         if(isset($taxQuery)) {
             $query->set('tax_query', $taxQuery);
         }
+
+        // force search on post type only (no pages)
+        $query->set('post_type','post');
 
 
         // todo extend sorting by year, tags, categories

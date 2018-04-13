@@ -157,13 +157,15 @@ if (is_search()):
                     <input name="ymin" value="<?php echo $_GET['ymin']; ?>" type="hidden">
                     <input name="ymax" value="<?php echo $_GET['ymax']; ?>" type="hidden">
                     <div id="timestamp">
-                        <span class="stamp-label"><?php _e("Time Stamped") ?></span>
-                        <!--                <input type="checkbox" name="timeless" -->
-                        <?php //echo $_GET['timeless'] ? 'checked' : '';
-                        ?><!-- />-->
-                        <input type="checkbox" name="stamped" <?php echo $_GET['stamped'] ? 'checked' : ''; ?>
-                               data-toggle="toggle" data-off="Optional" data-on="Only" data-size="mini" data-style="ios"
-                               data-offstyle="default" data-onstyle="primary">
+                        <div class="toggler">
+                            <span class="stamp-label"><?php _e("Time Stamped") ?></span>
+                            <!--                <input type="checkbox" name="timeless" -->
+                            <?php //echo $_GET['timeless'] ? 'checked' : '';
+                            ?><!-- />-->
+                            <input type="checkbox" name="stamped" <?php echo $_GET['stamped'] ? 'checked' : ''; ?>
+                                   data-toggle="toggle" data-off="Optional" data-on="Only" data-size="mini" data-style="ios"
+                                   data-offstyle="default" data-onstyle="primary">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -179,7 +181,7 @@ if (is_search()):
                 </div>
                 <div class="col-lg-2">
 <!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="year" type="reset">-->
-                        <label><?php _e("About", "mki"); ?></label>
+                        <label><?php _e("Years", "mki"); ?></label>
 <!--                        <i class="icon --><?php //echo @$_GET['year'] == 'ASC' ? 'ion-ios-arrow-thin-down' : 'ion-ios-arrow-thin-up'; ?><!--"></i>-->
                         <input type="hidden" name="year"
                                value="<?php echo @$_GET['year'] ? @$_GET['year']: 'DESC'; ?>"/>
