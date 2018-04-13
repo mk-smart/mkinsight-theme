@@ -169,9 +169,9 @@ if (is_search()):
                     </div>
                 </div>
             </div>
-            <div class="row ipad desktop" id="sorting">
+            <div class="row desktop hidden-xs" id="sorting">
                 <input type="hidden" name="orderby" value="<?php echo @$_GET['orderby']? @$_GET['orderby'] : 'title,year,keywords,files'; ?>" >
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
                     <button class="btn btn-group-xs btn-link btn-sort" sorting="title" type="reset">
                         <?php _e("Title", "mki"); ?>
                         <i class="icon <?php echo @$_GET['title'] == 'DESC' ? 'ion-ios-arrow-thin-up' : 'ion-ios-arrow-thin-down'; ?>"></i>
@@ -179,7 +179,7 @@ if (is_search()):
                                value="<?php echo @$_GET['title'] ? @$_GET['title'] : 'ASC'; ?>"/>
                     </button>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
 <!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="year" type="reset">-->
                         <label><?php _e("Years", "mki"); ?></label>
 <!--                        <i class="icon --><?php //echo @$_GET['year'] == 'ASC' ? 'ion-ios-arrow-thin-down' : 'ion-ios-arrow-thin-up'; ?><!--"></i>-->
@@ -187,7 +187,7 @@ if (is_search()):
                                value="<?php echo @$_GET['year'] ? @$_GET['year']: 'DESC'; ?>"/>
 <!--                    </button>-->
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-3">
 <!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="keywords" type="reset">-->
                         <label><?php _e("Tags", "mki"); ?></label>
 <!--                        <i class="icon --><?php //echo @$_GET['keywords'] == 'ASC' ? 'ion-ios-arrow-thin-up' : 'ion-ios-arrow-thin-down'; ?><!--"></i>-->
@@ -195,7 +195,7 @@ if (is_search()):
                                value="<?php echo @$_GET['keywords'] ? @$_GET['keywords'] : 'ASC'; ?>"/>
 <!--                    </button>-->
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-0">
 <!--                    <button class="btn btn-group-xs btn-link btn-sort" sorting="files" type="reset">-->
                         <label><?php _e("Files", "mki"); ?></label>
 <!--                        <i class="icon --><?php //echo @$_GET['files'] == 'ASC' ? 'ion-ios-arrow-thin-up' : 'ion-ios-arrow-thin-down'; ?><!--"></i>-->

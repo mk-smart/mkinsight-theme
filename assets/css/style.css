@@ -2118,6 +2118,9 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     /*box-shadow: 0px 0px 5px rgba(0,0,0,0.35);*/
     padding: 0px;
 }
+.table-box .fileactions.col-sm-12, .table-box .fileactions.col-xs-12{
+    margin-left: 0px;
+}
 .table-box .fileactions{
     margin: 0px -15px;
 }

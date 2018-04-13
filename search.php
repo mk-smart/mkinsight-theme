@@ -10,7 +10,7 @@ $total = $wp_query->found_posts;
         <div class="results">
             <?php while (have_posts()) : the_post(); ?>
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 col">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col">
                         <h3 class="entry-title">
                             <?php
                             $permalink = get_the_permalink();
@@ -79,7 +79,7 @@ $total = $wp_query->found_posts;
                             </a>
                         </h3>
                     </div>
-                    <div class="col-lg-2 col-md-2 col">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 col">
                         <?php if (get_the_terms(get_the_ID(), 'years')) : ?>
                             <div class="entry-date">
                                 <?php
@@ -103,7 +103,7 @@ $total = $wp_query->found_posts;
                             </div>
                         <?php endif; ?>
                     </div>
-                    <div class="col-lg-4 col-md-4 col">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 col">
                         <?php
                         $postcats = get_the_category();
                         $posttags = get_the_tags();
@@ -132,7 +132,7 @@ $total = $wp_query->found_posts;
                             </div>
                         <?php endif; ?>
                     </div>
-                    <div class="col-lg-2 col-md-2 col fileactions">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 col fileactions">
                             <?php
                             // list of files
                             $files = get_attached_media('', $query->post->ID);
