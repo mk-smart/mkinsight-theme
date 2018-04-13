@@ -107,35 +107,20 @@ $total = $wp_query->found_posts;
                         <?php
                         $postcats = get_the_category();
                         $posttags = get_the_tags();
+
                         $tags = array_filter(array_map('trim', explode(",", @$_GET['tags'])), function ($value) {
                             return $value !== '';
                         });
-                        if ($posttags || $postcats):
+
+//                        $keywords = array_unique(array_merge($postcats,$posttags));
+                        $keywords = array_merge($postcats,$posttags);
+                        if($keywords):
+//                        if(false):
                             ?>
-                            <?php if ($postcats) { ?>
-                            <div class="cat-links">
-                                <!--                                --><?php //_e('Categories: ', 'mki'); ?>
-                                <?php
-                                foreach ($postcats as $cat) {
-                                    $checked = (!in_array($cat->name, $tags));
-                                    $cSlug = '\'' . trim($cat->name) . '\'';
-                                    if ($checked) {
-                                        echo "<button onclick=\"setCat($cSlug)\">$cat->name</button>";
-                                    } else {
-                                        echo "<button class='unset' onclick=\"unsetCat($cSlug)\"><i class='icon ion-close-round'></i>$cat->name</button>";
-                                    }
-
-                                }
-                                ?>
-                            </div>
-                        <?php } ?>
-                            <?php if ($posttags) { ?>
                             <div class="tag-links">
-                                <!--                                --><?php //_e('Tags: ', 'mki'); ?>
                                 <?php
-
-                                foreach ($posttags as $tag) {
-                                    $checked = (!in_array(str_replace(" ", "-", $tag->name), $tags));
+                                foreach ($keywords as $tag) {
+                                    $checked = (!in_array($tag->name, $tags));
                                     $tSlug = '\'' . trim($tag->name) . '\'';
                                     if ($checked) {
                                         echo "<button onclick=\"setTag($tSlug)\">$tag->name</button>";
@@ -145,7 +130,6 @@ $total = $wp_query->found_posts;
                                 }
                                 ?>
                             </div>
-                        <?php } ?>
                         <?php endif; ?>
                     </div>
                     <div class="col-lg-2 col-md-2 col fileactions">

@@ -858,6 +858,8 @@ nav .mki-icon img {
 --------------------------------------------------*/
 #content img {
     box-shadow: #000 0em 0em 0em;
+    max-width: 100%;
+
 }
 
 #content {
@@ -1060,6 +1062,7 @@ nav .mki-icon img {
 .entry-date a.selected{
     text-decoration: underline;
     /*font-weight: bold;*/
+    color: #f68822;
 }
 .entry-date a{
     /*font-weight: 500;*/
