@@ -8,7 +8,7 @@
 
                 foreach ($years as $year) {
                     $label = $year->slug;
-                    echo "<a href=\"/categories/?ymin=$label&ymax=$label\">$label</a>";
+                    echo "<a href=\"/?s=&ymin=$label&ymax=$label\">$label</a>";
                     if ($years[count($years) - 2]->slug == $label) {
                         echo " and ";
                     } else if (next($years) == true) {
@@ -23,27 +23,26 @@
         </span>
     </div>
     <div class="entry-meta-end">
-    <?php
-    $postcats = get_the_category();
-    if ($postcats) { ?>
-        <div class="cat-links">
-            <?php _e('Categories: ', 'mki'); ?>
-            <?php foreach ($postcats as $cat) {
-                echo "<a class='button' href=\"/categories/?term_id%5B%5D=$cat->term_id\">$cat->name</a>";
-            } ?>
-        </div>
-    <?php } ?>
-    <?php
-    $posttags = get_the_tags();
-    if ($posttags) { ?>
-        <div class="tag-links">
-            <?php _e('Tags: ', 'mki'); ?>
 
-            <?php foreach ($posttags as $tag) {
-                $tagQuery = str_replace(" ", "-", $tag->name);
-                echo "<a href=\"/?s=&tag=$tagQuery\">$tag->name</a>";
-            } ?>
-        </div>
-    <?php } ?>
+        <?php
+        $postcats = get_the_category();
+        $posttags = get_the_tags();
+
+        $tags = array_filter(array_map('trim', explode(",", @$_GET['tags'])), function ($value) {
+            return $value !== '';
+        });
+        $keywords = array_merge($postcats, $posttags);
+        if ($keywords):
+            ?>
+            <?php _e('Tags: ', 'mki'); ?>
+            <span class="tag-links">
+                <?php
+                foreach ($keywords as $tag) {
+                    $tSlug = trim($tag->name);
+                    echo "<a class='btn' href=\"/?s=&tags=${tSlug}\">$tag->name</a>";
+                }
+                ?>
+            </span>
+        <?php endif; ?>
     </div>
 </section>

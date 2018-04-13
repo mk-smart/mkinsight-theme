@@ -158,12 +158,12 @@ if (is_search()):
                     <input name="ymax" value="<?php echo $_GET['ymax']; ?>" type="hidden">
                     <div id="timestamp">
                         <div class="toggler">
-                            <span class="stamp-label"><?php _e("Time Stamped") ?></span>
+                            <span class="stamp-label"><?php _e("Time Stamped only") ?></span>
                             <!--                <input type="checkbox" name="timeless" -->
                             <?php //echo $_GET['timeless'] ? 'checked' : '';
                             ?><!-- />-->
                             <input type="checkbox" name="stamped" <?php echo $_GET['stamped'] ? 'checked' : ''; ?>
-                                   data-toggle="toggle" data-off="Optional" data-on="Only" data-size="mini" data-style="ios"
+                                   data-toggle="toggle" data-off="No" data-on="Yes" data-size="mini" data-style="ios"
                                    data-offstyle="default" data-onstyle="primary">
                         </div>
                     </div>

@@ -89,6 +89,9 @@ $total = $wp_query->found_posts;
 //                                echo 'About ';
                                 $years = get_the_terms(get_the_ID(), 'years');
                                 $yList = array();
+                                // todo year compression in interval if possible
+                                // if there is one year only
+                                // if it is a range
                                 foreach ($years as $year) {
                                     $yearName = $year->name;
                                     $class = intval($yearName) && intval($yearName) <= $ymax && intval($yearName) >= $ymin ? 'selected': '';
