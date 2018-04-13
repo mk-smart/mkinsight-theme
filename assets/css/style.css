@@ -2070,6 +2070,7 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     color: white;
     border-color:#fafafa;
     margin-left: -1.5em;
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.35);
 }
 /* time stampped data toggler */
 #timestamp {
