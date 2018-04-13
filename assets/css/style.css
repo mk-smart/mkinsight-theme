@@ -789,8 +789,8 @@ nav .mki-icon img {
     padding: 2px 6px;
     margin: 5px 5px 0px 0px;
     font-size: 1em;
-    color: gray;
-    background-color: rgba(255, 128, 0, 0.36);
+    color: #ff8015;
+    background-color: rgba(255, 128, 0, 0.15);
 }
 
 .page-header #searchbox #tag-switch button:active, .page-header #searchbox #text-switch button:active, .page-header #searchbox #tag-switch button.active, .page-header #searchbox #text-switch button.active {
@@ -799,7 +799,7 @@ nav .mki-icon img {
     color: #fff;
 }
 .page-header #searchbox #tag-switch button:hover ,.page-header #searchbox #text-switch button:hover {
-    background-color: rgba(255, 128, 0, 0.5);
+    background-color: rgba(255, 128, 0, 0.3);
 }
 .page-header #searchbox #tag-switch button.active:hover, .page-header #searchbox #text-switch button.active:hover {
     box-shadow: none;
@@ -2056,8 +2056,8 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     background-color:  #fff;
 }
 #slider-range .ui-slider-range {
-    background-color: #00bcf1;
-    outline: 1px solid #00bcf1;
+    background-color: rgba(255, 128, 0, 0.36);
+    outline: 1px solid #f68822;
 }
 #slider-range .ui-slider-handle {
     width: 3em;
@@ -2066,9 +2066,9 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     margin-top: -.8em;
     text-align: center;
     line-height: 1.6em;
-    background-color: #209ec8;
+    background-color: #f68822;
     color: white;
-    border-color:#fafafa;
+    border-color:#f68822;
     margin-left: -1.5em;
     box-shadow: 0px 0px 2px rgba(0,0,0,0.35);
 }
@@ -2129,7 +2129,7 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     font-size: 18px;
 }
 #content .table-box .entry-title a{
-    /*font-weight: 500;*/
+    font-weight: 500;
 }
 #content .table-box .entry-title a u{
     /*font-weight: 500;*/
@@ -2207,15 +2207,24 @@ div.results_pagination a:hover {
     background-color: #EEE;
 }
 
+div.results_pagination .page-numbers.dots {
+    background-color: rgba(32, 158, 200, 0.05);
+}
 div.results_pagination .page-numbers {
     display: inline-block;
     margin: 0px 0px;
-    border: 1px solid;
+    border: 0px solid;
     padding: 5px 10px;
     border-radius: 2px;
+    background-color: rgba(32, 158, 200, 0.15);
+    color: #209ec8;
+    border-radius: 0px;
+    font-weight: 500;
 }
 
 div.results_pagination span.current {
+    background-color: rgba(255, 128, 21, 0.16);
+    color: #ff8015;
     font-weight: bold;
 }
 

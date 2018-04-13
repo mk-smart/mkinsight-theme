@@ -398,7 +398,7 @@ function getIcon($icon, $text, $height)
             }
             // printing full icons
             // ratio
-            $img = $img_url . "person-blue.svg";
+            $img = $img_url . "person-blue-dark.svg";
             for ($i = 0; $i < $ratio; $i++) {
                 $newIcon = $newIcon . "<img class=\"size-full icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
             }
