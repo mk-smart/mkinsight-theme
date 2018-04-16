@@ -541,140 +541,140 @@ HTML;
 
 add_shortcode('mkifigures', 'mkifigures_func');
 
-
-require_once('mkio2/mkio2.php');
-
-// shortcode to include the chart interface
-function mkicharts_func($atts)
-{
-    //todo fix or remove from the db
-    return '';
-
-
-    ob_start();
-    include('mkio2/datapage.php');
-    $out1 = ob_get_contents();
-    ob_end_clean();
-    return $out1;
-}
-
-add_shortcode('mkicharts', 'mkicharts_func');
-
-// shortcode to include 1 chart
-function mkichart_func($atts)
-{
-    //todo fix or remove from the db
-    return '';
-
-
-    $a = shortcode_atts(array(
-        'type' => 'place',
-        'dim' => 'demographics:population-2011',
-        'title' => ''
-    ), $atts);
-    $dims = explode('.', $a['dim']);
-    $dimsparam = '';
-    foreach ($dims as $i => $dim) {
-        $dimsparam .= '&l' . ($i + 1) . '=' . $dim;
-    }
-    return '<iframe src="http://mkinsight.org/wp-content/themes/mkinsight/mkio2/singlegraph.php?type=' . $a['type'] . '&title=' . urlencode($a['title']) . $dimsparam . '" width="100%" height="550" frameborder="0" class="iframe-class"></iframe>';
-}
-
-add_shortcode('mkichart', 'mkichart_func');
-
-
-function mkixls_meta_box_markup()
-{
-    global $post;
-    $media = get_attached_media('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $post->ID);
-    if (count($media) === 0) {
-        $media = get_attached_media('application/vnd.ms-excel', $post->ID);
-    }
-    if (count($media) === 0) {
-        $media = get_attached_media('text/csv', $post->ID);
-    }
-    if (count($media) === 0) { ?>
-        <p>This function will appear if you add an attachement ("add media")
-            which is a spreadsheet and save the post.</p>
-        <?php
-    } else {
-        $surl = end($media)->guid;
-        $types = array();
-        $files = scandir('/var/www/html/wp-content/themes/mkinsight/mkio2/cache/');
-        $dimensions = array();
-        $acdims = array();
-        foreach ($files as $file) {
-            if (!startsWith($file, "http") && !startsWith($file, '.') && !startsWith($file, 'map') && strpos($file, '_') !== FALSE) {
-                $fn = str_replace("__", ":", $file);
-                $afn = explode("_", $fn);
-                if (!in_array($afn[0], $types)) $types[] = $afn[0];
-                if (!isset($dimensions[$afn[0]])) {
-                    $dimensions[$afn[0]] = array();
-                }
-                $arr = &$dimensions[$afn[0]];
-                $dims = substr($fn, strpos($fn, "_") + 1);
-                $aafn = explode(".", $dims);
-                $lev = 0;
-                foreach ($aafn as $elem) {
-                    if (!isset($arr[$elem])) {
-                        $arr[$elem] = array();
-                    }
-                    $arr = &$arr[$elem];
-                    if (!isset($acdims[$lev])) {
-                        $acdims[$lev] = array();
-                    }
-                    if (!in_array($elem, $acdims[$lev])) {
-                        $acdims[$lev][] = $elem;
-                    }
-                    $lev++;
-                }
-            }
-        }
-        ?>
-        <div id="mki_secapi"></div>
-        <script>
-            <?php
-            echo 'var types      = ' . json_encode($types) . ';' . "\n";
-            echo 'var dimensions = ' . json_encode($dimensions) . ';' . "\n";
-            echo 'var acdims     = ' . json_encode($acdims) . ';' . "\n";
-            ?>
-            spreadsheet.url = "<?php echo $surl;?>";
-            mksse_init("mki_secapi");
-        </script>
-        <?php
-    }
-}
-
-function add_mkixls_meta_box()
-{
-    add_meta_box("Create charts from spreadsheet", "Create charts from spreadsheet", "mkixls_meta_box_markup", "post", "normal", "low", null);
-}
-
-function startsWith($haystack, $needle)
-{
-    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-}
-
-add_action("add_meta_boxes", "add_mkixls_meta_box");
-
-// add scripts and css to admin
-function load_mkixls_admin_style()
-{
-    wp_register_style('mkixls_css', get_template_directory_uri() . '/secapi/secapi.css');
-    wp_enqueue_style('mkixls_css');
-    //  wp_register_style( 'mkixls_jquery-ui', '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
-    //  wp_enqueue_style( 'mkixls_jquery-ui');
-    //  wp_register_style( 'mkixls_bootstrap', "http://getbootstrap.com/dist/css/bootstrap.min.css");
-    //  wp_enqueue_style( 'mkixls_bootstrap');
-
-    // wp_enqueue_script( 'mkxls_jquery', "//code.jquery.com/jquery-1.9.1.js");
-    //  wp_enqueue_script( 'mkxls_jquery-ui', "//code.jquery.com/ui/1.10.4/jquery-ui.js");
-    wp_enqueue_script('mkxls_main_js', get_template_directory_uri() . '/secapi/js/secapi.js');
-    wp_enqueue_script('mkxls_view_js', get_template_directory_uri() . '/secapi/js/vc.js');
-    wp_enqueue_script('mkxls_typeahead_js', get_template_directory_uri() . '/secapi/js/typeahead.js');
-}
-
-add_action('admin_enqueue_scripts', 'load_mkixls_admin_style');
+//
+//require_once('mkio2/mkio2.php');
+//
+//// shortcode to include the chart interface
+//function mkicharts_func($atts)
+//{
+//    //todo fix or remove from the db
+//    return '';
+//
+//
+//    ob_start();
+//    include('mkio2/datapage.php');
+//    $out1 = ob_get_contents();
+//    ob_end_clean();
+//    return $out1;
+//}
+//
+//add_shortcode('mkicharts', 'mkicharts_func');
+//
+//// shortcode to include 1 chart
+//function mkichart_func($atts)
+//{
+//    //todo fix or remove from the db
+//    return '';
+//
+//
+//    $a = shortcode_atts(array(
+//        'type' => 'place',
+//        'dim' => 'demographics:population-2011',
+//        'title' => ''
+//    ), $atts);
+//    $dims = explode('.', $a['dim']);
+//    $dimsparam = '';
+//    foreach ($dims as $i => $dim) {
+//        $dimsparam .= '&l' . ($i + 1) . '=' . $dim;
+//    }
+//    return '<iframe src="http://mkinsight.org/wp-content/themes/mkinsight/mkio2/singlegraph.php?type=' . $a['type'] . '&title=' . urlencode($a['title']) . $dimsparam . '" width="100%" height="550" frameborder="0" class="iframe-class"></iframe>';
+//}
+//
+//add_shortcode('mkichart', 'mkichart_func');
+//
+//
+//function mkixls_meta_box_markup()
+//{
+//    global $post;
+//    $media = get_attached_media('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $post->ID);
+//    if (count($media) === 0) {
+//        $media = get_attached_media('application/vnd.ms-excel', $post->ID);
+//    }
+//    if (count($media) === 0) {
+//        $media = get_attached_media('text/csv', $post->ID);
+//    }
+//    if (count($media) === 0) { ?>
+<!--        <p>This function will appear if you add an attachement ("add media")-->
+<!--            which is a spreadsheet and save the post.</p>-->
+<!--        --><?php
+//    } else {
+//        $surl = end($media)->guid;
+//        $types = array();
+//        $files = scandir('/var/www/html/wp-content/themes/mkinsight/mkio2/cache/');
+//        $dimensions = array();
+//        $acdims = array();
+//        foreach ($files as $file) {
+//            if (!startsWith($file, "http") && !startsWith($file, '.') && !startsWith($file, 'map') && strpos($file, '_') !== FALSE) {
+//                $fn = str_replace("__", ":", $file);
+//                $afn = explode("_", $fn);
+//                if (!in_array($afn[0], $types)) $types[] = $afn[0];
+//                if (!isset($dimensions[$afn[0]])) {
+//                    $dimensions[$afn[0]] = array();
+//                }
+//                $arr = &$dimensions[$afn[0]];
+//                $dims = substr($fn, strpos($fn, "_") + 1);
+//                $aafn = explode(".", $dims);
+//                $lev = 0;
+//                foreach ($aafn as $elem) {
+//                    if (!isset($arr[$elem])) {
+//                        $arr[$elem] = array();
+//                    }
+//                    $arr = &$arr[$elem];
+//                    if (!isset($acdims[$lev])) {
+//                        $acdims[$lev] = array();
+//                    }
+//                    if (!in_array($elem, $acdims[$lev])) {
+//                        $acdims[$lev][] = $elem;
+//                    }
+//                    $lev++;
+//                }
+//            }
+//        }
+//        ?>
+<!--        <div id="mki_secapi"></div>-->
+<!--        <script>-->
+<!--            --><?php
+//            echo 'var types      = ' . json_encode($types) . ';' . "\n";
+//            echo 'var dimensions = ' . json_encode($dimensions) . ';' . "\n";
+//            echo 'var acdims     = ' . json_encode($acdims) . ';' . "\n";
+//            ?>
+<!--//            spreadsheet.url = "--><?php ////echo $surl;?><!--//";-->
+<!--//            mksse_init("mki_secapi");-->
+<!--//        </script>-->
+<!--//        --><?php
+//    }
+//}
+//
+//function add_mkixls_meta_box()
+//{
+//    add_meta_box("Create charts from spreadsheet", "Create charts from spreadsheet", "mkixls_meta_box_markup", "post", "normal", "low", null);
+//}
+//
+//function startsWith($haystack, $needle)
+//{
+//    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+//}
+//
+//add_action("add_meta_boxes", "add_mkixls_meta_box");
+//
+//// add scripts and css to admin
+//function load_mkixls_admin_style()
+//{
+//    wp_register_style('mkixls_css', get_template_directory_uri() . '/secapi/secapi.css');
+//    wp_enqueue_style('mkixls_css');
+//    //  wp_register_style( 'mkixls_jquery-ui', '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
+//    //  wp_enqueue_style( 'mkixls_jquery-ui');
+//    //  wp_register_style( 'mkixls_bootstrap', "http://getbootstrap.com/dist/css/bootstrap.min.css");
+//    //  wp_enqueue_style( 'mkixls_bootstrap');
+//
+//    // wp_enqueue_script( 'mkxls_jquery', "//code.jquery.com/jquery-1.9.1.js");
+//    //  wp_enqueue_script( 'mkxls_jquery-ui', "//code.jquery.com/ui/1.10.4/jquery-ui.js");
+//    wp_enqueue_script('mkxls_main_js', get_template_directory_uri() . '/secapi/js/secapi.js');
+//    wp_enqueue_script('mkxls_view_js', get_template_directory_uri() . '/secapi/js/vc.js');
+//    wp_enqueue_script('mkxls_typeahead_js', get_template_directory_uri() . '/secapi/js/typeahead.js');
+//}
+//
+//add_action('admin_enqueue_scripts', 'load_mkixls_admin_style');
 
 // enable additional mime types for uplaod
 function my_myme_types($mime_types)

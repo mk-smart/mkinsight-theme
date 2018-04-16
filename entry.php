@@ -22,10 +22,10 @@
             });
             switch($cat) {
                 case 'report':
-                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/pie-chart3.png">';
+                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/certified-document.png">';
                     break;
                 case 'data':
-                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/data-green.png">';
+                    echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/pie-chart3.png">';
                     break;
                 default:
                     if(get_post_type() == 'idea'){

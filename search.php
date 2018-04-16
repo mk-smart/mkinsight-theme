@@ -20,8 +20,8 @@ $total = $wp_query->found_posts;
                                 <?php
                                 /* add icon to title
                                  * folder: img/infographics/
-                                 * report: pie-chart3.png
-                                 * data: data-green.png
+                                 * report: certified-document.png
+                                 * data: pie-chart3.png
                                  * page: document.png
                                 */
                                 // get post categories and filters for data or report
@@ -49,10 +49,10 @@ $total = $wp_query->found_posts;
 
                                 switch ($cat) {
                                     case 'report':
-                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/pie-chart3.svg">';
+                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/certified-document.svg">';
                                         break;
                                     case 'data':
-                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/data-green.svg">';
+                                        echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="' . get_template_directory_uri() . '/assets/img/svg/pie-chart3.svg">';
                                         break;
                                     default:
                                         if (get_post_type() == 'idea') {
@@ -240,7 +240,7 @@ $total = $wp_query->found_posts;
         </div>
         <?php //get_template_part( 'nav', 'below' ); ?>
     <?php else : ?>
-        <div class="col-xl-8 col-xl-offset-2 col-lg-10 col-lg-offset-1 col-md-12 col-sm-12 col-xs-12 results">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 results">
             <article id="post-0" class="post no-results not-found">
                 <header class="header">
                     <h2 class="entry-title"><?php _e('Nothing Found', 'blankslate'); ?></h2>
