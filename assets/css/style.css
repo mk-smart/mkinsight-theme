@@ -821,7 +821,7 @@ nav .mki-icon img {
 /* MEDIUM TABLETS AND MOBILE PHONES */
 @media (min-width: 768px) and (max-width: 991px) {
     .page-header {
-        /*margin-top: 60px;*/
+        margin-top: 60px;
         /*background-color:yellow;*/
     }
 }
@@ -829,7 +829,7 @@ nav .mki-icon img {
 /* SMALL TABLETS AND MOBILE PHONES */
 @media (min-width: 444px) and (max-width: 767px) {
     .page-header {
-        /*margin-top: 60px;*/
+        margin-top: 60px;
         /*background-color:red;*/
     }
 }
@@ -837,7 +837,7 @@ nav .mki-icon img {
 /* SMALL TABLETS AND MOBILE PHONES */
 @media (max-width: 443px) {
     .page-header {
-        /*margin-top: 60px;*/
+        margin-top: 60px;
         /*background-color:red;*/
     }
 }
