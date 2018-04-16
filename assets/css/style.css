@@ -2076,6 +2076,25 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 #timestamp {
     margin-bottom: 12px;
 }
+#timestamp .tooltip-toggle {
+    cursor: pointer;
+}
+#timestamp .tooltip.bottom .tooltip-arrow {
+    border-bottom-color:#219ec8;
+}
+#timestamp .tooltip.top .tooltip-arrow {
+    border-top-color:#219ec8;
+}
+#timestamp .tooltip.left .tooltip-arrow {
+    border-left-color:#219ec8;
+}
+#timestamp .tooltip.right .tooltip-arrow {
+    border-right-color:#219ec8;
+}
+#timestamp .tooltip-inner {
+    background-color: #219ec8;
+    opacity: 1;
+}
 #timestamp .counter, #timestamp .toggler{
     font-weight: 500;
     display: inline-block;

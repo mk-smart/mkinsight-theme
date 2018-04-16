@@ -10,6 +10,16 @@
                         if (strcmp(get_the_title(), "Charts") !== 0) { ?>
                             <h1 class="entry-title"><?php the_title(); ?></h1>
                         <?php } ?>
+                        <?php
+                        // is it a term?
+                        $term = term_exists(get_the_title());
+                        if($term){
+                            $term = get_term($term);
+                            $name = $term->name;
+                            $label = __("More about ","mki");
+                            echo "$label<a target='_blank' href='/?s=&tags=${name}'>${name}</a>";
+                        }
+                        ?>
                         <?php childrenPages (); ?>
                     <?php endif; ?>
                 </header>
@@ -28,7 +38,10 @@
     </div>
     </div>
     </div>
-<?php if (!is_front_page()) {
-    get_sidebar();
-} ?>
+<?php
+// removeds sidebar
+//if (!is_front_page()) {
+//    get_sidebar();
+//}
+?>
 <?php get_footer(); ?>

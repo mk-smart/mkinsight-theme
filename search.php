@@ -86,10 +86,12 @@ $total = $wp_query->found_posts;
                                 // year range
                                 $ymin = intval(@$_GET['ymin']);
                                 $ymax = intval(@$_GET['ymax']);
-                                $years = array_map(function($y){return $y->name;},get_the_terms(get_the_ID(), 'years'));
+                                $years = array_map(function ($y) {
+                                    return $y->name;
+                                }, get_the_terms(get_the_ID(), 'years'));
 
                                 // interval
-                                if(count($years) > 1){
+                                if (count($years) > 1) {
                                     asort($years);
                                     $minY = $years[0];
                                     $maxY = end($years);
@@ -97,7 +99,7 @@ $total = $wp_query->found_posts;
                                     echo "<a href=\"#\" class=\"${class}\" onclick=\"setInterval($minY,$maxY)\">";
                                     echo $minY . ' - ' . $maxY;
                                     echo '</a>';
-                                }else if(count($years)){
+                                } else if (count($years)) {
                                     $year = intval($years[0]);
                                     $class = ($year <= $ymax && $year >= $ymin) ? 'selected' : '';
                                     echo "<a href=\"#\" class=\"${class}\" onclick=\"setYear($year)\">$year</a>";
@@ -122,7 +124,6 @@ $total = $wp_query->found_posts;
                         //                        $keywords = array_unique(array_merge($postcats,$posttags));
                         $keywords = array_merge($postcats, $posttags);
                         if ($keywords):
-//                        if(false):
                             ?>
                             <div class="tag-links">
                                 <?php
@@ -411,6 +412,23 @@ $total = $wp_query->found_posts;
     // end sorting
 
 
+    // tooltips
+    $('.tooltip-toggle').each(function(){
+        $(this).click( function () {
+            // console.log('click');
+            $(this).tooltip('toggle');
+        });
+    });
+
+    function toggleTooltip(tip) {
+        console.log(tip);
+        switch (tip) {
+            case 'stamped':
+                $('#tooltip-stamped').tooltip('toggle');
+                break;
+        }
+    }
+
     // counter results
     <?php
     $counterLabel = $total . ' entr';
@@ -440,8 +458,9 @@ $total = $wp_query->found_posts;
             $('#advanced-search-form').submit();
         }
     }
+
     // apply time filter and reload
-    function setInterval(ymin,ymax) {
+    function setInterval(ymin, ymax) {
         if (ymin && ymax) {
             $('input[name="ymin"]').val(ymin);
             $('input[name="ymax"]').val(ymax);

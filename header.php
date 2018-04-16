@@ -50,6 +50,9 @@
     <script src="//cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 
+    <!-- tooltips-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
     <!--    <script src="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>-->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
     <!--    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css"/>-->
@@ -158,7 +161,14 @@ if (is_search()):
                     <input name="ymax" value="<?php echo $_GET['ymax']; ?>" type="hidden">
                     <div id="timestamp">
                         <div class="toggler">
-                            <span class="stamp-label"><?php _e("Time Stamped only") ?></span>
+                            <span class="stamp-label tooltip-toggle"
+                                  id="tooltip-stamped"
+                                  data-toggle="tooltip"
+                                  data-trigger="manual"
+                                  title="<?php _e("Excluding all contents not related to year(s)."); ?>">
+                                <?php _e("Time Stamped only") ?>
+                                <i class="icon ion-ios-help-empty"></i>
+                            </span>
                             <!--                <input type="checkbox" name="timeless" -->
                             <?php //echo $_GET['timeless'] ? 'checked' : '';
                             ?><!-- />-->
