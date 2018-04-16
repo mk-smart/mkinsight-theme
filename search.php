@@ -3,6 +3,20 @@ global $post;
 // Prepare query
 global $wp_query;
 $total = $wp_query->found_posts;
+
+$years = array_map(function ($y) {
+    return $y->name;
+}, get_categories(array('taxonomy' => 'years', 'order' => 'ASC')));
+//asort($years);
+$ymin = $_GET['ymin'] ? intval($_GET['ymin']) : intval($years[0]);
+$ymax = $_GET['ymax'] ? intval($_GET['ymax']) : intval(end($years));
+
+// todo to be fixed somehow
+// failsafe in casae of empty taxonomy
+if(!isset($ymin)){$ymin = 1981;}
+if(!isset($ymax)){$ymin = 2018;}
+
+//var_dump($years);
 ?>
 <?php get_header(); ?>
 <section role="main">
@@ -84,25 +98,26 @@ $total = $wp_query->found_posts;
                             <div class="entry-date">
                                 <?php
                                 // year range
-                                $ymin = intval(@$_GET['ymin']);
-                                $ymax = intval(@$_GET['ymax']);
-                                $years = array_map(function ($y) {
+//                                $ymin = intval(@$_GET['ymin']);
+//                                $ymax = intval(@$_GET['ymax']);
+                                $postYears = array_map(function ($y) {
                                     return $y->name;
                                 }, get_the_terms(get_the_ID(), 'years'));
 
                                 // interval
-                                if (count($years) > 1) {
-                                    asort($years);
-                                    $minY = $years[0];
-                                    $maxY = end($years);
-                                    $class = ($minY <= $ymax && $minY >= $ymin) && ($maxY <= $ymax && $maxY >= $ymin) ? 'selected' : '';
+                                if (count($postYears) > 1) {
+                                    asort($postYears);
+                                    $postMinY = intval($postYears[0]);
+                                    $postMaxY = intval(end($postYears));
+                                    $class = ($postMinY <= $ymax && $postMinY >= $ymin) && ($postMaxY <= $ymax && $postMaxY >= $ymin) ? 'selected' : '';
                                     echo "<a href=\"#\" class=\"${class}\" onclick=\"setInterval($minY,$maxY)\">";
-                                    echo $minY . ' - ' . $maxY;
+                                    echo $postMinY . ' - ' . $postMaxY;
                                     echo '</a>';
-                                } else if (count($years)) {
-                                    $year = intval($years[0]);
-                                    $class = ($year <= $ymax && $year >= $ymin) ? 'selected' : '';
-                                    echo "<a href=\"#\" class=\"${class}\" onclick=\"setYear($year)\">$year</a>";
+                                } else if (count($postYears)) {
+                                    $postYear = intval($postYears[0]);
+                                    $class = ($postYear <= $ymax && $postYear >= $ymin) ? 'selected' : '';
+//                                    var_dump($postYear);
+                                    echo "<a href=\"#\" class=\"${class}\" onclick=\"setYear($postYear)\">$postYear</a>";
                                 }
                                 ?>
                             </div>
@@ -259,15 +274,9 @@ $total = $wp_query->found_posts;
 </div>
 <script type="text/javascript">
     // timeline
-    <?php
-    $years = array_map(function ($y) {
-        return $y->name;
-    }, get_categories(array('taxonomy' => 'years', 'order' => 'ASC')));
-    //var_dump($years);
-    ?>
     var years = <?php echo "[" . implode(",", $years) . "]"; ?>;
-    var ymin = <?php echo $_GET['ymin'] ? $_GET['ymin'] : $years[0]; ?>;
-    var ymax = <?php echo $_GET['ymax'] ? $_GET['ymax'] : end($years); ?>;
+    var ymin = <?php echo $ymin; ?>;
+    var ymax = <?php echo $ymax; ?>;
     // console.log(years,ymin,ymax);
     var handleFrom = $("#year-from");
     var handleTo = $("#year-to");
@@ -303,7 +312,7 @@ $total = $wp_query->found_posts;
 
     // timeless toggler
     $('#timestamp input[name="stamped"]').change(function () {
-        console.log($(this).val());
+        // console.log($(this).val());
         setTimeout(function () {
             $('#advanced-search-form').submit();
         }, 500);
@@ -413,8 +422,8 @@ $total = $wp_query->found_posts;
 
 
     // tooltips
-    $('.tooltip-toggle').each(function(){
-        $(this).click( function () {
+    $('.tooltip-toggle').each(function () {
+        $(this).click(function () {
             // console.log('click');
             $(this).tooltip('toggle');
         });

@@ -144,7 +144,7 @@ if (is_search()):
             <div class="desktop ipad">
                 <h1 style="text-align: center;">
                     <?php
-                    _e("Download, Filter, Sort or datasources by Text, Tags or Year", "mki");
+                    _e("Browse datasources by Text, Tags or Year", "mki");
                     ?>
                 </h1>
             </div>

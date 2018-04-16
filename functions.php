@@ -767,6 +767,12 @@ function mki_advanced_search_query($query)
                     'terms' => $use_years
                 );
             }
+        } else if(isset($_GET['stamped'])) {
+            // if not set but stamp required
+            $yearQuery = array(
+                'taxonomy' => 'years',
+                'operator' => 'EXISTS'
+            );
         }
 //        echo 'is stamped set?'.isset($_GET['stamped']);
         // manage timeless results
@@ -776,6 +782,7 @@ function mki_advanced_search_query($query)
                 'taxonomy' => 'years',
                 'operator' => 'NOT EXISTS'
             );
+//
 
             if(isset($yearQuery)){
                 $yearQuery = array('relation' => 'OR',
