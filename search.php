@@ -302,6 +302,7 @@ if(!isset($ymax)){$ymin = 2018;}
         },
         stop: function (event, ui) {
             // update page
+            console.debug('end slide, updating');
             $('#advanced-search-form').submit();
         }
     });
@@ -314,6 +315,7 @@ if(!isset($ymax)){$ymin = 2018;}
     $('#timestamp input[name="stamped"]').change(function () {
         // console.log($(this).val());
         setTimeout(function () {
+            console.log('toggle change, updating');
             $('#advanced-search-form').submit();
         }, 500);
     });
@@ -414,6 +416,7 @@ if(!isset($ymax)){$ymin = 2018;}
             // set new sort ordering
             $('#sorting').children('input[name="orderby"]').val(newOrder);
             // update page
+            console.log('sorting change, updating');
             $('#advanced-search-form').submit();
         });
     });
@@ -464,6 +467,7 @@ if(!isset($ymax)){$ymin = 2018;}
         if (year) {
             $('input[name="ymin"]').val(year);
             $('input[name="ymax"]').val(year);
+            console.log('setting year, updating');
             $('#advanced-search-form').submit();
         }
     }
@@ -473,27 +477,7 @@ if(!isset($ymax)){$ymin = 2018;}
         if (ymin && ymax) {
             $('input[name="ymin"]').val(ymin);
             $('input[name="ymax"]').val(ymax);
-            $('#advanced-search-form').submit();
-        }
-    }
-
-    // add category filter
-    function setCat(cat) {
-        if (cat) {
-            var val = $('input[name="tags"]').val().split(',').map(function (value) {
-                return value.trim()
-            }).filter(function (value) {
-                return value !== "";
-            });
-            // check for duplicates
-            if (val.indexOf(cat) < 0) {
-                val.push(cat);
-            }
-            // console.log('check ',val);
-            // update value
-            var newVal = val.join(", ");
-            $('input[name="tags"]').val(newVal);
-            // submit form
+            console.log('setting interval, updating');
             $('#advanced-search-form').submit();
         }
     }
@@ -514,28 +498,9 @@ if(!isset($ymax)){$ymin = 2018;}
             var newVal = val.join(", ");
             $('input[name="tags"]').val(newVal);
             // submit form
+            console.log('setting tag, updating');
             $('#advanced-search-form').submit();
 
-        }
-    }
-
-    // uncheck the category and submit the form
-    function unsetCat(cat) {
-        if (cat) {
-            var val = $('input[name="tags"]').val().split(',').map(function (value) {
-                return value.trim()
-            }).filter(function (value) {
-                return value !== "";
-            });
-            var index = val.indexOf(cat);
-            if (index > -1) {
-                val.splice(index, 1);
-            }
-            // update value
-            var newVal = val.join(", ");
-            $('input[name="tags"]').val(newVal);
-            // submit form
-            $('#advanced-search-form').submit();
         }
     }
 
@@ -554,6 +519,7 @@ if(!isset($ymax)){$ymin = 2018;}
         var newVal = val.join(", ");
         $('input[name="tags"]').val(newVal);
         // submit form
+        console.log('unsetting tag, updating');
         $('#advanced-search-form').submit();
     }
 </script>
