@@ -110,7 +110,7 @@ if(!isset($ymax)){$ymin = 2018;}
                                     $postMinY = intval($postYears[0]);
                                     $postMaxY = intval(end($postYears));
                                     $class = ($postMinY <= $ymax && $postMinY >= $ymin) && ($postMaxY <= $ymax && $postMaxY >= $ymin) ? 'selected' : '';
-                                    echo "<a href=\"#\" class=\"${class}\" onclick=\"setInterval($minY,$maxY)\">";
+                                    echo "<a href=\"#\" class=\"${class}\" onclick=\"setIntervalTimeline($minY,$maxY)\">";
                                     echo $postMinY . ' - ' . $postMaxY;
                                     echo '</a>';
                                 } else if (count($postYears)) {
@@ -473,7 +473,7 @@ if(!isset($ymax)){$ymin = 2018;}
     }
 
     // apply time filter and reload
-    function setInterval(ymin, ymax) {
+    function setIntervalTimeline(ymin, ymax) {
         if (ymin && ymax) {
             $('input[name="ymin"]').val(ymin);
             $('input[name="ymax"]').val(ymax);
