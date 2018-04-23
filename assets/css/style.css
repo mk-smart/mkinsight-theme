@@ -69,18 +69,6 @@ body {
     color: #5a5b5c;
 }
 
-/* cookie bar */
-html.has-cookie-bar.cookie-bar-top-bar {
-    margin-top: 0px !important;
-    -moz-transition: none !important;
-    -webkit-transition: none !important;
-    transition: none !important;
-}
-
-.cookie-bar-bar button#catapultCookie {
-    color: #333;
-}
-
 /* ED made this darker*/
 
 /*------------------------------------------------
@@ -709,6 +697,8 @@ nav .mki-icon img {
     padding-right: 0;
 }
 
+
+
 /*------------------------------------------------
 #
 # frontpage and searchpage headers
@@ -725,7 +715,7 @@ nav .mki-icon img {
     position: relative;
     z-index: 1;
     width: 100%;
-    border: none;
+    border:none;
 }
 
 .page-header h1, .page-header p {
@@ -753,7 +743,6 @@ nav .mki-icon img {
     width: 100%;
     display: flex;
 }
-
 .page-header #searchbox {
     margin: 0 auto;
     display: flex;
@@ -792,11 +781,9 @@ nav .mki-icon img {
     height: 34px;
     /*padding: 6px;*/
 }
-
 .page-header #searchbox #text-switch {
     padding-left: 5px;
 }
-
 .page-header #searchbox #tag-switch button, .page-header #searchbox #text-switch button {
     height: 24px;
     padding: 2px 6px;
@@ -811,18 +798,15 @@ nav .mki-icon img {
     background-color: rgba(255, 128, 0, 1);
     color: #fff;
 }
-
-.page-header #searchbox #tag-switch button:hover, .page-header #searchbox #text-switch button:hover {
+.page-header #searchbox #tag-switch button:hover ,.page-header #searchbox #text-switch button:hover {
     background-color: rgba(255, 128, 0, 0.3);
 }
-
 .page-header #searchbox #tag-switch button.active:hover, .page-header #searchbox #text-switch button.active:hover {
     box-shadow: none;
     background-color: rgba(255, 128, 0, 1);
     color: #fff;
 }
-
-.page-header #searchbox #tag-switch button:focus, .page-header #searchbox #text-switch button:focus {
+.page-header #searchbox #tag-switch button:focus ,.page-header #searchbox #text-switch button:focus {
     outline-color: white;
     outline-offset: -2px;
 }
@@ -1075,13 +1059,12 @@ nav .mki-icon img {
     color: #616365;
 }
 
-.entry-date a.selected {
+.entry-date a.selected{
     text-decoration: underline;
     /*font-weight: bold;*/
     color: #f68822;
 }
-
-.entry-date a {
+.entry-date a{
     /*font-weight: 500;*/
 }
 
@@ -1797,6 +1780,8 @@ a.mki_subtheme {
     min-height: auto;
 }
 
+
+
 /** ED **/
 
 /* ADJUST GRID FOR CATEGORY PAGES & HOME PAGE  FOLLOWING BS SCREEN MODES */
@@ -2053,6 +2038,8 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     color: #337ab7;
 }
 
+
+
 /* advanced search form */
 .advanced-search {
     background-color: white;
@@ -2060,21 +2047,18 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
 }
 
 /* timeline */
-#timeline {
+#timeline{
     width: 85%;
     margin: 0px auto 20px;
 }
-
-#slider-range.ui-widget.ui-widget-content {
+#slider-range.ui-widget.ui-widget-content{
     border-color: #d9d9d9;
-    background-color: #fff;
+    background-color:  #fff;
 }
-
 #slider-range .ui-slider-range {
     background-color: rgba(255, 128, 0, 0.36);
     outline: 1px solid #f68822;
 }
-
 #slider-range .ui-slider-handle {
     width: 3em;
     height: 1.6em;
@@ -2084,142 +2068,111 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     line-height: 1.6em;
     background-color: #f68822;
     color: white;
-    border-color: #f68822;
+    border-color:#f68822;
     margin-left: -1.5em;
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.35);
 }
-
 /* time stampped data toggler */
 #timestamp {
     margin-bottom: 12px;
 }
-
 #timestamp .tooltip-toggle {
     cursor: pointer;
 }
-
 #timestamp .tooltip.bottom .tooltip-arrow {
-    border-bottom-color: #219ec8;
+    border-bottom-color:#219ec8;
 }
-
 #timestamp .tooltip.top .tooltip-arrow {
-    border-top-color: #219ec8;
+    border-top-color:#219ec8;
 }
-
 #timestamp .tooltip.left .tooltip-arrow {
-    border-left-color: #219ec8;
+    border-left-color:#219ec8;
 }
-
 #timestamp .tooltip.right .tooltip-arrow {
-    border-right-color: #219ec8;
+    border-right-color:#219ec8;
 }
-
 #timestamp .tooltip-inner {
     background-color: #219ec8;
     opacity: 1;
 }
-
-#timestamp .counter, #timestamp .toggler {
+#timestamp .counter, #timestamp .toggler{
     font-weight: 500;
     display: inline-block;
     vertical-align: bottom;
 }
-
-#timestamp .toggler {
+#timestamp .toggler{
     float: right;
 }
-
 #timestamp .stamp-label {
     vertical-align: bottom;
 }
-
-.toggle.ios, .toggle-on.ios, .toggle-off.ios {
-    border-radius: 20px;
-}
-
-.toggle.ios .toggle-handle {
-    border-radius: 20px;
-}
-
+.toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+.toggle.ios .toggle-handle { border-radius: 20px; }
 .toggle-on.btn-primary {
     background-color: #209ec8;
 }
-
 .toggle.btn-primary {
     border-color: #337ab7;
 }
-
 /* search result header */
 #sorting {
     background-color: #209ec8;
     color: white;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.35);
     position: relative;
     z-index: 1;
 }
-
-#sorting .btn.btn-link, #sorting label {
+#sorting .btn.btn-link, #sorting label{
     font-weight: normal;
     color: white;
 }
-
-#sorting label {
+#sorting label{
     margin-top: 7px;
 }
 
 /* table like results*/
-.table-box .row {
+.table-box .row{
     margin: 0px;
 }
-
 .table-box {
     /*box-shadow: 0px 0px 5px rgba(0,0,0,0.35);*/
     padding: 0px;
 }
-
-.table-box .fileactions.col-sm-12, .table-box .fileactions.col-xs-12 {
+.table-box .fileactions.col-sm-12, .table-box .fileactions.col-xs-12{
     margin-left: 0px;
 }
-
-.table-box .fileactions {
+.table-box .fileactions{
     margin: 0px -15px;
 }
-
-#content .table-box .entry-title {
+#content .table-box .entry-title{
     font-size: 18px;
 }
-
-#content .table-box .entry-title a {
+#content .table-box .entry-title a{
     font-weight: 500;
 }
-
-#content .table-box .entry-title a u {
+#content .table-box .entry-title a u{
     /*font-weight: 500;*/
     text-decoration: none;
     color: rgba(255, 128, 0, 1);
 }
-
 #content.no-margin {
     padding-top: 0px !important;
 }
-
 .results {
 
 }
-
-.results .row:nth-child(odd) {
+.results .row:nth-child(odd){
     background-color: #fafafa;
 }
-
 .results .row {
     padding: 10px 0px;
 }
-
-.results .row .col {
+.results .row .col{
     display: inline-block;
     vertical-align: middle;
     float: none;
 }
+
 
 .cat-links, .tag-links {
     line-height: 2em;
@@ -2252,17 +2205,17 @@ div.btn-nolink, div.btn-nolink:hover, div.btn-nolink:active, div.btn-nolink:focu
     color: #209ec8;
 }
 
-.cat-links button.unset .icon, .tag-links button.unset .icon, .bootstrap-tagsinput .tag .icon {
+.cat-links button.unset .icon, .tag-links button.unset .icon, .bootstrap-tagsinput .tag .icon{
     font-size: .7em;
     vertical-align: text-top;
     margin-right: 0.3em;
 }
-
 .cat-links button.unset, .tag-links button.unset, .bootstrap-tagsinput .tag {
     background-color: #f68822;
     color: white;
     display: inline-block;
 }
+
 
 div.results_pagination {
     margin: 20px 0px;
@@ -2276,7 +2229,6 @@ div.results_pagination a:hover {
 div.results_pagination .page-numbers.dots {
     background-color: rgba(32, 158, 200, 0.05);
 }
-
 div.results_pagination .page-numbers {
     display: inline-block;
     margin: 0px 0px;
@@ -2555,61 +2507,17 @@ table.dataTable.no-footer {
     font-weight: 500;
 }
 
-<
-<
-<
-<
-<
-<
-<
-HEAD
-.cat-links button:hover, .tag-links button:hover, .cat-links a:hover, .tag-links a:hover {
-    opacity: 0.75;
-}
-
-.tag-links button, .tag-links a {
-    background-color: #37b34a;
-
-=
-=
-=
-=
-=
-=
-=
-
 #categoryDataTable_paginate a:hover {
     background: #999;
-> > > > > > > dev
 }
 
 #categoryDataTable_paginate a.current {
     background: #999;
 }
 
-<
-<
-<
-<
-<
-<
-<
-HEAD
-.cat-links button.unset, .tag-links button.unset, #content .bootstrap-tagsinput .tag {
-    background-color: #f68822;
-
-=
-=
-=
-=
-=
-=
-=
-
 #categoryDataTable_paginate a.disabled, #categoryDataTable_paginate a.disabled:hover {
     opacity: 0.75;
     background: #00bcf1;
-> > > > > > > dev
 }
 
 #categoryDataTable_length select {
