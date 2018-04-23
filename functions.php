@@ -365,6 +365,50 @@ HTML;
 
 add_shortcode('mkiicon', 'mkiicon_func');
 
+function getIcon($icon, $text, $height)
+{
+    $availableIcons = ["group-quarter", "two-n-two-group", "population", "mixed-group", "3quarter-group", "age-groups", "ethnic-minority", "group-blue", "group-couples", "group-half", "group-one-faded", "group-two-faded", "group", "group2"];
+    // so far we manage population only
+    if (!in_array($icon, $availableIcons)) {
+        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $icon . '.svg';
+        return "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+    }
+    // manage population icons
+    $img_url = get_template_directory_uri() . '/assets/img/generator/';
+    // parsing text
+    preg_match_all('![£]*\d+[\,\.]?\d*[%stndrdth]*\d*[kbnml]*!', $text, $matches);
+    foreach ($matches[0] as $numb) {
+        $icon_height = 30;
+        $box_width = 120;
+        $topmargin = round(($height - 60) / 2);
+        // includes %
+        if (strpos($numb, '%') != false) {
+            // remove % and parse to int
+            $tmp = intval(str_replace('%', "", $numb));
+            // ratio to 1/10 and floor
+            $ratio = floor($tmp / 10);
+            $newIcon = "<div style=\"width: ${box_width}px;height: ${height}px\" class=\"aligncenter size-full\"><div style=\"padding-top:${topmargin}px\">";
+
+            // printing empty icons
+            // 10 - ratio
+            $img = $img_url . "person-blue-transparent.svg";
+            $c = 10 - $ratio;
+            for ($i = 0; $i < $c; $i++) {
+                $newIcon = $newIcon . "<img class=\"icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
+            }
+            // printing full icons
+            // ratio
+            $img = $img_url . "person-blue-dark.svg";
+            for ($i = 0; $i < $ratio; $i++) {
+                $newIcon = $newIcon . "<img class=\"size-full icon-generator\" src=\"$img\" alt=\"$tmp\" style=\"height:${icon_height}px;\"/>";
+            }
+
+            return $newIcon . "</div></div>";
+        }
+    }
+    $img_url = get_template_directory_uri() . '/assets/img/svg/' . $icon . '.svg';
+    return "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+}
 
 // shortcode for icons in infographics
 function mkifigures_func($atts)
@@ -376,14 +420,7 @@ function mkifigures_func($atts)
         'link' => '',
         'img_height' => ''
     ), $atts);
-    if (strpos($a['icon'], 'http://') === 0 ||
-        strpos($a['icon'], 'https://') === 0 ||
-        strpos($a['icon'], '//') === 0) {
-        $img_url = $a['icon'];
-    } else {
-        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $a['icon'] . '.svg';
-//        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
-    }
+
 
     // management of multiple links
     $hrefs = explode(",", $a['link']);
@@ -425,9 +462,10 @@ function mkifigures_func($atts)
         $links = $links . "<a href =\"$link\" class=\"aligncenter\" title=\"$urlName\"><i class=\"icon $iconClass\"></i></a>";
     }
 
-
     // text management
     $text = $a['text'];
+
+    // icon management
     $height = 90;
     if (strlen($text) > 30) {
         $height = 90;
@@ -437,6 +475,18 @@ function mkifigures_func($atts)
     }
     if ($a['img_height']) {
         $height = min($height, $a['img_height']);
+    }
+
+    if (strpos($a['icon'], 'http://') === 0 ||
+        strpos($a['icon'], 'https://') === 0 ||
+        strpos($a['icon'], '//') === 0) {
+        $img_url = $a['icon'];
+        $icon = "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+    } else {
+        $img_url = get_template_directory_uri() . '/assets/img/svg/' . $a['icon'] . '.svg';
+//        $img_url = get_template_directory_uri() . '/assets/img/infographics/' . $a['icon'] . '.png';
+        $icon = "<img class=\"aligncenter size-full\" src=\"$img_url\" alt=\"$text\" style=\"height: ${height}px;\"/>";
+        $icon = getIcon($a['icon'], $text, $height);
     }
 
 
@@ -465,7 +515,8 @@ function mkifigures_func($atts)
         return <<<HTML
     <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-10 col-xs-offset-1 mkifigure">
         <div class="align-middle figure">
-            <img class="aligncenter size-full" src="$img_url" alt="$text" style="height:${height}px;"/>
+            <!--<img class="aligncenter size-full" src="$img_url" alt="$text" style="height:${height}px;"/>-->
+            $icon
             <span class="strapline">$text</span>
         </div>
         <div class="sources align-middle">
@@ -490,140 +541,140 @@ HTML;
 
 add_shortcode('mkifigures', 'mkifigures_func');
 
-
-require_once('mkio2/mkio2.php');
-
-// shortcode to include the chart interface
-function mkicharts_func($atts)
-{
-    //todo fix or remove from the db
-    return '';
-
-
-    ob_start();
-    include('mkio2/datapage.php');
-    $out1 = ob_get_contents();
-    ob_end_clean();
-    return $out1;
-}
-
-add_shortcode('mkicharts', 'mkicharts_func');
-
-// shortcode to include 1 chart
-function mkichart_func($atts)
-{
-    //todo fix or remove from the db
-    return '';
-
-
-    $a = shortcode_atts(array(
-        'type' => 'place',
-        'dim' => 'demographics:population-2011',
-        'title' => ''
-    ), $atts);
-    $dims = explode('.', $a['dim']);
-    $dimsparam = '';
-    foreach ($dims as $i => $dim) {
-        $dimsparam .= '&l' . ($i + 1) . '=' . $dim;
-    }
-    return '<iframe src="http://mkinsight.org/wp-content/themes/mkinsight/mkio2/singlegraph.php?type=' . $a['type'] . '&title=' . urlencode($a['title']) . $dimsparam . '" width="100%" height="550" frameborder="0" class="iframe-class"></iframe>';
-}
-
-add_shortcode('mkichart', 'mkichart_func');
-
-
-function mkixls_meta_box_markup()
-{
-    global $post;
-    $media = get_attached_media('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $post->ID);
-    if (count($media) === 0) {
-        $media = get_attached_media('application/vnd.ms-excel', $post->ID);
-    }
-    if (count($media) === 0) {
-        $media = get_attached_media('text/csv', $post->ID);
-    }
-    if (count($media) === 0) { ?>
-        <p>This function will appear if you add an attachement ("add media")
-            which is a spreadsheet and save the post.</p>
-        <?php
-    } else {
-        $surl = end($media)->guid;
-        $types = array();
-        $files = scandir('/var/www/html/wp-content/themes/mkinsight/mkio2/cache/');
-        $dimensions = array();
-        $acdims = array();
-        foreach ($files as $file) {
-            if (!startsWith($file, "http") && !startsWith($file, '.') && !startsWith($file, 'map') && strpos($file, '_') !== FALSE) {
-                $fn = str_replace("__", ":", $file);
-                $afn = explode("_", $fn);
-                if (!in_array($afn[0], $types)) $types[] = $afn[0];
-                if (!isset($dimensions[$afn[0]])) {
-                    $dimensions[$afn[0]] = array();
-                }
-                $arr = &$dimensions[$afn[0]];
-                $dims = substr($fn, strpos($fn, "_") + 1);
-                $aafn = explode(".", $dims);
-                $lev = 0;
-                foreach ($aafn as $elem) {
-                    if (!isset($arr[$elem])) {
-                        $arr[$elem] = array();
-                    }
-                    $arr = &$arr[$elem];
-                    if (!isset($acdims[$lev])) {
-                        $acdims[$lev] = array();
-                    }
-                    if (!in_array($elem, $acdims[$lev])) {
-                        $acdims[$lev][] = $elem;
-                    }
-                    $lev++;
-                }
-            }
-        }
-        ?>
-        <div id="mki_secapi"></div>
-        <script>
-            <?php
-            echo 'var types      = ' . json_encode($types) . ';' . "\n";
-            echo 'var dimensions = ' . json_encode($dimensions) . ';' . "\n";
-            echo 'var acdims     = ' . json_encode($acdims) . ';' . "\n";
-            ?>
-            spreadsheet.url = "<?php echo $surl;?>";
-            mksse_init("mki_secapi");
-        </script>
-        <?php
-    }
-}
-
-function add_mkixls_meta_box()
-{
-    add_meta_box("Create charts from spreadsheet", "Create charts from spreadsheet", "mkixls_meta_box_markup", "post", "normal", "low", null);
-}
-
-function startsWith($haystack, $needle)
-{
-    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-}
-
-add_action("add_meta_boxes", "add_mkixls_meta_box");
-
-// add scripts and css to admin
-function load_mkixls_admin_style()
-{
-    wp_register_style('mkixls_css', get_template_directory_uri() . '/secapi/secapi.css');
-    wp_enqueue_style('mkixls_css');
-    //  wp_register_style( 'mkixls_jquery-ui', '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
-    //  wp_enqueue_style( 'mkixls_jquery-ui');
-    //  wp_register_style( 'mkixls_bootstrap', "http://getbootstrap.com/dist/css/bootstrap.min.css");
-    //  wp_enqueue_style( 'mkixls_bootstrap');
-
-    // wp_enqueue_script( 'mkxls_jquery', "//code.jquery.com/jquery-1.9.1.js");
-    //  wp_enqueue_script( 'mkxls_jquery-ui', "//code.jquery.com/ui/1.10.4/jquery-ui.js");
-    wp_enqueue_script('mkxls_main_js', get_template_directory_uri() . '/secapi/js/secapi.js');
-    wp_enqueue_script('mkxls_view_js', get_template_directory_uri() . '/secapi/js/vc.js');
-    wp_enqueue_script('mkxls_typeahead_js', get_template_directory_uri() . '/secapi/js/typeahead.js');
-}
-
-add_action('admin_enqueue_scripts', 'load_mkixls_admin_style');
+//
+//require_once('mkio2/mkio2.php');
+//
+//// shortcode to include the chart interface
+//function mkicharts_func($atts)
+//{
+//    //todo fix or remove from the db
+//    return '';
+//
+//
+//    ob_start();
+//    include('mkio2/datapage.php');
+//    $out1 = ob_get_contents();
+//    ob_end_clean();
+//    return $out1;
+//}
+//
+//add_shortcode('mkicharts', 'mkicharts_func');
+//
+//// shortcode to include 1 chart
+//function mkichart_func($atts)
+//{
+//    //todo fix or remove from the db
+//    return '';
+//
+//
+//    $a = shortcode_atts(array(
+//        'type' => 'place',
+//        'dim' => 'demographics:population-2011',
+//        'title' => ''
+//    ), $atts);
+//    $dims = explode('.', $a['dim']);
+//    $dimsparam = '';
+//    foreach ($dims as $i => $dim) {
+//        $dimsparam .= '&l' . ($i + 1) . '=' . $dim;
+//    }
+//    return '<iframe src="http://mkinsight.org/wp-content/themes/mkinsight/mkio2/singlegraph.php?type=' . $a['type'] . '&title=' . urlencode($a['title']) . $dimsparam . '" width="100%" height="550" frameborder="0" class="iframe-class"></iframe>';
+//}
+//
+//add_shortcode('mkichart', 'mkichart_func');
+//
+//
+//function mkixls_meta_box_markup()
+//{
+//    global $post;
+//    $media = get_attached_media('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $post->ID);
+//    if (count($media) === 0) {
+//        $media = get_attached_media('application/vnd.ms-excel', $post->ID);
+//    }
+//    if (count($media) === 0) {
+//        $media = get_attached_media('text/csv', $post->ID);
+//    }
+//    if (count($media) === 0) { ?>
+<!--        <p>This function will appear if you add an attachement ("add media")-->
+<!--            which is a spreadsheet and save the post.</p>-->
+<!--        --><?php
+//    } else {
+//        $surl = end($media)->guid;
+//        $types = array();
+//        $files = scandir('/var/www/html/wp-content/themes/mkinsight/mkio2/cache/');
+//        $dimensions = array();
+//        $acdims = array();
+//        foreach ($files as $file) {
+//            if (!startsWith($file, "http") && !startsWith($file, '.') && !startsWith($file, 'map') && strpos($file, '_') !== FALSE) {
+//                $fn = str_replace("__", ":", $file);
+//                $afn = explode("_", $fn);
+//                if (!in_array($afn[0], $types)) $types[] = $afn[0];
+//                if (!isset($dimensions[$afn[0]])) {
+//                    $dimensions[$afn[0]] = array();
+//                }
+//                $arr = &$dimensions[$afn[0]];
+//                $dims = substr($fn, strpos($fn, "_") + 1);
+//                $aafn = explode(".", $dims);
+//                $lev = 0;
+//                foreach ($aafn as $elem) {
+//                    if (!isset($arr[$elem])) {
+//                        $arr[$elem] = array();
+//                    }
+//                    $arr = &$arr[$elem];
+//                    if (!isset($acdims[$lev])) {
+//                        $acdims[$lev] = array();
+//                    }
+//                    if (!in_array($elem, $acdims[$lev])) {
+//                        $acdims[$lev][] = $elem;
+//                    }
+//                    $lev++;
+//                }
+//            }
+//        }
+//        ?>
+<!--        <div id="mki_secapi"></div>-->
+<!--        <script>-->
+<!--            --><?php
+//            echo 'var types      = ' . json_encode($types) . ';' . "\n";
+//            echo 'var dimensions = ' . json_encode($dimensions) . ';' . "\n";
+//            echo 'var acdims     = ' . json_encode($acdims) . ';' . "\n";
+//            ?>
+<!--//            spreadsheet.url = "--><?php ////echo $surl;?><!--//";-->
+<!--//            mksse_init("mki_secapi");-->
+<!--//        </script>-->
+<!--//        --><?php
+//    }
+//}
+//
+//function add_mkixls_meta_box()
+//{
+//    add_meta_box("Create charts from spreadsheet", "Create charts from spreadsheet", "mkixls_meta_box_markup", "post", "normal", "low", null);
+//}
+//
+//function startsWith($haystack, $needle)
+//{
+//    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+//}
+//
+//add_action("add_meta_boxes", "add_mkixls_meta_box");
+//
+//// add scripts and css to admin
+//function load_mkixls_admin_style()
+//{
+//    wp_register_style('mkixls_css', get_template_directory_uri() . '/secapi/secapi.css');
+//    wp_enqueue_style('mkixls_css');
+//    //  wp_register_style( 'mkixls_jquery-ui', '//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css');
+//    //  wp_enqueue_style( 'mkixls_jquery-ui');
+//    //  wp_register_style( 'mkixls_bootstrap', "http://getbootstrap.com/dist/css/bootstrap.min.css");
+//    //  wp_enqueue_style( 'mkixls_bootstrap');
+//
+//    // wp_enqueue_script( 'mkxls_jquery', "//code.jquery.com/jquery-1.9.1.js");
+//    //  wp_enqueue_script( 'mkxls_jquery-ui', "//code.jquery.com/ui/1.10.4/jquery-ui.js");
+//    wp_enqueue_script('mkxls_main_js', get_template_directory_uri() . '/secapi/js/secapi.js');
+//    wp_enqueue_script('mkxls_view_js', get_template_directory_uri() . '/secapi/js/vc.js');
+//    wp_enqueue_script('mkxls_typeahead_js', get_template_directory_uri() . '/secapi/js/typeahead.js');
+//}
+//
+//add_action('admin_enqueue_scripts', 'load_mkixls_admin_style');
 
 // enable additional mime types for uplaod
 function my_myme_types($mime_types)
@@ -686,58 +737,12 @@ function mki_update_year_from_tag($post_id)
 
 add_action('save_post', 'mki_update_year_from_tag');
 
-// Override query args to sort by years desc
-function mki_orderby_args()
-{
-    $order = isset($_GET['order']) ? $_GET['order'] : 'DESC';
-    return array(
-        'meta_query' => array(
-            'relation' => 'OR',
-            'years_not' => array(
-                'key' => 'years',
-                'compare' => 'NOT EXISTS'
-            ),
-            'years' => array(
-                'key' => 'years',
-                'type' => 'NUMERIC',
-                'compare' => 'EXISTS'
-            )
-        ),
-        'orderby' => array('meta_value_num' => $order, 'date' => $order)
-    );
-}
-
-function mki_search_filter_years($query)
-{
-    if (!is_admin()) {
-        foreach (mki_orderby_args() as $key => $val) {
-            $query->set($key, $val);
-        }
-    }
-    return $query;
-}
-
-add_action('pre_get_posts', 'mki_search_filter_years');
 
 // Advanced Search
 function mki_advanced_search_query($query)
 {
-
-    //
-
-
     if ($query->is_search()) {
 
-        $yearQuery = array('relation' => 'OR');
-        // manage timeless results
-        if (isset($_GET['timeless']) && $_GET['timeless'] == 'on') {
-            // todo include results without year category
-            $timeless = array(
-                'taxonomy' => 'years',
-                'operator' => 'NOT EXISTS'
-            );
-            array_push($yearQuery, $timeless);
-        }
         // If ymin and ymax
         if (isset($_GET['ymin']) || isset($_GET['ymax'])) {
             $years = get_categories(array('taxonomy' => 'years', 'order' => 'DESC'));
@@ -755,37 +760,160 @@ function mki_advanced_search_query($query)
             if (!empty($use_years)) {
 //                var_dump($use_years);
 //                $query->set('years', $use_years);
-                array_push($yearQuery, array(
+                $yearQuery = array(
                     'taxonomy' => 'years',
                     'operator' => 'IN',
                     'field' => 'slug',
                     'terms' => $use_years
-                ));
+                );
+            }
+        } else if(isset($_GET['stamped'])) {
+            // if not set but stamp required
+            $yearQuery = array(
+                'taxonomy' => 'years',
+                'operator' => 'EXISTS'
+            );
+        }
+//        echo 'is stamped set?'.isset($_GET['stamped']);
+        // manage timeless results
+        if (!isset($_GET['stamped']) || isset($_GET['stamped']) != 'on' ) {
+            // exclude results without year category
+            $timeless = array(
+                'taxonomy' => 'years',
+                'operator' => 'NOT EXISTS'
+            );
+//
+
+            if(isset($yearQuery)){
+                $yearQuery = array('relation' => 'OR',
+                    $yearQuery,
+                    $timeless
+                    );
             }
         }
-        $query->set('tax_query', array('relation'=>'AND',$yearQuery) );
+//        var_dump($yearQuery);
+//        $query->set('tax_query', array('relation'=>'AND',$yearQuery) );
         //
 
 
         // category search
-        if (isset($_GET['category']) && is_array($_GET['category'])) {
-            $query->set('category_name', implode(',', $_GET['category']));
-        }
-        // tag search
-        if (isset($_GET['tag'])) {
-            $tags = explode(",", $_GET['tag']);
-            $tagString = implode('+', $tags);
-            $tagQuery = str_replace(" ", "-", $tagString);
+//        if (isset($_GET['category']) && is_array($_GET['category'])) {
+//            $cats = array_filter(array_map('trim',explode(",", $_GET['category'])), function($value) { return $value !== ''; });
+//            $query->set('category_name', implode(',', $cats));
+//        }
+        // tag and cats search
+        if (isset($_GET['tags'])) {
+            $tagsList = array_filter(array_map('trim', explode(",", $_GET['tags'])), function ($value) {
+                return $value !== '';
+            });
+//            var_dump($tags);
+
+            // extract categories from tags to be included in the search
+//            $catList = get_categories();
+//            var_dump($catList);
+            $catNames = array_filter($tagsList, function ($c) {
+                $catList = array_map(function ($c) {
+                    return $c->cat_name;
+                }, get_categories());
+                return in_array($c, $catList);
+            });
+            $cats = array_map(function ($c) {
+                return str_replace(" ","-",strtolower($c));
+//                return get_cat_ID($c);
+            }, $catNames);
+            if(!empty($cats)) {
+                $catQuery = array(
+                    'taxonomy' => 'category',
+                    'field' => 'slug',
+//                    'field' => 'term_id',
+                    'terms' => $cats,
+                    'operator' => 'AND'
+                );
+            }
+//            if($cats != '') {
+//                $query->set('category__and', implose(",",$cats) );
+//            }
+            // remove tags which are not in the category list
+            $tags = array_map(function ($t){
+                $tag = str_replace(" ", "-", strtolower($t));
+                    return $tag;
+            },array_diff($tagsList, $catNames));
+            if(!empty($tags)) {
+                $tagQuery = array(
+                    'taxonomy' => 'post_tag',
+                    'field' => 'slug',
+                    'terms' => $tags,
+                    'operator' => 'AND'
+                );
+            }
 //            $query->set('tag', "Milton Keynes");
-            $query->set('tag', $tagQuery);
-//            $query->set('tag',$tagQuery);
+//            if($tagQuery != '') {
+//                $query->set('tag', $tagQuery);
+//            }
         }
+
+        // combining all queries in a nested structure
+        // don't judge me... it is WordPress fault
+        $taxQuery = array('relation'=>'AND');
+        if(isset($yearQuery)){
+            array_push($taxQuery,$yearQuery);
+        }
+        if(isset($catQuery)){
+            array_push($taxQuery, $catQuery);
+        }
+        if(isset($tagQuery)){
+            array_push($taxQuery,$tagQuery);
+        }
+//        var_dump($taxQuery);
+        if(isset($taxQuery)) {
+            $query->set('tax_query', $taxQuery);
+        }
+
+        // force search on post type only (no pages)
+        $query->set('post_type','post');
+
+
+        // todo extend sorting by year, tags, categories
+        // get param or default
+//        $ordering = explode(",",isset($_GET['orderby']) ? $_GET['orderby'] : 'title,year,keywords,files');
+//    var_dump($ordering);
+//        $orderBy = array_reduce( $ordering, function ($res, $field){
+////        echo $field.'>'.$_GET[$field].' ';
+//            if($field == 'keywords'){
+//                // todo add tags, categories sorting
+//                return $res;
+//            }
+//            if($field == 'year'){
+//                $res['meta_value'] = $_GET[$field] ? $_GET[$field] : 'DESC';
+//            }else {
+//                $res[$field] = $_GET[$field] ? $_GET[$field] : 'ASC';
+//            }
+//            return $res;
+//        }, array() );
+//        $query->set(
+//                'tax_query' , array(
+//                'taxonomy'=>'years',
+//                'field'=>'slug'
+//                )
+//        );
+//        $query->set('orderby',$orderBy);
+        $query->set('orderby', array(
+            'title' => @$_GET['title'] ? @$_GET['title'] : 'ASC',
+            'date' => 'DESC',
+        ));
+
         return $query;
     }
 
 }
 
 add_action('pre_get_posts', 'mki_advanced_search_query', 1000);
+function mki_advanced_query($query)
+{
+
+}
+
+//add_action('pre_get_posts', 'mki_advanced_query', 1000);
 
 // DATA CHARTS
 require_once('PHPExcel/Classes/PHPExcel.php');
@@ -1519,4 +1647,5 @@ function attachment_search($query)
     return $query;
 }
 
-add_filter('pre_get_posts', 'attachment_search');
+//add_filter('pre_get_posts', 'attachment_search');
+

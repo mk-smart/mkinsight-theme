@@ -4,23 +4,22 @@
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                 <header class="header">
                     <!-- 	<?php edit_post_link(); ?> -->
-                    <?php if (is_front_page()) : ?>
-                        <h1 class="home centered">
-                            <?php
-                            /* add icon to title
-                             * folder: img/infographics/
-                             * page: document.png
-                            */
-                            ?>
-                            <?php //echo '<img class="title-icon" style="height:.8em;vertical-align: baseline;" src="'.get_template_directory_uri().'/assets/img/infographics/document.png">'; ?>
-                            <?php the_title(); ?>
-                        </h1>
-                    <?php else: ?>
+                    <?php if (!is_front_page()) : ?>
                         <?php custom_breadcrumbs(); ?>
                         <?php
                         if (strcmp(get_the_title(), "Charts") !== 0) { ?>
                             <h1 class="entry-title"><?php the_title(); ?></h1>
                         <?php } ?>
+                        <?php
+                        // is it a term?
+                        $term = term_exists(get_the_title());
+                        if($term){
+                            $term = get_term($term);
+                            $name = $term->name;
+                            $label = __("More about ","mki");
+                            echo "$label<a target='_blank' href='/?s=&tags=${name}'>${name}</a>";
+                        }
+                        ?>
                         <?php childrenPages (); ?>
                     <?php endif; ?>
                 </header>
@@ -39,7 +38,10 @@
     </div>
     </div>
     </div>
-<?php if (!is_front_page()) {
-    get_sidebar();
-} ?>
+<?php
+// removeds sidebar
+//if (!is_front_page()) {
+//    get_sidebar();
+//}
+?>
 <?php get_footer(); ?>

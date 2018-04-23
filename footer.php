@@ -1,9 +1,13 @@
 <!-- footer -->
 <div id="footer" role="contentinfo">
     <div class="container">
-        <p class="only-print">The data above has been obtained from the MK:Insight portal (mkinsight.org) and might
+        <p class="visible-print">
+           <?php
+            _e("The data above has been obtained from the MK:Insight portal (mkinsight.org) and might
             include data produced/distributed by the Office for National Statistics (www.ons.gov.uk) under the Open
-            Goverment Licence.</p>
+            Goverment Licence.","mki");
+            ?>
+        </p>
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-12 col-xs-12" style="text-align: center;">
                 <?php //wp_nav_menu(array('theme_location' => 'footer-menu')); ?>
