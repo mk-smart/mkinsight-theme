@@ -302,7 +302,7 @@ if(!isset($ymax)){$ymin = 2018;}
         },
         stop: function (event, ui) {
             // update page
-            console.debug('end slide, updating');
+            // console.debug('end slide, updating');
             $('#advanced-search-form').submit();
         }
     });
@@ -315,7 +315,7 @@ if(!isset($ymax)){$ymin = 2018;}
     $('#timestamp input[name="stamped"]').change(function () {
         // console.log($(this).val());
         setTimeout(function () {
-            console.log('toggle change, updating');
+            // console.log('toggle change, updating');
             $('#advanced-search-form').submit();
         }, 500);
     });
@@ -416,7 +416,7 @@ if(!isset($ymax)){$ymin = 2018;}
             // set new sort ordering
             $('#sorting').children('input[name="orderby"]').val(newOrder);
             // update page
-            console.log('sorting change, updating');
+            // console.log('sorting change, updating');
             $('#advanced-search-form').submit();
         });
     });
@@ -498,7 +498,7 @@ if(!isset($ymax)){$ymin = 2018;}
             var newVal = val.join(", ");
             $('input[name="tags"]').val(newVal);
             // submit form
-            console.log('setting tag, updating');
+            // console.log('setting tag, updating');
             $('#advanced-search-form').submit();
 
         }
@@ -519,7 +519,7 @@ if(!isset($ymax)){$ymin = 2018;}
         var newVal = val.join(", ");
         $('input[name="tags"]').val(newVal);
         // submit form
-        console.log('unsetting tag, updating');
+        // console.log('unsetting tag, updating');
         $('#advanced-search-form').submit();
     }
 </script>
