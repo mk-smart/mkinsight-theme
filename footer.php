@@ -12,11 +12,11 @@
             <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-12 col-xs-12" style="text-align: center;">
                 <?php //wp_nav_menu(array('theme_location' => 'footer-menu')); ?>
                 <div style="padding-bottom: 20px;">
-                    <a href="http://mkinsight.org/about-us/"><?php _e("About us", "mki"); ?></a>
+                    <a href="<?php echo get_home_url(); ?>/about-us/"><?php _e("About us", "mki"); ?></a>
                     <?php _e(" | "); ?>
-                    <a href="http://mkinsight.org/terms-and-conditions/"><?php _e("Terms and Conditions", "mki"); ?></a>
+                    <a href="<?php echo get_home_url(); ?>/terms-and-conditions/"><?php _e("Terms and Conditions", "mki"); ?></a>
                     <?php _e(" | "); ?>
-                    <a href="http://mkinsight.org/privacy-policy/"><?php _e("Privacy Policy", "mki"); ?></a>
+                    <a href="<?php echo get_home_url(); ?>/privacy-policy/"><?php _e("Privacy Policy", "mki"); ?></a>
                 </div>
             </div>
         </div>
